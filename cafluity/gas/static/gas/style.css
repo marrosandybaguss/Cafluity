@@ -1,0 +1,7 @@
+.bd-highlight a {
+	color: black;
+}
+
+.bd-highlight a:hover {
+	color: orange;
+}
