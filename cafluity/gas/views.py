@@ -29,6 +29,8 @@ def index(request):
 	# Compressibility Factor Z
 	zDrancuk = rgas.z(Tpr, ppr, "da-k")
 	zHallYarborough = rgas.z(Tpr, ppr, "hy")
+	zBrillBegg = rgas.z(Tpr, ppr, "bb")
+	zNewExplicit = rgas.z(Tpr, ppr, "ne")
 
 
 	context = {
@@ -45,5 +47,7 @@ def index(request):
 		'ppr': ppr,
 		'zDrancuk': zDrancuk,
 		'zHallYarborough': zHallYarborough,
+		'zBrillBegg': zBrillBegg,
+		'zNewExplicit': zNewExplicit,
 	}
 	return render(request, 'gas/index.html', context)

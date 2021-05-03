@@ -9,7 +9,7 @@ def bb_z_factor(Tpr = 1, Ppr = 1):
   B = (0.62 - 0.23*Tpr)*Ppr + (0.066/(Tpr - 0.86) - 0.037)*Ppr**2 + (0.32*Ppr**2)/(10**E)
   A = 1.39*(Tpr - 0.92)**0.5 - 0.36*Tpr - 0.10
   
-  return A + (1 - A) / math.e**B + C*Ppr**D
+  return round((A + (1 - A) / math.e**B + C*Ppr**D),4)
 
 def graph(Tpr = 1, Ppr = 1):
 	

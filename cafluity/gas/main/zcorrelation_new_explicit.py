@@ -62,7 +62,7 @@ def ne_z_factor(Tpr = 1, Ppr = 1):
 	upper = D(Tpr)*Ppr*(1 + y(Tpr, Ppr) + y(Tpr, Ppr)**2 - y(Tpr, Ppr)**3)
 	lower = (D(Tpr)*Ppr + E(Tpr)*y(Tpr, Ppr)**2 - F(Tpr)*y(Tpr, Ppr)**G(Tpr))*((1 - y(Tpr, Ppr))**3)
 
-	return upper/lower
+	return round((upper/lower),4)
 
 def graph(Tpr = 1, Ppr = 1):
 	
