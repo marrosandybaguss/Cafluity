@@ -32,7 +32,7 @@ def abi_z_factor(Tpr = 1, Ppr = 1):
   D = 1 + n*Tpr**5.55 + o*(Ppr**0.68)*(Tpr**0.33)
   E = p*math.log(Tpr)**1.18 + q*math.log(Tpr)**2.1 + r*math.log(Ppr) + s*math.log(Ppr)**2 + t*math.log(Ppr)*math.log(Tpr)
   
-  return A + (B + C)/(D + E)
+  return round((A + (B + C)/(D + E)),4)
 
 def graph(Tpr = 1, Ppr = 1):
 	

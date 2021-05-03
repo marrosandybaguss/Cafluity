@@ -37,7 +37,7 @@ def hmr_z_factor(Tpr = 1, Ppr = 1):
 	A = A1 + A3*math.log(Ppr) + A5/Tpr + A7*math.log(Ppr)**2 + A9/Tpr**2 + math.log(Ppr)*A11/Tpr
 	B = 1 + A2*math.log(Ppr) + A4/Tpr + A6*math.log(Ppr)**2 + A8/Tpr**2 + math.log(Ppr)*A10/Tpr
 
-	return math.log(A/B)
+	return round((math.log(A/B)),4)
 
 def graph(Tpr = 1, Ppr = 1):	
 	tpr = Tpr - 0.45
