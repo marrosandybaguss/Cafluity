@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .main import base_zfactor as zfac
 from .main import convertion as conv
+from .main import real_gas as rgas
 
 # Create your views here.
 
@@ -25,6 +26,9 @@ def index(request):
 	# Calculate Pseudo Reduced
 	T_conv = conv.temp_FR(temperature)
 	Tpr, ppr = zfac.pseudo_reduced(T_conv, pressure, Tpc, ppc)
+	# Compressibility Factor Z
+	zDrancuk = rgas.z(Tpr, ppr, "da-k")
+
 
 	context = {
 		'title':'Compressibility Factor Z',
@@ -38,5 +42,6 @@ def index(request):
 		'ppc': ppc,
 		'Tpr': Tpr,
 		'ppr': ppr,
+		'zDrancuk': zDrancuk,
 	}
 	return render(request, 'gas/index.html', context)
