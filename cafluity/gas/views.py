@@ -28,6 +28,7 @@ def index(request):
 	Tpr, ppr = zfac.pseudo_reduced(T_conv, pressure, Tpc, ppc)
 	# Compressibility Factor Z
 	zDrancuk = rgas.z(Tpr, ppr, "da-k")
+	zHallYarborough = rgas.z(Tpr, ppr, "hy")
 
 
 	context = {
@@ -43,5 +44,6 @@ def index(request):
 		'Tpr': Tpr,
 		'ppr': ppr,
 		'zDrancuk': zDrancuk,
+		'zHallYarborough': zHallYarborough,
 	}
 	return render(request, 'gas/index.html', context)
