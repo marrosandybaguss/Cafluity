@@ -1,35 +1,42 @@
 from django.shortcuts import render
 from .main import base_zfactor as zfac
+from .main import convertion as conv
 
 # Create your views here.
 
 def index(request):
 	if request.method == "POST":
-		gasGravity = float(request.POST['gas-gravity'])
+		Yg = float(request.POST['gas-gravity'])
 		pressure = float(request.POST['pressure'])
 		temperature = float(request.POST['temperature'])
-		nitrogen = float(request.POST['nitrogen'])
-		carbonDioxide = float(request.POST['carbon-dioxide'])
-		hydrogenSulfide = float(request.POST['hydrogen-sulfide'])
+		n2 = float(request.POST['nitrogen'])
+		co2 = float(request.POST['carbon-dioxide'])
+		h2s = float(request.POST['hydrogen-sulfide'])
 	else:
-		gasGravity = 0.7
+		Yg = 0.7
 		pressure = 1000
 		temperature = 300
-		nitrogen = 3.0
-		carbonDioxide = 6.0
-		hydrogenSulfide = 4.0
+		n2 = 3.0
+		co2 = 6.0
+		h2s = 4.0
 
-	Tpc, ppc = zfac.pseudo_critical(gasGravity, carbonDioxide, hydrogenSulfide, nitrogen)
+	# Calculate Pseudo Critical
+	Tpc, ppc = zfac.pseudo_critical(Yg, co2, h2s, n2)
+	# Calculate Pseudo Reduced
+	T_conv = conv.temp_FR(temperature)
+	Tpr, ppr = zfac.pseudo_reduced(T_conv, pressure, Tpc, ppc)
 
 	context = {
 		'title':'Compressibility Factor Z',
-		'gasGravity': gasGravity,
+		'gasGravity': Yg,
 		'pressure': pressure,
 		'temperature': temperature,
-		'nitrogen': nitrogen,
-		'carbonDioxide': carbonDioxide,
-		'hydrogenSulfide': hydrogenSulfide,
+		'nitrogen': n2,
+		'carbonDioxide': co2,
+		'hydrogenSulfide': h2s,
 		'Tpc': Tpc,
 		'ppc': ppc,
+		'Tpr': Tpr,
+		'ppr': ppr,
 	}
 	return render(request, 'gas/index.html', context)
