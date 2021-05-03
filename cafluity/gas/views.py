@@ -1,15 +1,16 @@
 from django.shortcuts import render
+from .main import base_zfactor as zfac
 
 # Create your views here.
 
 def index(request):
 	if request.method == "POST":
-		gasGravity = request.POST['gas-gravity']
-		pressure = request.POST['pressure']
-		temperature = request.POST['temperature']
-		nitrogen = request.POST['nitrogen']
-		carbonDioxide = request.POST['carbon-dioxide']
-		hydrogenSulfide = request.POST['hydrogen-sulfide']
+		gasGravity = float(request.POST['gas-gravity'])
+		pressure = float(request.POST['pressure'])
+		temperature = float(request.POST['temperature'])
+		nitrogen = float(request.POST['nitrogen'])
+		carbonDioxide = float(request.POST['carbon-dioxide'])
+		hydrogenSulfide = float(request.POST['hydrogen-sulfide'])
 	else:
 		gasGravity = 0.7
 		pressure = 1000
@@ -17,6 +18,8 @@ def index(request):
 		nitrogen = 3.0
 		carbonDioxide = 6.0
 		hydrogenSulfide = 4.0
+
+	Tpc, ppc = zfac.pseudo_critical(gasGravity, carbonDioxide, hydrogenSulfide, nitrogen)
 
 	context = {
 		'title':'Compressibility Factor Z',
@@ -26,5 +29,7 @@ def index(request):
 		'nitrogen': nitrogen,
 		'carbonDioxide': carbonDioxide,
 		'hydrogenSulfide': hydrogenSulfide,
+		'Tpc': Tpc,
+		'ppc': ppc,
 	}
 	return render(request, 'gas/index.html', context)
