@@ -64,7 +64,7 @@ def ne_z_factor(Tpr = 1, Ppr = 1):
 
 	return round((upper/lower),4)
 
-def graph(Tpr = 1, Ppr = 1):
+def multi_graph(Tpr = 1, Ppr = 1):
 	
 	tpr1 = Tpr - 0.45
 	tpr2 = Tpr - 0.40
@@ -181,3 +181,25 @@ def graph(Tpr = 1, Ppr = 1):
 	# function to show the plot 
 	plt.show()
 
+def ne_graph(Tpr = 1, Ppr = 1):
+	ppr = Ppr # ada masalah ketika dikurangi 2, keterangan erornya itu nilai upper dan lower di ne_z_factor sangat kecil mendekati nol
+	z = ne_z_factor(Tpr, ppr)
+	x = []
+	y = []
+
+	for i in range(1,30):
+		ppr = ppr + 0.1
+		z = ne_z_factor(Tpr, ppr)
+		x.append(ppr)
+		y.append(z)
+
+	return x, y
+
+	# plotting the points
+	# graphPlot = plt.plot(x, y)
+		
+	# plt.xlabel('Pseudoreduced Pressure Ppr')
+	# plt.ylabel('Compressibility Factor z')
+	# plt.title("New Explicit Correlation")
+
+	# return graphPlot

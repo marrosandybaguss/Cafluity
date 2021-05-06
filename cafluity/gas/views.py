@@ -1,7 +1,10 @@
 from django.shortcuts import render
+import matplotlib.pyplot as plt
+
 from .main import base_zfactor as zfac
 from .main import convertion as conv
 from .main import real_gas as rgas
+from .utils import get_plot
 
 # Create your views here.
 
@@ -35,6 +38,9 @@ def index(request):
 	zHeidaryan = rgas.z(Tpr, ppr, "hmr")
 	zSanjari = rgas.z(Tpr, ppr, "sn")
 
+	x, y = rgas.z_graph(Tpr, ppr, "ne")
+	chart = get_plot(x, y)
+
 	context = {
 		'title':'Compressibility Factor Z',
 		'gasGravity': Yg,
@@ -54,5 +60,9 @@ def index(request):
 		'zAzizi': zAzizi,
 		'zHeidaryan': zHeidaryan,
 		'zSanjari': zSanjari,
+		'chart': chart,
 	}
+
+	plt.show()
+
 	return render(request, 'gas/index.html', context)
