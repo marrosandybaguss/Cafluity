@@ -32,7 +32,7 @@ def constants(Ppr = 1):
 
 	return A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11
 
-def hmr_z_factor(Tpr = 1, Ppr = 1):
+def z_factor(Tpr = 1, Ppr = 1):
 	A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 = constants(Ppr)
 	A = A1 + A3*math.log(Ppr) + A5/Tpr + A7*math.log(Ppr)**2 + A9/Tpr**2 + math.log(Ppr)*A11/Tpr
 	B = 1 + A2*math.log(Ppr) + A4/Tpr + A6*math.log(Ppr)**2 + A8/Tpr**2 + math.log(Ppr)*A10/Tpr

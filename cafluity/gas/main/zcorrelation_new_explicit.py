@@ -6,6 +6,7 @@
 
 import math
 import matplotlib.pyplot as plt
+from .graph import get_plot
 
 a1 = 0.317842
 a2 = 0.382216
@@ -58,7 +59,7 @@ def y(Tpr = 1, Ppr = 1):
 
 	return upper / (left - right)
 
-def ne_z_factor(Tpr = 1, Ppr = 1):
+def z_factor(Tpr = 1, Ppr = 1):
 	upper = D(Tpr)*Ppr*(1 + y(Tpr, Ppr) + y(Tpr, Ppr)**2 - y(Tpr, Ppr)**3)
 	lower = (D(Tpr)*Ppr + E(Tpr)*y(Tpr, Ppr)**2 - F(Tpr)*y(Tpr, Ppr)**G(Tpr))*((1 - y(Tpr, Ppr))**3)
 
@@ -181,25 +182,31 @@ def multi_graph(Tpr = 1, Ppr = 1):
 	# function to show the plot 
 	plt.show()
 
-def ne_graph(Tpr = 1, Ppr = 1):
+def graph(Tpr = 1, Ppr = 1):
 	ppr = Ppr # ada masalah ketika dikurangi 2, keterangan erornya itu nilai upper dan lower di ne_z_factor sangat kecil mendekati nol
-	z = ne_z_factor(Tpr, ppr)
+	z = z_factor(Tpr, ppr)
 	x = []
 	y = []
 
 	for i in range(1,30):
 		ppr = ppr + 0.1
-		z = ne_z_factor(Tpr, ppr)
+		z = z_factor(Tpr, ppr)
 		x.append(ppr)
 		y.append(z)
 
-	return x, y
+	title = "New Explicit Correlation"
+	xlabel = 'Pseudoreduced Pressure Ppr'
+	ylabel = 'Compressibility Factor z'
+
+	chart = get_plot(x, y, title, xlabel, ylabel)
+
+	return chart
 
 	# plotting the points
 	# graphPlot = plt.plot(x, y)
 		
 	# plt.xlabel('Pseudoreduced Pressure Ppr')
 	# plt.ylabel('Compressibility Factor z')
-	# plt.title("New Explicit Correlation")
+	# 
 
 	# return graphPlot

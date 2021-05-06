@@ -31,7 +31,7 @@ def constants(Ppr = 1):
 		A8 = 0.134041
 	return A1, A2, A3, A4, A5, A6, A7, A8
 
-def sn_z_factor(Tpr = 1, Ppr = 1):
+def z_factor(Tpr = 1, Ppr = 1):
 	A1, A2, A3, A4, A5, A6, A7, A8 = constants(Ppr)
 	z = 1 + A1*Ppr + A2*Ppr**2 + (A3*Ppr**A4)/Tpr**A5 + (A6*Ppr**(A4 + 1))/Tpr**A7 + (A8*Ppr**(A4 + 2))/Tpr**(A7 + 1)
 	return round(z,4)

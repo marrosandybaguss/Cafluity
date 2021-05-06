@@ -1,7 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 
-def bb_z_factor(Tpr = 1, Ppr = 1):
+def z_factor(Tpr = 1, Ppr = 1):
   F = 0.3106 - 0.49*Tpr + 0.1824*Tpr**2
   E = 9*(Tpr - 1)
   D = 10**F

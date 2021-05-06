@@ -13,13 +13,13 @@ def get_graph():
 
 	return graph
 
-def get_plot(x, y):
+def get_plot(x, y, title, xlabel, ylabel):
 	plt.switch_backend('AGG')
-	plt.figure(figsize=(10,5))
-	plt.title('Z Factor Graph')
+	plt.figure(figsize=(5,3.5))
+	plt.title(title)
+	plt.xlabel(xlabel)
+	plt.ylabel(ylabel)
 	plt.plot(x, y)
-	plt.xlabel('item')
-	plt.ylabel('price')
 	plt.tight_layout()
 	graph = get_graph()
 

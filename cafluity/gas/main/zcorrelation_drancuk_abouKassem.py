@@ -29,13 +29,13 @@ def R4(Tpr = 1):
 def R5(Tpr = 1):
   return A10/Tpr**3
 
-def da_func_y(y = 1, Tpr = 1, Ppr = 1):
+def func_y(y = 1, Tpr = 1, Ppr = 1):
   return R5(Tpr)*(y**2)*(1 + A11*y**2)*math.e**(-A11*y**2) + R1(Tpr)*y - R2(Tpr, Ppr)/y + R3(Tpr)*y**2 - R4(Tpr)*y**5 + 1
 
-def da_dev_func_y(y = 1, Tpr = 1, Ppr = 1):
+def dev_func_y(y = 1, Tpr = 1, Ppr = 1):
   return 2*R5(Tpr)*y*(math.e**(-A11*y**2)) - 2*A11*R5(Tpr)*(y**2)*(math.e**(-A11*y**2)) - 2*(A11**2)*R5(Tpr)*(y**4)*(math.e**(-A11*y**2)) + 4*A11*R5(Tpr)*(y**3)*(math.e**(-A11*y**2)) + R1(Tpr) + R2(Tpr, Ppr)/y**2 + 2*R3(Tpr)*y - 5*R4(Tpr)*y**4
 
-def da_z_factor(y = 1, Tpr = 1, Ppr = 1):
+def z_factor(y = 1, Tpr = 1, Ppr = 1):
   return round((0.27*Ppr/(y*Tpr)),4)
 
 def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
