@@ -1,15 +1,35 @@
-# cannot be used to evaluate the derivative of the zfactor 
-# with respect to the pseudo-reduced pressure at Ppr = 3
+"""
+cannot be used to evaluate the derivative of the zfactor 
+with respect to the pseudo-reduced pressure at Ppr = 3
 
-# This correlation, however, is less efficient when
-# compared with that of Heidaryan et al.
+This correlation, however, is less efficient when
+compared with that of Heidaryan et al.
 
-# Therefore, the actual maximum error for
-# this correlation is 104.3206 %.
+Therefore, the actual maximum error for
+this correlation is 104.3206 %.
+"""
 
 import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
+
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
+noPpr = 3
+
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	if Ppr == noPpr:
+		return 0
+
+	return 1
 
 def constants(Ppr = 1):
 	if Ppr <= 3:
@@ -33,9 +53,12 @@ def constants(Ppr = 1):
 	return A1, A2, A3, A4, A5, A6, A7, A8
 
 def z_factor(Tpr = 1, Ppr = 1):
-	A1, A2, A3, A4, A5, A6, A7, A8 = constants(Ppr)
-	z = 1 + A1*Ppr + A2*Ppr**2 + (A3*Ppr**A4)/Tpr**A5 + (A6*Ppr**(A4 + 1))/Tpr**A7 + (A8*Ppr**(A4 + 2))/Tpr**(A7 + 1)
-	return round(z,4)
+	if boundary_check(Tpr, Ppr):
+		A1, A2, A3, A4, A5, A6, A7, A8 = constants(Ppr)
+		z = 1 + A1*Ppr + A2*Ppr**2 + (A3*Ppr**A4)/Tpr**A5 + (A6*Ppr**(A4 + 1))/Tpr**A7 + (A8*Ppr**(A4 + 2))/Tpr**(A7 + 1)
+		return round(z,4)
+	else:
+		return "NULL"
 
 def multi_graph(Tpr = 1, Ppr = 1):
 	
@@ -78,8 +101,20 @@ def multi_graph(Tpr = 1, Ppr = 1):
 	plt.show()
 
 def graph(Tpr = 1, Ppr = 1):
-	ppr = Ppr
-	z = z_factor(Tpr, ppr)
+	if Ppr-minPpr >= 1.5:
+		if Ppr+1.5 > maxPpr:
+			if Ppr > maxPpr:
+				ppr = Ppr
+			else:
+				ppr = maxPpr - 3
+		else:
+			ppr = Ppr - 1.5
+	elif Ppr-minPpr < 1.5:
+		if Ppr < minPpr:
+			ppr = -3
+		else:
+			ppr = minPpr
+	
 	x = []
 	y = []
 

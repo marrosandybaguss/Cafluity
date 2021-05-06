@@ -1,9 +1,15 @@
-#  temperature range of 1.1 <= Tpr <= 2
-#  pressure range of 0.2 <= Ppr <= 11
-
+"""
+temperature range of 1.1 <= Tpr <= 2
+pressure range of 0.2 <= Ppr <= 11
+"""
 import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
+
+maxTpr = 2
+minTpr = 1.1
+maxPpr = 11
+minPpr = 0.2
 
 a = 0.0373142485385592
 b = -0.0140807151485369
@@ -26,14 +32,27 @@ r = -24233012984.0950
 s = 18938047327.5205
 t = -141401620722.689
 
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	return 1
+
 def z_factor(Tpr = 1, Ppr = 1):
-  A = a*Tpr**2.16 + b*Ppr**1.028 + c*(Ppr**1.58)*(Tpr**(-2.1)) + d*math.log(Tpr**(-0.5))
-  B = e + f*Tpr**2.4 + g*Ppr**1.56 + h*(Ppr**0.124)*(Tpr**3.033)
-  C = i*math.log(Tpr)**(-1.28) + j*math.log(Tpr)**1.37 + k*math.log(Ppr) + l*math.log(Ppr)**2 + m*math.log(Ppr)*math.log(Tpr)
-  D = 1 + n*Tpr**5.55 + o*(Ppr**0.68)*(Tpr**0.33)
-  E = p*math.log(Tpr)**1.18 + q*math.log(Tpr)**2.1 + r*math.log(Ppr) + s*math.log(Ppr)**2 + t*math.log(Ppr)*math.log(Tpr)
-  
-  return round((A + (B + C)/(D + E)),4)
+	if boundary_check(Tpr, Ppr):
+
+		A = a*Tpr**2.16 + b*Ppr**1.028 + c*(Ppr**1.58)*(Tpr**(-2.1)) + d*math.log(Tpr**(-0.5))
+		B = e + f*Tpr**2.4 + g*Ppr**1.56 + h*(Ppr**0.124)*(Tpr**3.033)
+		C = i*math.log(Tpr)**(-1.28) + j*math.log(Tpr)**1.37 + k*math.log(Ppr) + l*math.log(Ppr)**2 + m*math.log(Ppr)*math.log(Tpr)
+		D = 1 + n*Tpr**5.55 + o*(Ppr**0.68)*(Tpr**0.33)
+		E = p*math.log(Tpr)**1.18 + q*math.log(Tpr)**2.1 + r*math.log(Ppr) + s*math.log(Ppr)**2 + t*math.log(Ppr)*math.log(Tpr)
+		return round((A + (B + C)/(D + E)),4)
+
+	else:
+		return "NULL"
 
 def muliti_graph(Tpr = 1, Ppr = 1):
 	
@@ -77,8 +96,20 @@ def muliti_graph(Tpr = 1, Ppr = 1):
 
 
 def graph(Tpr = 1, Ppr = 1):
-	ppr = Ppr
-	z = z_factor(Tpr, ppr)
+	if Ppr-minPpr >= 1.5:
+		if Ppr+1.5 > maxPpr:
+			if Ppr > maxPpr:
+				ppr = Ppr
+			else:
+				ppr = maxPpr - 3
+		else:
+			ppr = Ppr - 1.5
+	elif Ppr-minPpr < 1.5:
+		if Ppr < minPpr:
+			ppr = -3
+		else:
+			ppr = minPpr
+	
 	x = []
 	y = []
 
