@@ -56,7 +56,7 @@ def z_factor(y = 1, Tpr = 1, Ppr = 1):
   else:
   	return "NULL"
 
-def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
+def multi_graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
 	
 	tpr = Tpr - 0.45
 	tpri = []
@@ -96,3 +96,36 @@ def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
 	  
 	# function to show the plot 
 	plt.show()
+
+def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
+	if Ppr-minPpr >= 1.5:
+		if Ppr+1.5 > maxPpr:
+			if Ppr > maxPpr:
+				ppr = Ppr
+			else:
+				ppr = maxPpr - 3
+		else:
+			ppr = Ppr - 1.5
+	elif Ppr-minPpr < 1.5:
+		if Ppr < minPpr:
+			ppr = -3
+		else:
+			ppr = minPpr
+
+	x = []
+	y = []
+
+	for i in range(1,30):
+		ppr = ppr + 0.1
+		y_root = newton_rapson(e_tol, x0, Tpr, ppr, func_y, dev_func_y)
+		z = z_factor(y_root, Tpr, ppr)
+		x.append(ppr)
+		y.append(z)
+
+	title = "Drancuk & Abou's Correlation"
+	xlabel = 'Pseudoreduced Pressure Ppr'
+	ylabel = 'Compressibility Factor z'
+
+	chart = get_plot(x, y, title, xlabel, ylabel)
+
+	return chart
