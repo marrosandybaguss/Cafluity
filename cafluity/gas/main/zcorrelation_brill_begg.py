@@ -71,7 +71,20 @@ def multi_graph(Tpr = 1, Ppr = 1):
 	plt.show()
 
 def graph(Tpr = 1, Ppr = 1):
-	ppr = Ppr - 1.5
+	if Ppr-minPpr >= 1.5:
+		if Ppr+1.5 > maxPpr:
+			if Ppr > maxPpr:
+				ppr = Ppr
+			else:
+				ppr = maxPpr - 3
+		else:
+			ppr = Ppr - 1.5
+	elif Ppr-minPpr < 1.5:
+		if Ppr < minPpr:
+			ppr = -3
+		else:
+			ppr = minPpr
+
 	x = []
 	y = []
 
