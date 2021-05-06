@@ -77,15 +77,13 @@ def z_graph(Tpr, ppr, zcorrelation = "da-k"):
 		# Drancuk & Abou-Kassem
 		e_tol = 0.00000001
 		x0 = 0.3
-		y = newton_rapson(e_tol, x0, Tpr, ppr, da_func_y, da_dev_func_y)
-		zGraph = da_z_factor(y, Tpr, ppr)
+		zGraph = da.graph(Tpr, ppr, e_tol, x0)
 
 	elif zcorrelation == "hy":
 		# Hall & Yarborough
 		e_tol = 0.00000001
 		x0 = 0
-		y = newton_rapson(e_tol, x0, Tpr, ppr, hy_func_y, hy_dev_func_y)
-		zGraph = hy_z_factor(y, Tpr, ppr)
+		zGraph = hy.graph(Tpr, ppr, e_tol, x0)
 
 	elif zcorrelation == "abi":
 		# Azizi, Behbahani, & Isazadeh

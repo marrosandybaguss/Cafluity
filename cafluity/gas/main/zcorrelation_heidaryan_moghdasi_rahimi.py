@@ -1,9 +1,29 @@
-# cannot be used to evaluate the derivative of the zfactor 
-# with respect to the pseudo-reduced pressure at Ppr = 3
+"""
+cannot be used to evaluate the derivative of the zfactor 
+with respect to the pseudo-reduced pressure at Ppr = 3
+"""
 
 import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
+
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
+noPpr = 3
+
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	if Ppr == noPpr:
+		return 0
+
+	return 1
 
 def constants(Ppr = 1):
 	if Ppr <= 3:
@@ -34,11 +54,13 @@ def constants(Ppr = 1):
 	return A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11
 
 def z_factor(Tpr = 1, Ppr = 1):
-	A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 = constants(Ppr)
-	A = A1 + A3*math.log(Ppr) + A5/Tpr + A7*math.log(Ppr)**2 + A9/Tpr**2 + math.log(Ppr)*A11/Tpr
-	B = 1 + A2*math.log(Ppr) + A4/Tpr + A6*math.log(Ppr)**2 + A8/Tpr**2 + math.log(Ppr)*A10/Tpr
-
-	return round((math.log(A/B)),4)
+	if boundary_check(Tpr, Ppr):
+		A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 = constants(Ppr)
+		A = A1 + A3*math.log(Ppr) + A5/Tpr + A7*math.log(Ppr)**2 + A9/Tpr**2 + math.log(Ppr)*A11/Tpr
+		B = 1 + A2*math.log(Ppr) + A4/Tpr + A6*math.log(Ppr)**2 + A8/Tpr**2 + math.log(Ppr)*A10/Tpr
+		return round((math.log(A/B)),4)
+	else:
+		return "NULL"
 
 def multi_graph(Tpr = 1, Ppr = 1):	
 	tpr = Tpr - 0.45
@@ -80,8 +102,20 @@ def multi_graph(Tpr = 1, Ppr = 1):
 	plt.show()
 
 def graph(Tpr = 1, Ppr = 1):
-	ppr = Ppr
-	z = z_factor(Tpr, ppr)
+	if Ppr-minPpr >= 1.5:
+		if Ppr+1.5 > maxPpr:
+			if Ppr > maxPpr:
+				ppr = Ppr
+			else:
+				ppr = maxPpr - 3
+		else:
+			ppr = Ppr - 1.5
+	elif Ppr-minPpr < 1.5:
+		if Ppr < minPpr:
+			ppr = -3
+		else:
+			ppr = minPpr
+	
 	x = []
 	y = []
 

@@ -1,12 +1,19 @@
-# A new explicit z-factor is developed as a multi-stage correlation 
-# based on Hall and Yarborough’s implicit correlation.
+"""
+A new explicit z-factor is developed as a multi-stage correlation 
+based on Hall and Yarborough’s implicit correlation.
 
-# The y-values on the right side of the expression were replaced by
-# Non-linear regression was performed using the derived model
+The y-values on the right side of the expression were replaced by
+Non-linear regression was performed using the derived model
+"""
 
 import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
+
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
 
 a1 = 0.317842
 a2 = 0.382216
@@ -27,6 +34,15 @@ a16 = -488.161
 a17 = 176.29
 a18 = 1.88453
 a19 = 3.05921
+
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	return 1
 
 def t(Tpr = 1):
 	return 1/Tpr
@@ -60,10 +76,12 @@ def y(Tpr = 1, Ppr = 1):
 	return upper / (left - right)
 
 def z_factor(Tpr = 1, Ppr = 1):
-	upper = D(Tpr)*Ppr*(1 + y(Tpr, Ppr) + y(Tpr, Ppr)**2 - y(Tpr, Ppr)**3)
-	lower = (D(Tpr)*Ppr + E(Tpr)*y(Tpr, Ppr)**2 - F(Tpr)*y(Tpr, Ppr)**G(Tpr))*((1 - y(Tpr, Ppr))**3)
-
-	return round((upper/lower),4)
+	if boundary_check(Tpr, Ppr):
+		upper = D(Tpr)*Ppr*(1 + y(Tpr, Ppr) + y(Tpr, Ppr)**2 - y(Tpr, Ppr)**3)
+		lower = (D(Tpr)*Ppr + E(Tpr)*y(Tpr, Ppr)**2 - F(Tpr)*y(Tpr, Ppr)**G(Tpr))*((1 - y(Tpr, Ppr))**3)
+		return round((upper/lower),4)
+	else:
+		return "NULL"
 
 def multi_graph(Tpr = 1, Ppr = 1):
 	
@@ -183,8 +201,20 @@ def multi_graph(Tpr = 1, Ppr = 1):
 	plt.show()
 
 def graph(Tpr = 1, Ppr = 1):
-	ppr = Ppr # ada masalah ketika dikurangi 2, keterangan erornya itu nilai upper dan lower di ne_z_factor sangat kecil mendekati nol
-	z = z_factor(Tpr, ppr)
+	if Ppr-minPpr >= 1.5:
+		if Ppr+1.5 > maxPpr:
+			if Ppr > maxPpr:
+				ppr = Ppr
+			else:
+				ppr = maxPpr - 3
+		else:
+			ppr = Ppr - 1.5
+	elif Ppr-minPpr < 1.5:
+		if Ppr < minPpr:
+			ppr = -3
+		else:
+			ppr = minPpr
+
 	x = []
 	y = []
 

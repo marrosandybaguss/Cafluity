@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 from .newton_rapson import newton_rapson
 from .graph import get_plot
 
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
+
 A1 = 0.3265
 A2 = -1.0700
 A3 = -0.5339
@@ -14,6 +19,15 @@ A8 = 0.1844
 A9 = 0.1056
 A10 = 0.6134
 A11 = 0.7210
+
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	return 1
 
 def R1(Tpr = 1):
   return A1 + A2/Tpr + A3/Tpr**3 + A4/Tpr**4 + A5/Tpr**5
@@ -37,9 +51,12 @@ def dev_func_y(y = 1, Tpr = 1, Ppr = 1):
   return 2*R5(Tpr)*y*(math.e**(-A11*y**2)) - 2*A11*R5(Tpr)*(y**2)*(math.e**(-A11*y**2)) - 2*(A11**2)*R5(Tpr)*(y**4)*(math.e**(-A11*y**2)) + 4*A11*R5(Tpr)*(y**3)*(math.e**(-A11*y**2)) + R1(Tpr) + R2(Tpr, Ppr)/y**2 + 2*R3(Tpr)*y - 5*R4(Tpr)*y**4
 
 def z_factor(y = 1, Tpr = 1, Ppr = 1):
-  return round((0.27*Ppr/(y*Tpr)),4)
+  if boundary_check(Tpr, Ppr):
+  	return round((0.27*Ppr/(y*Tpr)),4)
+  else:
+  	return "NULL"
 
-def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
+def multi_graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
 	
 	tpr = Tpr - 0.45
 	tpri = []
@@ -79,3 +96,36 @@ def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
 	  
 	# function to show the plot 
 	plt.show()
+
+def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
+	if Ppr-minPpr >= 1.5:
+		if Ppr+1.5 > maxPpr:
+			if Ppr > maxPpr:
+				ppr = Ppr
+			else:
+				ppr = maxPpr - 3
+		else:
+			ppr = Ppr - 1.5
+	elif Ppr-minPpr < 1.5:
+		if Ppr < minPpr:
+			ppr = -3
+		else:
+			ppr = minPpr
+
+	x = []
+	y = []
+
+	for i in range(1,30):
+		ppr = ppr + 0.1
+		y_root = newton_rapson(e_tol, x0, Tpr, ppr, func_y, dev_func_y)
+		z = z_factor(y_root, Tpr, ppr)
+		x.append(ppr)
+		y.append(z)
+
+	title = "Drancuk & Abou's Correlation"
+	xlabel = 'Pseudoreduced Pressure Ppr'
+	ylabel = 'Compressibility Factor z'
+
+	chart = get_plot(x, y, title, xlabel, ylabel)
+
+	return chart
