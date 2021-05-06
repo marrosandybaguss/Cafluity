@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="{% static 'gas/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'gas/css/style.css' %}">
 
     <title>Cafluity | Real Gas</title>
   </head>
@@ -63,32 +63,32 @@
             {% csrf_token %}
             <label for="gas-gravity" class="form-label">Gas Gravity</label>
             <div class="input-group mb-3">
-              <input id="gas-gravity" type="text" class="form-control" name="gas-gravity" placeholder="0.7" value="{{gasGravity}}">
+              <input required id="gas-gravity" type="number" step="0.0000001" class="form-control" name="gas-gravity" placeholder="0.7" value="{{gasGravity}}">
               <span class="input-group-text" id="basic-addon2" style="width: 70px"></span>
             </div>
             <label for="pressure" class="form-label">Pressure</label>
             <div class="input-group mb-3">
-              <input id="pressure" type="text" class="form-control" name="pressure" placeholder="1000" value="{{pressure}}">
+              <input required id="pressure" type="number" step="0.0000001" class="form-control" name="pressure" placeholder="1000" value="{{pressure}}">
               <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">PSIA</span>
             </div>
             <label for="temperature" class="form-label">Temperature</label>
             <div class="input-group mb-3">
-              <input id="temperature" type="text" class="form-control" name="temperature" placeholder="300" value="{{temperature}}">
+              <input required id="temperature" type="number" step="0.0000001" class="form-control" name="temperature" placeholder="300" value="{{temperature}}">
               <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">&#xb0;F</span>
             </div>
             <label for="nitrogen" class="form-label">Nitrogen</label>
             <div class="input-group mb-3">
-              <input id="nitrogen" type="text" class="form-control" name="nitrogen" placeholder="3.0" value="{{nitrogen}}">
+              <input required id="nitrogen" type="number" step="0.0000001" class="form-control" name="nitrogen" placeholder="3.0" value="{{nitrogen}}">
               <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
             </div>
             <label for="carbon-dioxide" class="form-label">Carbon Dioxide</label>
             <div class="input-group mb-3">
-              <input id="carbon-dioxide" type="text" class="form-control" name="carbon-dioxide" placeholder="6.0" value="{{carbonDioxide}}">
+              <input required id="carbon-dioxide" type="number" step="0.0000001" class="form-control" name="carbon-dioxide" placeholder="6.0" value="{{carbonDioxide}}">
               <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
             </div>
             <label for="hydrogen-sulfide" class="form-label">Hydrogen Sulfide</label>
             <div class="input-group mb-3">
-              <input id="hydrogen-sulfide" type="text" class="form-control" name="hydrogen-sulfide" placeholder="4.0" value="{{hydrogenSulfide}}">
+              <input required id="hydrogen-sulfide" type="number" step="0.0000001" class="form-control" name="hydrogen-sulfide" placeholder="4.0" value="{{hydrogenSulfide}}">
               <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
             </div>
             <div class="col-12">
@@ -121,37 +121,37 @@
               </tr>
             </tbody>
           </table>
-          <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate compressibility factor z with several correlations.</p>
+          <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with several correlations.</p>
           <table class="table table-borderless">
             <tbody>
               <tr>
                 <td>Azizi Behbahani Isazadeh's Z  Factor Correlation</td>
-                <td><strong>0.99461</strong></td>
+                <td><strong>{{zAzizi}}</strong></td>
               </tr>
               <tr>
                 <td>Brill Begg's Z Factor Correlation</td>
-                <td><strong>0.9861</strong></td>
+                <td><strong>{{zBrillBegg}}</strong></td>
               </tr>
               <tr>
                 <td>Drancuk-Abou Kassem's Z Factor Correlation</td>
-                <td><strong>0.9723</strong></td>
+                <td><strong>{{zDrancuk}}</strong></td>
               </tr>
               <tr>
               <tr>
                 <td>Hall Yarbrough's Z Factor Correlation</td>
-                <td><strong>0.9846</strong></td>
+                <td><strong>{{zHallYarborough}}</strong></td>
               </tr>
               <tr>
                 <td>Heidaryan's Z Factor Correlation</td>
-                <td><strong>0.89461</strong></td>
+                <td><strong>{{zHeidaryan}}</strong></td>
               </tr>
               <tr>
                 <td>New Explicit Z Factor Correlation</td>
-                <td><strong>0.9846</strong></td>
+                <td><strong>{{zNewExplicit}}</strong></td>
               </tr>
               <tr>
                 <td>Sanjari's Z Factor Correlation</td>
-                <td><strong>0.89461</strong></td>
+                <td><strong>{{zSanjari}}</strong></td>
               </tr>
             </tbody>
           </table>
@@ -159,12 +159,70 @@
       </div>
     </div>
 
-    <div class="container">
-      <div class="row">
+    <div class="container my-5">
+      <div class="row mb-3">
         <div class="col text-center">
           <h3>Graph</h3>
         </div>
-        <div class="col text-center">
+      </div>
+      <div class="row">
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <!-- <h5 class="card-title">New Explicit Graph</h5>
+              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+            </div>
+            <img src="data:img/png;base64, {{aziziChart|safe}}" class="card-img-bottom">
+          </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+            </div>
+            <img src="data:img/png;base64, {{brillBeggChart|safe}}" class="card-img-bottom">
+          </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+            </div>
+            <img src="data:img/png;base64, {{heidaryanChart|safe}}" class="card-img-bottom">
+          </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+            </div>
+            <img src="data:img/png;base64, {{heidaryanChart|safe}}" class="card-img-bottom">
+          </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+            </div>
+            <img src="data:img/png;base64, {{heidaryanChart|safe}}" class="card-img-bottom">
+          </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+            </div>
+            <img src="data:img/png;base64, {{newExplicitChart|safe}}" class="card-img-bottom">
+          </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+            </div>
+            <img src="data:img/png;base64, {{sanjariChart|safe}}" class="card-img-bottom">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container my-5">
+      <div class="row text-center">
+        <div class="col">
           <h3>Table</h3>
         </div>
       </div>
