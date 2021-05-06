@@ -19,7 +19,7 @@ def get_plot(x, y, title, xlabel, ylabel):
 	plt.title(title)
 	plt.xlabel(xlabel)
 	plt.ylabel(ylabel)
-	plt.plot(x, y)
+	plt.plot(x, y, color = 'darkorange')
 	plt.tight_layout()
 	graph = get_graph()
 

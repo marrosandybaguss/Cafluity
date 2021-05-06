@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 from .main import base_zfactor as zfac
 from .main import convertion as conv
 from .main import real_gas as rgas
-# from .utils import get_plot
 
-# Create your views here.
 
 def index(request):
 	if request.method == "POST":
@@ -26,13 +24,15 @@ def index(request):
 
 	# Calculate Pseudo Critical
 	Tpc, ppc = zfac.pseudo_critical(Yg, co2, h2s, n2)
+
 	# Calculate Pseudo Reduced
 	T_conv = conv.temp_FR(temperature)
 	Tpr, ppr = zfac.pseudo_reduced(T_conv, pressure, Tpc, ppc)
+	
 	# Compressibility Factor Z
 	zDrancuk = rgas.z(Tpr, ppr, "da-k")
 	zHallYarborough = rgas.z(Tpr, ppr, "hy")
-	zBrillBegg = round((rgas.z(Tpr, ppr, "bb")),4)
+	zBrillBegg = rgas.z(Tpr, ppr, "bb")
 	zNewExplicit = rgas.z(Tpr, ppr, "ne")
 	zAzizi = rgas.z(Tpr, ppr, "abi")
 	zHeidaryan = rgas.z(Tpr, ppr, "hmr")

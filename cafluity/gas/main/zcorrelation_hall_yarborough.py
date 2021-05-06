@@ -8,6 +8,15 @@ minTpr = 1.15
 maxPpr = 15
 minPpr = 0.2
 
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	return 1
+
 def t(Tpr = 1):
 	return 1/Tpr
 
@@ -30,7 +39,10 @@ def dev_func_y(y = 0.1, Tpr = 1, Ppr = 1):
 	return ((1 + 2*y + 3*y**2 - 4*y**3)*(1-y)**3 + 3*(y + y**2 + y**3 - y**4)*(1-y)**2)/(1-y)**6 - 2*A2(Tpr)*y + A3(Tpr)*A4(Tpr)*y**(A4(Tpr)-1)
 
 def z_factor(y = 1, Tpr = 1, Ppr = 1):
-  return round((A1(Tpr)*Ppr/y),4)
+  if boundary_check(Tpr, Ppr):
+  	return round((A1(Tpr)*Ppr/y),4)
+  else:
+  	return "NULL"
 
 def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
 	

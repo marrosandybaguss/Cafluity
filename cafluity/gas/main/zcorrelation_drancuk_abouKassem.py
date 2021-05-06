@@ -20,6 +20,15 @@ A9 = 0.1056
 A10 = 0.6134
 A11 = 0.7210
 
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	return 1
+
 def R1(Tpr = 1):
   return A1 + A2/Tpr + A3/Tpr**3 + A4/Tpr**4 + A5/Tpr**5
 
@@ -42,7 +51,10 @@ def dev_func_y(y = 1, Tpr = 1, Ppr = 1):
   return 2*R5(Tpr)*y*(math.e**(-A11*y**2)) - 2*A11*R5(Tpr)*(y**2)*(math.e**(-A11*y**2)) - 2*(A11**2)*R5(Tpr)*(y**4)*(math.e**(-A11*y**2)) + 4*A11*R5(Tpr)*(y**3)*(math.e**(-A11*y**2)) + R1(Tpr) + R2(Tpr, Ppr)/y**2 + 2*R3(Tpr)*y - 5*R4(Tpr)*y**4
 
 def z_factor(y = 1, Tpr = 1, Ppr = 1):
-  return round((0.27*Ppr/(y*Tpr)),4)
+  if boundary_check(Tpr, Ppr):
+  	return round((0.27*Ppr/(y*Tpr)),4)
+  else:
+  	return "NULL"
 
 def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
 	

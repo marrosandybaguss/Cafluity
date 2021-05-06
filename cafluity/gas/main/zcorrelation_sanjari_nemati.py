@@ -19,6 +19,18 @@ maxPpr = 15
 minPpr = 0.2
 noPpr = 3
 
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	if Ppr == noPpr:
+		return 0
+
+	return 1
+
 def constants(Ppr = 1):
 	if Ppr <= 3:
 		A1 = 0.007698
@@ -41,9 +53,12 @@ def constants(Ppr = 1):
 	return A1, A2, A3, A4, A5, A6, A7, A8
 
 def z_factor(Tpr = 1, Ppr = 1):
-	A1, A2, A3, A4, A5, A6, A7, A8 = constants(Ppr)
-	z = 1 + A1*Ppr + A2*Ppr**2 + (A3*Ppr**A4)/Tpr**A5 + (A6*Ppr**(A4 + 1))/Tpr**A7 + (A8*Ppr**(A4 + 2))/Tpr**(A7 + 1)
-	return round(z,4)
+	if boundary_check(Tpr, Ppr):
+		A1, A2, A3, A4, A5, A6, A7, A8 = constants(Ppr)
+		z = 1 + A1*Ppr + A2*Ppr**2 + (A3*Ppr**A4)/Tpr**A5 + (A6*Ppr**(A4 + 1))/Tpr**A7 + (A8*Ppr**(A4 + 2))/Tpr**(A7 + 1)
+		return round(z,4)
+	else:
+		return "NULL"
 
 def multi_graph(Tpr = 1, Ppr = 1):
 	
@@ -86,8 +101,7 @@ def multi_graph(Tpr = 1, Ppr = 1):
 	plt.show()
 
 def graph(Tpr = 1, Ppr = 1):
-	ppr = Ppr
-	z = z_factor(Tpr, ppr)
+	ppr = Ppr - 1.5
 	x = []
 	y = []
 

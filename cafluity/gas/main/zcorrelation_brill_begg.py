@@ -7,15 +7,28 @@ minTpr = 1.15
 maxPpr = 15
 minPpr = 0.2
 
+def boundary_check(Tpr, Ppr):
+	if Tpr < minTpr or Tpr > maxTpr:
+		return 0
+	
+	if Ppr < minPpr or Ppr > maxPpr:
+		return 0
+
+	return 1
+
 def z_factor(Tpr = 1, Ppr = 1):
-  F = 0.3106 - 0.49*Tpr + 0.1824*Tpr**2
-  E = 9*(Tpr - 1)
-  D = 10**F
-  C = 0.132 - 0.32*math.log(Tpr, 10)
-  B = (0.62 - 0.23*Tpr)*Ppr + (0.066/(Tpr - 0.86) - 0.037)*Ppr**2 + (0.32*Ppr**2)/(10**E)
-  A = 1.39*(Tpr - 0.92)**0.5 - 0.36*Tpr - 0.10
-  
-  return A + (1 - A) / math.e**B + C*Ppr**D
+	if boundary_check(Tpr, Ppr):
+
+		F = 0.3106 - 0.49*Tpr + 0.1824*Tpr**2
+		E = 9*(Tpr - 1)
+		D = 10**F
+		C = 0.132 - 0.32*math.log(Tpr, 10)
+		B = (0.62 - 0.23*Tpr)*Ppr + (0.066/(Tpr - 0.86) - 0.037)*Ppr**2 + (0.32*Ppr**2)/(10**E)
+		A = 1.39*(Tpr - 0.92)**0.5 - 0.36*Tpr - 0.10
+		return round((A + (1 - A) / math.e**B + C*Ppr**D),4)
+
+	else:
+		return "NULL"
 
 def multi_graph(Tpr = 1, Ppr = 1):
 	
@@ -58,8 +71,7 @@ def multi_graph(Tpr = 1, Ppr = 1):
 	plt.show()
 
 def graph(Tpr = 1, Ppr = 1):
-	ppr = Ppr-2
-	z = z_factor(Tpr, ppr)
+	ppr = Ppr - 1.5
 	x = []
 	y = []
 
