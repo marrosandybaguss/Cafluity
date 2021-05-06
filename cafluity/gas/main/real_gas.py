@@ -89,19 +89,19 @@ def z_graph(Tpr, ppr, zcorrelation = "da-k"):
 
 	elif zcorrelation == "abi":
 		# Azizi, Behbahani, & Isazadeh
-		zGraph = abi_z_factor(Tpr, ppr)
+		zGraph = abi.graph(Tpr, ppr)
 
 	elif zcorrelation == "bb":
 		# Brill & Begg
-		zGraph = bb_z_factor(Tpr, ppr)
+		zGraph = bb.graph(Tpr, ppr)
 
 	elif zcorrelation == "hmr":
 		# Heidaryan, Moghdasi, & Rahimi
-		zGraph = hmr_z_factor(Tpr, ppr)
+		zGraph = hmr.graph(Tpr, ppr)
 
 	elif zcorrelation == "sn":
 		# Sanjiri & Nemati
-		zGraph = sn_z_factor(Tpr, ppr)
+		zGraph = sn.graph(Tpr, ppr)
 
 	elif zcorrelation == "ne":
 		# New Explicit

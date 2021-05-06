@@ -9,6 +9,7 @@
 
 import math
 import matplotlib.pyplot as plt
+from .graph import get_plot
 
 def constants(Ppr = 1):
 	if Ppr <= 3:
@@ -36,7 +37,7 @@ def z_factor(Tpr = 1, Ppr = 1):
 	z = 1 + A1*Ppr + A2*Ppr**2 + (A3*Ppr**A4)/Tpr**A5 + (A6*Ppr**(A4 + 1))/Tpr**A7 + (A8*Ppr**(A4 + 2))/Tpr**(A7 + 1)
 	return round(z,4)
 
-def graph(Tpr = 1, Ppr = 1):
+def multi_graph(Tpr = 1, Ppr = 1):
 	
 	tpr = Tpr - 0.45
 	tpri = []
@@ -75,3 +76,23 @@ def graph(Tpr = 1, Ppr = 1):
 	  
 	# function to show the plot 
 	plt.show()
+
+def graph(Tpr = 1, Ppr = 1):
+	ppr = Ppr
+	z = z_factor(Tpr, ppr)
+	x = []
+	y = []
+
+	for i in range(1,30):
+		ppr = ppr + 0.1
+		z = z_factor(Tpr, ppr)
+		x.append(ppr)
+		y.append(z)
+
+	title = "Sanjari's Correlation"
+	xlabel = 'Pseudoreduced Pressure Ppr'
+	ylabel = 'Compressibility Factor z'
+
+	chart = get_plot(x, y, title, xlabel, ylabel)
+
+	return chart

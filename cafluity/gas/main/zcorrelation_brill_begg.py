@@ -1,5 +1,6 @@
 import math
 import matplotlib.pyplot as plt
+from .graph import get_plot
 
 def z_factor(Tpr = 1, Ppr = 1):
   F = 0.3106 - 0.49*Tpr + 0.1824*Tpr**2
@@ -9,9 +10,9 @@ def z_factor(Tpr = 1, Ppr = 1):
   B = (0.62 - 0.23*Tpr)*Ppr + (0.066/(Tpr - 0.86) - 0.037)*Ppr**2 + (0.32*Ppr**2)/(10**E)
   A = 1.39*(Tpr - 0.92)**0.5 - 0.36*Tpr - 0.10
   
-  return round((A + (1 - A) / math.e**B + C*Ppr**D),4)
+  return A + (1 - A) / math.e**B + C*Ppr**D
 
-def graph(Tpr = 1, Ppr = 1):
+def multi_graph(Tpr = 1, Ppr = 1):
 	
 	tpr = Tpr - 0.45
 	tpri = []
@@ -50,3 +51,24 @@ def graph(Tpr = 1, Ppr = 1):
 	  
 	# function to show the plot 
 	plt.show()
+
+def graph(Tpr = 1, Ppr = 1):
+	ppr = Ppr-2
+	z = z_factor(Tpr, ppr)
+	x = []
+	y = []
+
+	for i in range(1,30):
+		ppr = ppr + 0.1
+		z = z_factor(Tpr, ppr)
+		x.append(ppr)
+		y.append(z)
+
+	title = "Brill Begg's Correlation"
+	xlabel = 'Pseudoreduced Pressure Ppr'
+	ylabel = 'Compressibility Factor z'
+
+	chart = get_plot(x, y, title, xlabel, ylabel)
+
+	return chart
+

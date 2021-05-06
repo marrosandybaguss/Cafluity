@@ -201,12 +201,3 @@ def graph(Tpr = 1, Ppr = 1):
 	chart = get_plot(x, y, title, xlabel, ylabel)
 
 	return chart
-
-	# plotting the points
-	# graphPlot = plt.plot(x, y)
-		
-	# plt.xlabel('Pseudoreduced Pressure Ppr')
-	# plt.ylabel('Compressibility Factor z')
-	# 
-
-	# return graphPlot

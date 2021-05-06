@@ -1,6 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 from .newton_rapson import newton_rapson
+from .graph import get_plot
 
 def t(Tpr = 1):
 	return 1/Tpr

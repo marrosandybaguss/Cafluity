@@ -32,14 +32,17 @@ def index(request):
 	# Compressibility Factor Z
 	zDrancuk = rgas.z(Tpr, ppr, "da-k")
 	zHallYarborough = rgas.z(Tpr, ppr, "hy")
-	zBrillBegg = rgas.z(Tpr, ppr, "bb")
+	zBrillBegg = round((rgas.z(Tpr, ppr, "bb")),4)
 	zNewExplicit = rgas.z(Tpr, ppr, "ne")
 	zAzizi = rgas.z(Tpr, ppr, "abi")
 	zHeidaryan = rgas.z(Tpr, ppr, "hmr")
 	zSanjari = rgas.z(Tpr, ppr, "sn")
 
-	chart = rgas.z_graph(Tpr, ppr, "ne")
-	# chart = get_plot(x, y)
+	brillBeggChart = rgas.z_graph(Tpr, ppr, "bb")
+	newExplicitChart = rgas.z_graph(Tpr, ppr, "ne")
+	aziziChart = rgas.z_graph(Tpr, ppr, "abi")
+	heidaryanChart = rgas.z_graph(Tpr, ppr, "hmr")
+	sanjariChart = rgas.z_graph(Tpr, ppr, "sn")
 
 	context = {
 		'title':'Compressibility Factor Z',
@@ -60,7 +63,11 @@ def index(request):
 		'zAzizi': zAzizi,
 		'zHeidaryan': zHeidaryan,
 		'zSanjari': zSanjari,
-		'chart': chart,
+		'brillBeggChart': brillBeggChart,
+		'newExplicitChart': newExplicitChart,
+		'aziziChart': aziziChart,
+		'heidaryanChart': heidaryanChart,
+		'sanjariChart': sanjariChart,
 	}
 
 	plt.show()

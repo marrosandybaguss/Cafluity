@@ -1,6 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 from .newton_rapson import newton_rapson
+from .graph import get_plot
 
 A1 = 0.3265
 A2 = -1.0700
