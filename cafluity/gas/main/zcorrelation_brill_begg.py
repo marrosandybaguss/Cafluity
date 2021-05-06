@@ -2,6 +2,11 @@ import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
 
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
+
 def z_factor(Tpr = 1, Ppr = 1):
   F = 0.3106 - 0.49*Tpr + 0.1824*Tpr**2
   E = 9*(Tpr - 1)

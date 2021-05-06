@@ -1,9 +1,17 @@
-# cannot be used to evaluate the derivative of the zfactor 
-# with respect to the pseudo-reduced pressure at Ppr = 3
+"""
+cannot be used to evaluate the derivative of the zfactor 
+with respect to the pseudo-reduced pressure at Ppr = 3
+"""
 
 import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
+
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
+noPpr = 3
 
 def constants(Ppr = 1):
 	if Ppr <= 3:

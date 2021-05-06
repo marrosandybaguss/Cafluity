@@ -1,12 +1,19 @@
-# A new explicit z-factor is developed as a multi-stage correlation 
-# based on Hall and Yarborough’s implicit correlation.
+"""
+A new explicit z-factor is developed as a multi-stage correlation 
+based on Hall and Yarborough’s implicit correlation.
 
-# The y-values on the right side of the expression were replaced by
-# Non-linear regression was performed using the derived model
+The y-values on the right side of the expression were replaced by
+Non-linear regression was performed using the derived model
+"""
 
 import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
+
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
 
 a1 = 0.317842
 a2 = 0.382216

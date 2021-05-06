@@ -1,9 +1,15 @@
-#  temperature range of 1.1 <= Tpr <= 2
-#  pressure range of 0.2 <= Ppr <= 11
-
+"""
+temperature range of 1.1 <= Tpr <= 2
+pressure range of 0.2 <= Ppr <= 11
+"""
 import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
+
+maxTpr = 2
+minTpr = 1.1
+maxPpr = 11
+minPpr = 0.2
 
 a = 0.0373142485385592
 b = -0.0140807151485369

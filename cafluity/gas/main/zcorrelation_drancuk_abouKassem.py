@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 from .newton_rapson import newton_rapson
 from .graph import get_plot
 
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
+
 A1 = 0.3265
 A2 = -1.0700
 A3 = -0.5339

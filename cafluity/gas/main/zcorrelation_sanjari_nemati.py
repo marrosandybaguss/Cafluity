@@ -1,15 +1,23 @@
-# cannot be used to evaluate the derivative of the zfactor 
-# with respect to the pseudo-reduced pressure at Ppr = 3
+"""
+cannot be used to evaluate the derivative of the zfactor 
+with respect to the pseudo-reduced pressure at Ppr = 3
 
-# This correlation, however, is less efficient when
-# compared with that of Heidaryan et al.
+This correlation, however, is less efficient when
+compared with that of Heidaryan et al.
 
-# Therefore, the actual maximum error for
-# this correlation is 104.3206 %.
+Therefore, the actual maximum error for
+this correlation is 104.3206 %.
+"""
 
 import math
 import matplotlib.pyplot as plt
 from .graph import get_plot
+
+maxTpr = 3
+minTpr = 1.15
+maxPpr = 15
+minPpr = 0.2
+noPpr = 3
 
 def constants(Ppr = 1):
 	if Ppr <= 3:
