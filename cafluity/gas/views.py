@@ -242,3 +242,10 @@ def real_gas(request):
 	}
 
 	return render(request, 'gas/index.html', context)
+
+def ideal_gas(request):
+	idealGasProperty = "molecularweight"
+	context = {
+		'idealGasProperty': idealGasProperty,
+	}
+	return render(request, 'gas/ideal-gas.html', context)
