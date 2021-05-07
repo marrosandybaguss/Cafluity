@@ -31,7 +31,7 @@ def rho_g(p = 1, T = 1, Ma = 1, z = 1):
 # 	return 1/rho_g
 
 def v(p = 1, T = 1, Ma = 1, z = 1):
-	return z*R*T/(p*Ma)
+	return round((z*R*T/(p*Ma)),4)
 
 # z gas factor
 def z(Tpr, ppr, zcorrelation = "da-k"):

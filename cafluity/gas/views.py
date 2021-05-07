@@ -18,13 +18,18 @@ def real_gas(request):
 		
 			pressureDensity = 1000
 			temperatureDensity = 300
-			Ma = rgas.Ma(Yg)
+			molarDensity = rgas.Ma(Yg)
 			zfactorDensity = 0.9612
+
+			pressureSV = 1000
+			temperatureSV = 300
+			molarSV = rgas.Ma(Yg)
+			zfactorSV = 0.9612
 
 		elif realGasProperty == "density":
 			pressureDensity = float(request.POST['pressureDensity'])
 			temperatureDensity = float(request.POST['temperatureDensity'])
-			Ma = float(request.POST['molarDensity'])
+			molarDensity = float(request.POST['molarDensity'])
 			zfactorDensity = float(request.POST['zfactorDensity'])
 		
 			Yg = 0.7
@@ -33,6 +38,29 @@ def real_gas(request):
 			n2 = 3.0
 			co2 = 6.0
 			h2s = 4.0
+
+			pressureSV = 1000
+			temperatureSV = 300
+			molarSV = rgas.Ma(Yg)
+			zfactorSV = 0.9612
+
+		elif realGasProperty == "specificvolume":
+			pressureSV = float(request.POST['pressureSV'])
+			temperatureSV = float(request.POST['temperatureSV'])
+			molarSV = float(request.POST['molarSV'])
+			zfactorSV = float(request.POST['zfactorSV'])
+		
+			Yg = 0.7
+			pressure = 1000
+			temperature = 300
+			n2 = 3.0
+			co2 = 6.0
+			h2s = 4.0
+
+			pressureDensity = 1000
+			temperatureDensity = 300
+			molarDensity = rgas.Ma(Yg)
+			zfactorDensity = 0.9612
 	else:
 		realGasProperty = "zfactor"
 
@@ -45,8 +73,13 @@ def real_gas(request):
 
 		pressureDensity = 1000
 		temperatureDensity = 300
-		Ma = rgas.Ma(Yg)
+		molarDensity = rgas.Ma(Yg)
 		zfactorDensity = 0.9612
+
+		pressureSV = 1000
+		temperatureSV = 300
+		molarSV = rgas.Ma(Yg)
+		zfactorSV = 0.9612
 
 	# Calculate Pseudo Critical
 	Tpc, ppc = zfac.pseudo_critical(Yg, co2, h2s, n2)
@@ -73,7 +106,7 @@ def real_gas(request):
 	sanjariChart = rgas.z_graph(Tpr, ppr, "sn")
 
 	# Density
-	density = rgas.rho_g(pressureDensity, temperatureDensity, Ma, zfactorDensity)
+	density = rgas.rho_g(pressureDensity, temperatureDensity, molarDensity, zfactorDensity)
 	if zDrancuk != "NULL":
 		densityDrancuk = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zDrancuk)
 	else:
@@ -103,6 +136,37 @@ def real_gas(request):
 	else:
 		densitySanjari = "NULL"
 
+
+	# Specific Volume
+	specificvolume = rgas.v(pressureSV, temperatureSV, molarSV, zfactorSV)
+	if zDrancuk != "NULL":
+		svDrancuk = rgas.v(pressure, T_conv, rgas.Ma(Yg), zDrancuk)
+	else:
+		svDrancuk = "NULL"
+	if zHallYarborough != "NULL":
+		svHallYarborough = rgas.v(pressure, T_conv, rgas.Ma(Yg), zHallYarborough)
+	else:
+		svHallYarborough = "NULL"
+	if zBrillBegg != "NULL":
+		svBrillBegg = rgas.v(pressure, T_conv, rgas.Ma(Yg), zBrillBegg)
+	else:
+		svBrillBegg = "NULL"
+	if zNewExplicit != "NULL":
+		svNewExplicit = rgas.v(pressure, T_conv, rgas.Ma(Yg), zNewExplicit)
+	else:
+		svNewExplicit = "NULL"
+	if zAzizi != "NULL":
+		svAzizi = rgas.v(pressure, T_conv, rgas.Ma(Yg), zAzizi)
+	else:
+		svAzizi = "NULL"
+	if zHeidaryan != "NULL":
+		svHeidaryan = rgas.v(pressure, T_conv, rgas.Ma(Yg), zHeidaryan)
+	else:
+		svHeidaryan = "NULL"
+	if zSanjari != "NULL":
+		svSanjari = rgas.v(pressure, T_conv, rgas.Ma(Yg), zSanjari)
+	else:
+		svSanjari = "NULL"
 
 
 	context = {
@@ -135,7 +199,7 @@ def real_gas(request):
 		# Density
 		'pressureDensity': pressureDensity,
 		'temperatureDensity': temperatureDensity,
-		'molarDensity': Ma,
+		'molarDensity': molarDensity,
 		'zfactorDensity': zfactorDensity,
 		'density': density,
 		'densityDrancuk': densityDrancuk,
@@ -145,6 +209,19 @@ def real_gas(request):
 		'densityAzizi': densityAzizi,
 		'densityHeidaryan': densityHeidaryan,
 		'densitySanjari': densitySanjari,
+		# Specific Volume
+		'pressureSV': pressureSV,
+		'temperatureSV': temperatureSV,
+		'molarSV': molarSV,
+		'zfactorSV': zfactorSV,
+		'specificvolume': specificvolume,
+		'svDrancuk': svDrancuk,
+		'svHallYarborough': svHallYarborough,
+		'svBrillBegg': svBrillBegg,
+		'svNewExplicit': svNewExplicit,
+		'svAzizi': svAzizi,
+		'svHeidaryan': svHeidaryan,
+		'svSanjari': svSanjari,
 	}
 
 	return render(request, 'gas/index.html', context)

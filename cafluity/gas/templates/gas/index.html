@@ -41,7 +41,7 @@
               <a class="nav-link {% if realGasProperty == 'density'%} active {% endif %}" id="density-tab" data-bs-toggle="pill" data-bs-target="#density" type="button" role="tab" aria-controls="density" aria-selected="{% if realGasProperty == 'density'%} true {% else %} false {% endif %}">Density</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="specificvolume-tab" data-bs-toggle="pill" data-bs-target="#specificvolume" type="button" role="tab" aria-controls="specificvolume" aria-selected="false">Specific Volume</a>
+              <a class="nav-link {% if realGasProperty == 'specificvolume'%} active {% endif %}" id="specificvolume-tab" data-bs-toggle="pill" data-bs-target="#specificvolume" type="button" role="tab" aria-controls="specificvolume" aria-selected="{% if realGasProperty == 'specificvolume'%} true {% else %} false {% endif %}">Specific Volume</a>
             </li>
           </ul>
         </div>
@@ -265,7 +265,7 @@
               </form>
             </div>
             <div class="col mx-4">
-              <p> The following is the <strong>density value</strong> based on the z factor value for each correlation</p>
+              <p> The following is the <strong>density value</strong> in <i>lb/ft3 unit</i> based on the z factor value for each correlation</p>
               <table class="table table-borderless">
                 <tbody>
                   <tr>
@@ -305,11 +305,84 @@
         </div>
       </div>
 
-      <div class="tab-pane fade" id="specificvolume" role="tabpanel" aria-labelledby="specificvolume-tab">
+      <div class="tab-pane fade {% if realGasProperty == 'specificvolume'%} active show {% endif %}" id="specificvolume" role="tabpanel" aria-labelledby="specificvolume-tab">
         <div class="container my-5">
           <div class="row mb-4">
             <div class="col text-center">
               <h2>Specific Volume</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mx-4 mb-5">
+              <form method="post" action="{% url 'real_gas' %}">
+                {% csrf_token %}
+                <input hidden="" type="text" name="realGasProperty" value="specificvolume">
+                <label for="molarSV" class="form-label">Apparent Molecular Weight</label>
+                <div class="input-group mb-3">
+                  <input required id="molarSV" type="number" step="0.0000001" class="form-control" name="molarSV" placeholder="20.272" value="{{molarSV}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
+                </div>
+                <label for="pressureSV" class="form-label">Pressure</label>
+                <div class="input-group mb-3">
+                  <input required id="pressureSV" type="number" step="0.0000001" class="form-control" name="pressureSV" placeholder="1000" value="{{pressureSV}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
+                </div>
+                <label for="temperatureSV" class="form-label">Temperature</label>
+                <div class="input-group mb-3">
+                  <input required id="temperatureSV" type="number" step="0.0000001" class="form-control" name="temperatureSV" placeholder="300" value="{{temperatureSV}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
+                </div>
+                <label for="zfactorSV" class="form-label">Compressibility Factor Z</label>
+                <div class="input-group mb-3">
+                  <input required id="zfactorSV" type="number" step="0.0000001" class="form-control" name="zfactorSV" placeholder="0.9612" value="{{zfactorSV}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;"></span>
+                </div>
+                <div class="col mb-3">
+                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Specifiv Volume</button>
+                  <small style="color: #524e4e; display: block;">The value of each correlation Z Factor will be returned to the default</small>
+                </div>
+                <div class="input-group mb-3">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{specificvolume}}" style="color: #ed8505; font-weight: bold;">
+                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">ft3/lb</span>
+                </div>
+              </form>
+            </div>
+            <div class="col mx-4">
+              <p> The following is the <strong>specific volume value</strong> in <i>ft3/lb unit</i> based on the z factor value for each correlation</p>
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Azizi Behbahani Isazadeh Correlation</td>
+                    <td><strong>{{svAzizi}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Brill Begg Correlation</td>
+                    <td><strong>{{svBrillBegg}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Drancuk-Abou Kassem Correlation</td>
+                    <td><strong>{{svDrancuk}}</strong></td>
+                  </tr>
+                  <tr>
+                  <tr>
+                    <td>Hall Yarbrough Correlation</td>
+                    <td><strong>{{svHallYarborough}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Heidaryan Correlation</td>
+                    <td><strong>{{svHeidaryan}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>New Explicit Correlation</td>
+                    <td><strong>{{svNewExplicit}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Sanjari Correlation</td>
+                    <td><strong>{{svSanjari}}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>If the result obtained is NULL, it means that the z factor value in the correlation is NULL</p>
             </div>
           </div>
         </div>
