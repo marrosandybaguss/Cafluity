@@ -104,6 +104,37 @@ def real_gas(request):
 		densitySanjari = "NULL"
 
 
+	# Specific Volume
+	# specificvolume = rgas.rho_g(pressureSV, temperatureSV, Ma, zfactorSV)
+	if zDrancuk != "NULL":
+		svDrancuk = rgas.v(pressure, T_conv, rgas.Ma(Yg), zDrancuk)
+	else:
+		svDrancuk = "NULL"
+	if zHallYarborough != "NULL":
+		svHallYarborough = rgas.v(pressure, T_conv, rgas.Ma(Yg), zHallYarborough)
+	else:
+		svHallYarborough = "NULL"
+	if zBrillBegg != "NULL":
+		svBrillBegg = rgas.v(pressure, T_conv, rgas.Ma(Yg), zBrillBegg)
+	else:
+		svBrillBegg = "NULL"
+	if zNewExplicit != "NULL":
+		svNewExplicit = rgas.v(pressure, T_conv, rgas.Ma(Yg), zNewExplicit)
+	else:
+		svNewExplicit = "NULL"
+	if zAzizi != "NULL":
+		svAzizi = rgas.v(pressure, T_conv, rgas.Ma(Yg), zAzizi)
+	else:
+		svAzizi = "NULL"
+	if zHeidaryan != "NULL":
+		svHeidaryan = rgas.v(pressure, T_conv, rgas.Ma(Yg), zHeidaryan)
+	else:
+		svHeidaryan = "NULL"
+	if zSanjari != "NULL":
+		svSanjari = rgas.v(pressure, T_conv, rgas.Ma(Yg), zSanjari)
+	else:
+		svSanjari = "NULL"
+
 
 	context = {
 		'title':'Compressibility Factor Z',
@@ -145,6 +176,19 @@ def real_gas(request):
 		'densityAzizi': densityAzizi,
 		'densityHeidaryan': densityHeidaryan,
 		'densitySanjari': densitySanjari,
+		# Specific Volume
+		# 'pressureDensity': pressureDensity,
+		# 'temperatureDensity': temperatureDensity,
+		# 'molarDensity': Ma,
+		# 'zfactorDensity': zfactorDensity,
+		# 'density': density,
+		'svDrancuk': svDrancuk,
+		'svHallYarborough': svHallYarborough,
+		'svBrillBegg': svBrillBegg,
+		'svNewExplicit': svNewExplicit,
+		'svAzizi': svAzizi,
+		'svHeidaryan': svHeidaryan,
+		'svSanjari': svSanjari,
 	}
 
 	return render(request, 'gas/index.html', context)
