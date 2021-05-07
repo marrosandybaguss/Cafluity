@@ -33,192 +33,288 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" id="pills-tab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Z-Factor</a>
+              <a class="nav-link {% if realGasProperty == 'zfactor'%} active {% endif %}" id="zfactor-tab" data-bs-toggle="pill" data-bs-target="#zfactor" type="button" role="tab" aria-controls="zfactor" aria-selected="{% if realGasProperty == 'zfactor'%} true {% else %} false {% endif %}">Z-Factor</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Density</a>
+              <a class="nav-link {% if realGasProperty == 'density'%} active {% endif %}" id="density-tab" data-bs-toggle="pill" data-bs-target="#density" type="button" role="tab" aria-controls="density" aria-selected="{% if realGasProperty == 'density'%} true {% else %} false {% endif %}">Density</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Specific Volume</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Specific Grafity</a>
+              <a class="nav-link" id="specificvolume-tab" data-bs-toggle="pill" data-bs-target="#specificvolume" type="button" role="tab" aria-controls="specificvolume" aria-selected="false">Specific Volume</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <div class="container my-5">
-      <div class="row mb-4">
-        <div class="col text-center">
-          <h2>{{ title }}</h2>
+    <div class="tab-content" id="pills-tabContent">
+      
+      <div id="zfactor" class="tab-pane fade {% if realGasProperty == 'zfactor'%} active show {% endif %}" role="tabpanel" aria-labelledby="zfactor-tab">
+        <div class="container my-5">
+          <div class="row mb-4">
+            <div class="col text-center">
+              <h2>{{ title }}</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mx-4 mb-5">
+              <form method="post" action="{% url 'real_gas' %}">
+                {% csrf_token %}
+                <input hidden="" type="text" name="realGasProperty" value="zfactor">
+                <label for="gas-gravity" class="form-label">Gas Gravity</label>
+                <div class="input-group mb-3">
+                  <input required id="gas-gravity" type="number" step="0.0000001" class="form-control" name="gas-gravity" placeholder="0.7" value="{{gasGravity}}">
+                  <span class="input-group-text" style="width: 70px"></span>
+                </div>
+                <label for="pressure" class="form-label">Pressure</label>
+                <div class="input-group mb-3">
+                  <input required id="pressure" type="number" step="0.0000001" class="form-control" name="pressure" placeholder="1000" value="{{pressure}}">
+                  <span class="input-group-text" style="width: 70px; color: #524e4e;">PSIA</span>
+                </div>
+                <label for="temperature" class="form-label">Temperature</label>
+                <div class="input-group mb-3">
+                  <input required id="temperature" type="number" step="0.0000001" class="form-control" name="temperature" placeholder="300" value="{{temperature}}">
+                  <span class="input-group-text" style="width: 70px; color: #524e4e;">&#xb0;F</span>
+                </div>
+                <label for="nitrogen" class="form-label">Nitrogen</label>
+                <div class="input-group mb-3">
+                  <input required id="nitrogen" type="number" step="0.0000001" class="form-control" name="nitrogen" placeholder="3.0" value="{{nitrogen}}">
+                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                </div>
+                <label for="carbon-dioxide" class="form-label">Carbon Dioxide</label>
+                <div class="input-group mb-3">
+                  <input required id="carbon-dioxide" type="number" step="0.0000001" class="form-control" name="carbon-dioxide" placeholder="6.0" value="{{carbonDioxide}}">
+                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                </div>
+                <label for="hydrogen-sulfide" class="form-label">Hydrogen Sulfide</label>
+                <div class="input-group mb-3">
+                  <input required id="hydrogen-sulfide" type="number" step="0.0000001" class="form-control" name="hydrogen-sulfide" placeholder="4.0" value="{{hydrogenSulfide}}">
+                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Z Factor</button>
+                </div>
+              </form>
+            </div>
+            <div class="col mx-4">
+              <p>Sutton's correlations along with Wichert and Aziz corrections are used to calculate pseudo critical temperature and pressure for the natural gas mixture.</p>
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Pseudocritical Pressure</td>
+                    <td>{{ppc}}</td>
+                    <td>PSIA</td>
+                  </tr>
+                  <tr>
+                    <td>Pseudocritical Temperature</td>
+                    <td>{{Tpc}}</td>
+                    <td>&#xb0;R</td>
+                  </tr><tr>
+                    <td>Pseudoreduced Pressure</td>
+                    <td>{{ppr}}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Pseudoreduced Temperature</td>
+                    <td>{{Tpr}}</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with several correlations.</p>
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Azizi Behbahani Isazadeh's Z  Factor Correlation</td>
+                    <td><strong>{{zAzizi}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Brill Begg's Z Factor Correlation</td>
+                    <td><strong>{{zBrillBegg}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Drancuk-Abou Kassem's Z Factor Correlation</td>
+                    <td><strong>{{zDrancuk}}</strong></td>
+                  </tr>
+                  <tr>
+                  <tr>
+                    <td>Hall Yarbrough's Z Factor Correlation</td>
+                    <td><strong>{{zHallYarborough}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Heidaryan's Z Factor Correlation</td>
+                    <td><strong>{{zHeidaryan}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>New Explicit Z Factor Correlation</td>
+                    <td><strong>{{zNewExplicit}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Sanjari's Z Factor Correlation</td>
+                    <td><strong>{{zSanjari}}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>If the result obtained is NULL, it means that the data provided is outside the correlation range</p>
+            </div>
+          </div>
+        </div>
+        <div class="container my-5">
+          <div class="row mb-3">
+            <div class="col text-center">
+              <h3>Graph</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <!-- <h5 class="card-title">New Explicit Graph</h5>
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                </div>
+                <img src="data:img/png;base64, {{aziziChart|safe}}" class="card-img-bottom">
+              </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                </div>
+                <img src="data:img/png;base64, {{brillBeggChart|safe}}" class="card-img-bottom">
+              </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                </div>
+                <img src="data:img/png;base64, {{drancukChart|safe}}" class="card-img-bottom">
+              </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                </div>
+                <img src="data:img/png;base64, {{hallYarboroughChart|safe}}" class="card-img-bottom">
+              </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                </div>
+                <img src="data:img/png;base64, {{heidaryanChart|safe}}" class="card-img-bottom">
+              </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                </div>
+                <img src="data:img/png;base64, {{newExplicitChart|safe}}" class="card-img-bottom">
+              </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                </div>
+                <img src="data:img/png;base64, {{sanjariChart|safe}}" class="card-img-bottom">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col mx-4 mb-5">
-          <form method="post">
-            {% csrf_token %}
-            <label for="gas-gravity" class="form-label">Gas Gravity</label>
-            <div class="input-group mb-3">
-              <input required id="gas-gravity" type="number" step="0.0000001" class="form-control" name="gas-gravity" placeholder="0.7" value="{{gasGravity}}">
-              <span class="input-group-text" id="basic-addon2" style="width: 70px"></span>
-            </div>
-            <label for="pressure" class="form-label">Pressure</label>
-            <div class="input-group mb-3">
-              <input required id="pressure" type="number" step="0.0000001" class="form-control" name="pressure" placeholder="1000" value="{{pressure}}">
-              <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">PSIA</span>
-            </div>
-            <label for="temperature" class="form-label">Temperature</label>
-            <div class="input-group mb-3">
-              <input required id="temperature" type="number" step="0.0000001" class="form-control" name="temperature" placeholder="300" value="{{temperature}}">
-              <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">&#xb0;F</span>
-            </div>
-            <label for="nitrogen" class="form-label">Nitrogen</label>
-            <div class="input-group mb-3">
-              <input required id="nitrogen" type="number" step="0.0000001" class="form-control" name="nitrogen" placeholder="3.0" value="{{nitrogen}}">
-              <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
-            </div>
-            <label for="carbon-dioxide" class="form-label">Carbon Dioxide</label>
-            <div class="input-group mb-3">
-              <input required id="carbon-dioxide" type="number" step="0.0000001" class="form-control" name="carbon-dioxide" placeholder="6.0" value="{{carbonDioxide}}">
-              <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
-            </div>
-            <label for="hydrogen-sulfide" class="form-label">Hydrogen Sulfide</label>
-            <div class="input-group mb-3">
-              <input required id="hydrogen-sulfide" type="number" step="0.0000001" class="form-control" name="hydrogen-sulfide" placeholder="4.0" value="{{hydrogenSulfide}}">
-              <span class="input-group-text" id="basic-addon2" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
-            </div>
-            <div class="col-12">
-              <button type="submit" class="btn btn-warning mt-2" style="background-color: orange;">Calculate</button>
-            </div>
-          </form>
-        </div>
-        <div class="col mx-4">
-          <p>Sutton's correlations along with Wichert and Aziz corrections are used to calculate pseudo critical temperature and pressure for the natural gas mixture.</p>
-          <table class="table table-borderless">
-            <tbody>
-              <tr>
-                <td>Pseudocritical Pressure</td>
-                <td>{{ppc}}</td>
-                <td>PSIA</td>
-              </tr>
-              <tr>
-                <td>Pseudocritical Temperature</td>
-                <td>{{Tpc}}</td>
-                <td>&#xb0;R</td>
-              </tr><tr>
-                <td>Pseudoreduced Pressure</td>
-                <td>{{ppr}}</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Pseudoreduced Temperature</td>
-                <td>{{Tpr}}</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-          <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with several correlations.</p>
-          <table class="table table-borderless">
-            <tbody>
-              <tr>
-                <td>Azizi Behbahani Isazadeh's Z  Factor Correlation</td>
-                <td><strong>{{zAzizi}}</strong></td>
-              </tr>
-              <tr>
-                <td>Brill Begg's Z Factor Correlation</td>
-                <td><strong>{{zBrillBegg}}</strong></td>
-              </tr>
-              <tr>
-                <td>Drancuk-Abou Kassem's Z Factor Correlation</td>
-                <td><strong>{{zDrancuk}}</strong></td>
-              </tr>
-              <tr>
-              <tr>
-                <td>Hall Yarbrough's Z Factor Correlation</td>
-                <td><strong>{{zHallYarborough}}</strong></td>
-              </tr>
-              <tr>
-                <td>Heidaryan's Z Factor Correlation</td>
-                <td><strong>{{zHeidaryan}}</strong></td>
-              </tr>
-              <tr>
-                <td>New Explicit Z Factor Correlation</td>
-                <td><strong>{{zNewExplicit}}</strong></td>
-              </tr>
-              <tr>
-                <td>Sanjari's Z Factor Correlation</td>
-                <td><strong>{{zSanjari}}</strong></td>
-              </tr>
-            </tbody>
-          </table>
-          <p>If the result obtained is NULL, it means that the data provided is outside the correlation range</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="container my-5">
-      <div class="row mb-3">
-        <div class="col text-center">
-          <h3>Graph</h3>
+      <div class="tab-pane fade {% if realGasProperty == 'density'%} active show {% endif %}" id="density" role="tabpanel" aria-labelledby="density-tab">
+        <div class="container my-5">
+          <div class="row mb-4">
+            <div class="col text-center">
+              <h2>Density</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mx-4 mb-5">
+              <form method="post" action="{% url 'real_gas' %}">
+                {% csrf_token %}
+                <input hidden="" type="text" name="realGasProperty" value="density">
+                <label for="molarDensity" class="form-label">Apparent Molecular Weight</label>
+                <div class="input-group mb-3">
+                  <input required id="molarDensity" type="number" step="0.0000001" class="form-control" name="molarDensity" placeholder="20.272" value="{{molarDensity}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
+                </div>
+                <label for="pressureDensity" class="form-label">Pressure</label>
+                <div class="input-group mb-3">
+                  <input required id="pressureDensity" type="number" step="0.0000001" class="form-control" name="pressureDensity" placeholder="1000" value="{{pressureDensity}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
+                </div>
+                <label for="temperatureDensity" class="form-label">Temperature</label>
+                <div class="input-group mb-3">
+                  <input required id="temperatureDensity" type="number" step="0.0000001" class="form-control" name="temperatureDensity" placeholder="300" value="{{temperatureDensity}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
+                </div>
+                <label for="zfactorDensity" class="form-label">Compressibility Factor Z</label>
+                <div class="input-group mb-3">
+                  <input required id="zfactorDensity" type="number" step="0.0000001" class="form-control" name="zfactorDensity" placeholder="0.9612" value="{{zfactorDensity}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;"></span>
+                </div>
+                <div class="col mb-3">
+                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Density</button>
+                  <small style="color: #524e4e; display: block;">The value of each correlation Z Factor will be returned to the default</small>
+                </div>
+                <div class="input-group mb-3">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{density}}" style="color: #ed8505; font-weight: bold;">
+                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/ft3</span>
+                </div>
+              </form>
+            </div>
+            <div class="col mx-4">
+              <p> The following is the <strong>density value</strong> based on the z factor value for each correlation</p>
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Azizi Behbahani Isazadeh Correlation</td>
+                    <td><strong>{{densityAzizi}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Brill Begg Correlation</td>
+                    <td><strong>{{densityBrillBegg}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Drancuk-Abou Kassem Correlation</td>
+                    <td><strong>{{densityDrancuk}}</strong></td>
+                  </tr>
+                  <tr>
+                  <tr>
+                    <td>Hall Yarbrough Correlation</td>
+                    <td><strong>{{densityHallYarborough}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Heidaryan Correlation</td>
+                    <td><strong>{{densityHeidaryan}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>New Explicit Correlation</td>
+                    <td><strong>{{densityNewExplicit}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Sanjari Correlation</td>
+                    <td><strong>{{densitySanjari}}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>If the result obtained is NULL, it means that the z factor value in the correlation is NULL</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-              <!-- <h5 class="card-title">New Explicit Graph</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+
+      <div class="tab-pane fade" id="specificvolume" role="tabpanel" aria-labelledby="specificvolume-tab">
+        <div class="container my-5">
+          <div class="row mb-4">
+            <div class="col text-center">
+              <h2>Specific Volume</h2>
             </div>
-            <img src="data:img/png;base64, {{aziziChart|safe}}" class="card-img-bottom">
-          </div>
-        </div>
-        <div class="col-sm-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-            </div>
-            <img src="data:img/png;base64, {{brillBeggChart|safe}}" class="card-img-bottom">
-          </div>
-        </div>
-        <div class="col-sm-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-            </div>
-            <img src="data:img/png;base64, {{drancukChart|safe}}" class="card-img-bottom">
-          </div>
-        </div>
-        <div class="col-sm-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-            </div>
-            <img src="data:img/png;base64, {{hallYarboroughChart|safe}}" class="card-img-bottom">
-          </div>
-        </div>
-        <div class="col-sm-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-            </div>
-            <img src="data:img/png;base64, {{heidaryanChart|safe}}" class="card-img-bottom">
-          </div>
-        </div>
-        <div class="col-sm-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-            </div>
-            <img src="data:img/png;base64, {{newExplicitChart|safe}}" class="card-img-bottom">
-          </div>
-        </div>
-        <div class="col-sm-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-            </div>
-            <img src="data:img/png;base64, {{sanjariChart|safe}}" class="card-img-bottom">
           </div>
         </div>
       </div>
+
     </div>
 
     <div class="container py-1">

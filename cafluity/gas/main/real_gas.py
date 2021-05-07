@@ -23,12 +23,12 @@ def Yg(Ma = 1, Mair = Mair):
 	return Ma/Mair
 
 # density
-def rho_g(p = 1, T = 1, Yg = 1, z = 1):
-	return p*Ma(Yg)/(z*R*T)
+def rho_g(p = 1, T = 1, Ma = 1, z = 1):
+	return round((p*Ma/(z*R*T)),4)
 
 # specific volume
-def v(rho_g = 1):
-	return 1/rho_g
+# def v(rho_g = 1):
+# 	return 1/rho_g
 
 def v(p = 1, T = 1, Ma = 1, z = 1):
 	return z*R*T/(p*Ma)

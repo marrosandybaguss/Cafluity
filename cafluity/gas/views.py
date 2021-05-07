@@ -1,26 +1,52 @@
 from django.shortcuts import render
-import matplotlib.pyplot as plt
 
 from .main import base_zfactor as zfac
 from .main import convertion as conv
 from .main import real_gas as rgas
 
 
-def index(request):
+def real_gas(request):
 	if request.method == "POST":
-		Yg = float(request.POST['gas-gravity'])
-		pressure = float(request.POST['pressure'])
-		temperature = float(request.POST['temperature'])
-		n2 = float(request.POST['nitrogen'])
-		co2 = float(request.POST['carbon-dioxide'])
-		h2s = float(request.POST['hydrogen-sulfide'])
+		realGasProperty = request.POST['realGasProperty']
+		if realGasProperty == "zfactor":
+			Yg = float(request.POST['gas-gravity'])
+			pressure = float(request.POST['pressure'])
+			temperature = float(request.POST['temperature'])
+			n2 = float(request.POST['nitrogen'])
+			co2 = float(request.POST['carbon-dioxide'])
+			h2s = float(request.POST['hydrogen-sulfide'])
+		
+			pressureDensity = 1000
+			temperatureDensity = 300
+			Ma = rgas.Ma(Yg)
+			zfactorDensity = 0.9612
+
+		elif realGasProperty == "density":
+			pressureDensity = float(request.POST['pressureDensity'])
+			temperatureDensity = float(request.POST['temperatureDensity'])
+			Ma = float(request.POST['molarDensity'])
+			zfactorDensity = float(request.POST['zfactorDensity'])
+		
+			Yg = 0.7
+			pressure = 1000
+			temperature = 300
+			n2 = 3.0
+			co2 = 6.0
+			h2s = 4.0
 	else:
+		realGasProperty = "zfactor"
+
 		Yg = 0.7
 		pressure = 1000
 		temperature = 300
 		n2 = 3.0
 		co2 = 6.0
 		h2s = 4.0
+
+		pressureDensity = 1000
+		temperatureDensity = 300
+		Ma = rgas.Ma(Yg)
+		zfactorDensity = 0.9612
 
 	# Calculate Pseudo Critical
 	Tpc, ppc = zfac.pseudo_critical(Yg, co2, h2s, n2)
@@ -46,8 +72,42 @@ def index(request):
 	heidaryanChart = rgas.z_graph(Tpr, ppr, "hmr")
 	sanjariChart = rgas.z_graph(Tpr, ppr, "sn")
 
+	# Density
+	density = rgas.rho_g(pressureDensity, temperatureDensity, Ma, zfactorDensity)
+	if zDrancuk != "NULL":
+		densityDrancuk = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zDrancuk)
+	else:
+		densityDrancuk = "NULL"
+	if zHallYarborough != "NULL":
+		densityHallYarborough = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zHallYarborough)
+	else:
+		densityHallYarborough = "NULL"
+	if zBrillBegg != "NULL":
+		densityBrillBegg = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zBrillBegg)
+	else:
+		densityBrillBegg = "NULL"
+	if zNewExplicit != "NULL":
+		densityNewExplicit = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zNewExplicit)
+	else:
+		densityNewExplicit = "NULL"
+	if zAzizi != "NULL":
+		densityAzizi = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zAzizi)
+	else:
+		densityAzizi = "NULL"
+	if zHeidaryan != "NULL":
+		densityHeidaryan = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zHeidaryan)
+	else:
+		densityHeidaryan = "NULL"
+	if zSanjari != "NULL":
+		densitySanjari = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zSanjari)
+	else:
+		densitySanjari = "NULL"
+
+
+
 	context = {
 		'title':'Compressibility Factor Z',
+		'realGasProperty': realGasProperty,
 		'gasGravity': Yg,
 		'pressure': pressure,
 		'temperature': temperature,
@@ -72,8 +132,19 @@ def index(request):
 		'aziziChart': aziziChart,
 		'heidaryanChart': heidaryanChart,
 		'sanjariChart': sanjariChart,
+		# Density
+		'pressureDensity': pressureDensity,
+		'temperatureDensity': temperatureDensity,
+		'molarDensity': Ma,
+		'zfactorDensity': zfactorDensity,
+		'density': density,
+		'densityDrancuk': densityDrancuk,
+		'densityHallYarborough': densityHallYarborough,
+		'densityBrillBegg': densityBrillBegg,
+		'densityNewExplicit': densityNewExplicit,
+		'densityAzizi': densityAzizi,
+		'densityHeidaryan': densityHeidaryan,
+		'densitySanjari': densitySanjari,
 	}
-
-	plt.show()
 
 	return render(request, 'gas/index.html', context)
