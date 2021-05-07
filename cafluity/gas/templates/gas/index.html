@@ -41,7 +41,7 @@
               <a class="nav-link {% if realGasProperty == 'density'%} active {% endif %}" id="density-tab" data-bs-toggle="pill" data-bs-target="#density" type="button" role="tab" aria-controls="density" aria-selected="{% if realGasProperty == 'density'%} true {% else %} false {% endif %}">Density</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="specificvolume-tab" data-bs-toggle="pill" data-bs-target="#specificvolume" type="button" role="tab" aria-controls="specificvolume" aria-selected="false">Specific Volume</a>
+              <a class="nav-link {% if realGasProperty == 'specificvolume'%} active {% endif %}" id="specificvolume-tab" data-bs-toggle="pill" data-bs-target="#specificvolume" type="button" role="tab" aria-controls="specificvolume" aria-selected="{% if realGasProperty == 'specificvolume'%} true {% else %} false {% endif %}">Specific Volume</a>
             </li>
           </ul>
         </div>
@@ -342,7 +342,7 @@
                   <small style="color: #524e4e; display: block;">The value of each correlation Z Factor will be returned to the default</small>
                 </div>
                 <div class="input-group mb-3">
-                  <input disabled="" class="form-control" placeholder="0.9612" value="{{density}}" style="color: #ed8505; font-weight: bold;">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{specificvolume}}" style="color: #ed8505; font-weight: bold;">
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">ft3/lb</span>
                 </div>
               </form>
