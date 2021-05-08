@@ -5,7 +5,7 @@ from .main import convertion as conv
 from .main import real_gas as rgas
 from .main import ideal_gas as igas
 
-def get_realgas_var(request):
+def realgas_var(request):
 	if request.method == "POST":
 		realGasProperty = request.POST['realGasProperty']
 
@@ -143,7 +143,7 @@ def realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDe
 
 	return density, densityDrancuk, densityHallYarborough, densityBrillBegg, densityNewExplicit, densityAzizi, densityHeidaryan, densitySanjari
 
-def realgas_specific_volume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari):
+def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari):
 	temperatureConvSV = conv.temp_FR(temperatureSV)
 	specificvolume = rgas.v(pressureSV, temperatureConvSV, molarSV, zfactorSV)
 
@@ -179,13 +179,13 @@ def realgas_specific_volume(pressureSV, temperatureSV, molarSV, zfactorSV, press
 	return specificvolume, svDrancuk, svHallYarborough, svBrillBegg, svNewExplicit, svAzizi, svHeidaryan, svSanjari
 
 def real_gas(request):
-	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = get_realgas_var(request)
+	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
 
 	Tpc, ppc, temperatureConv, Tpr, ppr, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari, drancukChart, hallYarboroughChart, brillBeggChart, newExplicitChart, aziziChart, heidaryanChart, sanjariChart = zfactor(Yg, pressure, temperature, n2, co2, h2s)
 
 	density, densityDrancuk, densityHallYarborough, densityBrillBegg, densityNewExplicit, densityAzizi, densityHeidaryan, densitySanjari = realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari)
 
-	specificvolume, svDrancuk, svHallYarborough, svBrillBegg, svNewExplicit, svAzizi, svHeidaryan, svSanjari = realgas_specific_volume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari)
+	specificvolume, svDrancuk, svHallYarborough, svBrillBegg, svNewExplicit, svAzizi, svHeidaryan, svSanjari = realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari)
 	
 	context = {
 		'realGasProperty': realGasProperty,
@@ -244,7 +244,7 @@ def real_gas(request):
 
 	return render(request, 'gas/real-gas.html', context)
 
-def ideal_gas(request):
+def idealgas_var(request):
 	if request.method == "POST":
 		idealGasProperty = request.POST['idealGasProperty']
 		if idealGasProperty == "molecularweight":
@@ -324,6 +324,11 @@ def ideal_gas(request):
 		molarGravity = 20.272
 		molecularAirSG = 28.96
 
+	return idealGasProperty, gasGravityMW, molecularAirMW, molarDensity, pressureDensity, temperatureDensity, molarSV, pressureSV, temperatureSV, molarGravity, molecularAirSG
+
+def ideal_gas(request):
+	idealGasProperty, gasGravityMW, molecularAirMW, molarDensity, pressureDensity, temperatureDensity, molarSV, pressureSV, temperatureSV, molarGravity, molecularAirSG = idealgas_var(request)
+
 	molecularWeight = igas.Ma(gasGravityMW, molecularAirMW)
 
 	temperatureConvDensity = conv.temp_FR(temperatureDensity)
@@ -336,19 +341,24 @@ def ideal_gas(request):
 	
 	context = {
 		'idealGasProperty': idealGasProperty,
+		# Molecular Weight
 		'gasGravityMW': gasGravityMW,
 		'molecularAirMW': molecularAirMW,
 		'molecularWeight': molecularWeight,
+		# Density
 		'molarDensity': molarDensity,
 		'pressureDensity': pressureDensity,
 		'temperatureDensity': temperatureDensity,
 		'density': density,
+		# Specific Volume
 		'molarSV': molarSV,
 		'pressureSV': pressureSV,
 		'temperatureSV': temperatureSV,
 		'specificvolume': specificvolume,
+		# Specific Gravity
 		'molarGravity': molarGravity,
 		'molecularAirSG': molecularAirSG,
 		'specificgravity': specificgravity,
 	}
+	
 	return render(request, 'gas/ideal-gas.html', context)
