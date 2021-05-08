@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .main import base_zfactor as zfac
 from .main import convertion as conv
 from .main import real_gas as rgas
+from .main import ideal_gas as igas
 
 def get_realgas_var(request):
 	if request.method == "POST":
@@ -241,11 +242,31 @@ def real_gas(request):
 		'svSanjari': svSanjari,
 	}
 
-	return render(request, 'gas/index.html', context)
+	return render(request, 'gas/real-gas.html', context)
 
 def ideal_gas(request):
-	idealGasProperty = "molecularweight"
+	if request.method == "POST":
+		idealGasProperty = request.POST['idealGasProperty']
+		if idealGasProperty == "molecularweight":
+			gasGravityMW = float(request.POST['gasGravityMW'])
+			molecularAirMW = float(request.POST['molecularAirMW'])
+		
+			# pressureDensity = 1000
+			# temperatureDensity = 300
+			# molarDensity = 20.272
+			# zfactorDensity = 0.9612
+	else:
+		idealGasProperty = "molecularweight"
+
+		gasGravityMW = 0.7
+		molecularAirMW = 28.96
+
+	molecularWeight = igas.Ma(gasGravityMW, molecularAirMW)
+	
 	context = {
 		'idealGasProperty': idealGasProperty,
+		'gasGravityMW': gasGravityMW,
+		'molecularAirMW': molecularAirMW,
+		'molecularWeight': molecularWeight,
 	}
 	return render(request, 'gas/ideal-gas.html', context)

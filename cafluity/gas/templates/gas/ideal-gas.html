@@ -65,21 +65,21 @@
               <form method="post" action="{% url 'ideal_gas' %}">
                 {% csrf_token %}
                 <input hidden="" type="text" name="idealGasProperty" value="molecularweight">
-                <label for="gas-gravity" class="form-label">Gas Gravity</label>
+                <label for="gasGravityMW" class="form-label">Gas Gravity</label>
                 <div class="input-group mb-3">
-                  <input required id="gas-gravity" type="number" step="0.0000001" class="form-control" name="gas-gravity" placeholder="0.7" value="">
+                  <input required id="gasGravityMW" type="number" step="0.0000001" class="form-control" name="gasGravityMW" placeholder="0.7" value="{{gasGravityMW}}">
                   <span class="input-group-text" style="width: 100px"></span>
                 </div>
-                <label for="pressure" class="form-label">Molecular Air</label>
+                <label for="molecularAirMW" class="form-label">Molecular Air</label>
                 <div class="input-group mb-3">
-                  <input required id="pressure" type="number" step="0.0000001" class="form-control" name="pressure" placeholder="1000" value="">
+                  <input required id="molecularAirMW" type="number" step="0.0000001" class="form-control" name="molecularAirMW" placeholder="1000" value="{{molecularAirMW}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">lb/lb-mol</span>
                 </div>
                 <div class="col-12 mb-3">
                   <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Molecular Weight</button>
                 </div>
                 <div class="input-group mb-3">
-                  <input disabled="" class="form-control" placeholder="0.9612" value="" style="color: #ed8505; font-weight: bold;">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{molecularWeight}}" style="color: #ed8505; font-weight: bold;">
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/lb-mol</span>
                 </div>
               </form>
@@ -100,7 +100,7 @@
               <form method="post" action="{% url 'ideal_gas' %}">
                 {% csrf_token %}
                 <input hidden="" type="text" name="idealGasProperty" value="density">
-                <label for="molarDensity" class="form-label">Apparent Molecular Weight</label>
+                <label for="molarDensity" class="form-label">Molecular Weight</label>
                 <div class="input-group mb-3">
                   <input required id="molarDensity" type="number" step="0.0000001" class="form-control" name="molarDensity" placeholder="20.272" value="">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
@@ -141,7 +141,7 @@
               <form method="post" action="{% url 'ideal_gas' %}">
                 {% csrf_token %}
                 <input hidden="" type="text" name="idealGasProperty" value="specificvolume">
-                <label for="molarSV" class="form-label">Apparent Molecular Weight</label>
+                <label for="molarSV" class="form-label">Molecular Weight</label>
                 <div class="input-group mb-3">
                   <input required id="molarSV" type="number" step="0.0000001" class="form-control" name="molarSV" placeholder="20.272" value="">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
