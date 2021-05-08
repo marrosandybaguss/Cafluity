@@ -258,6 +258,10 @@ def ideal_gas(request):
 			molarSV = igas.Ma(gasGravityMW, molecularAirMW)
 			pressureSV = 50.0
 			temperatureSV = 20.0
+
+			molarGravity = igas.Ma(gasGravityMW, molecularAirMW)
+			molecularAirSG = 28.96
+
 		elif idealGasProperty == "density":
 			molarDensity = float(request.POST['molarDensity'])
 			pressureDensity = float(request.POST['pressureDensity'])
@@ -269,6 +273,10 @@ def ideal_gas(request):
 			molarSV = 20.272
 			pressureSV = 50.0
 			temperatureSV = 20.0
+
+			molarGravity = 20.272
+			molecularAirSG = 28.96
+
 		elif idealGasProperty == "specificvolume":
 			molarSV = float(request.POST['molarSV'])
 			pressureSV = float(request.POST['pressureSV'])
@@ -280,6 +288,25 @@ def ideal_gas(request):
 			molarDensity = 20.272
 			pressureDensity = 50.0
 			temperatureDensity = 20.0
+
+			molarGravity = 20.272
+			molecularAirSG = 28.96
+
+		elif idealGasProperty == "specificgravity":
+			molarGravity = float(request.POST['molarGravity'])
+			molecularAirSG = float(request.POST['molecularAirSG'])
+
+			gasGravityMW = 0.7
+			molecularAirMW = 28.96
+
+			molarDensity = 20.272
+			pressureDensity = 50.0
+			temperatureDensity = 20.0
+
+			molarSV = 20.272
+			pressureSV = 50.0
+			temperatureSV = 20.0
+
 	else:
 		idealGasProperty = "molecularweight"
 
@@ -294,6 +321,9 @@ def ideal_gas(request):
 		pressureSV = 50.0
 		temperatureSV = 20.0
 
+		molarGravity = 20.272
+		molecularAirSG = 28.96
+
 	molecularWeight = igas.Ma(gasGravityMW, molecularAirMW)
 
 	temperatureConvDensity = conv.temp_FR(temperatureDensity)
@@ -301,6 +331,8 @@ def ideal_gas(request):
 
 	temperatureConvSV = conv.temp_FR(temperatureSV)
 	specificvolume = igas.v(pressureSV, molarSV, temperatureConvSV)
+
+	specificgravity = igas.Yg(molarGravity, molecularAirSG)
 	
 	context = {
 		'idealGasProperty': idealGasProperty,
@@ -315,5 +347,8 @@ def ideal_gas(request):
 		'pressureSV': pressureSV,
 		'temperatureSV': temperatureSV,
 		'specificvolume': specificvolume,
+		'molarGravity': molarGravity,
+		'molecularAirSG': molecularAirSG,
+		'specificgravity': specificgravity,
 	}
 	return render(request, 'gas/ideal-gas.html', context)

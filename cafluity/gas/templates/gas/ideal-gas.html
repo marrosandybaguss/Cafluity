@@ -185,19 +185,20 @@
                 <input hidden="" type="text" name="idealGasProperty" value="specificgravity">
                 <label for="molarGravity" class="form-label">Molecular Weight</label>
                 <div class="input-group mb-3">
-                  <input required id="molarGravity" type="number" step="0.0000001" class="form-control" name="molarGravity" placeholder="0.7" value="">
+                  <input required id="molarGravity" type="number" step="0.0000001" class="form-control" name="molarGravity" placeholder="0.7" value="{{molarGravity}}">
                   <span class="input-group-text" style="width: 100px">lb/lb-mol</span>
                 </div>
-                <label for="pressure" class="form-label">Molecular Air</label>
+                <label for="molecularAirSG" class="form-label">Molecular Air</label>
                 <div class="input-group mb-3">
-                  <input required id="pressure" type="number" step="0.0000001" class="form-control" name="pressure" placeholder="1000" value="">
+                  <input required id="molecularAirSG" type="number" step="0.0000001" class="form-control" name="molecularAirSG" placeholder="1000" value="{{molecularAirSG}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">lb/lb-mol</span>
                 </div>
                 <div class="col-12 mb-3">
                   <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Specific Gravity</button>
+                  <small style="color: #524e4e; display: block;">The value of molecular weight will be changed to the default</small>
                 </div>
                 <div class="input-group mb-3">
-                  <input disabled="" class="form-control" placeholder="0.9612" value="" style="color: #ed8505; font-weight: bold;">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{specificgravity}}" style="color: #ed8505; font-weight: bold;">
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white"></span>
                 </div>
               </form>
