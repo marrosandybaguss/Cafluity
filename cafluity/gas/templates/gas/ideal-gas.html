@@ -1,0 +1,231 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'gas/css/style.css' %}">
+
+    <title>Cafluity | Ideal Gas</title>
+  </head>
+  <body>
+
+    <div class="container py-1">
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2 bd-highlight">
+          <a class="text-decoration-none" style="color: orange" href="/ideal-gas">Ideal Gas</a>
+        </div>
+        <div class="p-2 bd-highlight">
+          <a class="text-decoration-none" href="/real-gas">Real Gas</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <div class="container py-2">
+        <a class="navbar-brand fs-3" href="/" style="color: orange">Cafluity <span style="color: white">.</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link {% if idealGasProperty == 'molecularweight'%} active {% endif %}" id="molecularweight-tab" data-bs-toggle="pill" data-bs-target="#molecularweight" type="button" role="tab" aria-controls="molecularweight" aria-selected="{% if idealGasProperty == 'molecularweight'%} true {% else %} false {% endif %}">Molecular Weight</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if idealGasProperty == 'density'%} active {% endif %}" id="density-tab" data-bs-toggle="pill" data-bs-target="#density" type="button" role="tab" aria-controls="density" aria-selected="{% if idealGasProperty == 'density'%} true {% else %} false {% endif %}">Density</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if idealGasProperty == 'specificvolume'%} active {% endif %}" id="specificvolume-tab" data-bs-toggle="pill" data-bs-target="#specificvolume" type="button" role="tab" aria-controls="specificvolume" aria-selected="{% if idealGasProperty == 'specificvolume'%} true {% else %} false {% endif %}">Specific Volume</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if idealGasProperty == 'specificgravity'%} active {% endif %}" id="specificgravity-tab" data-bs-toggle="pill" data-bs-target="#specificgravity" type="button" role="tab" aria-controls="specificgravity" aria-selected="{% if idealGasProperty == 'specificgravity'%} true {% else %} false {% endif %}">Specific Gravity</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="tab-content" id="pills-tabContent">
+      
+      <div id="molecularweight" class="tab-pane fade {% if idealGasProperty == 'molecularweight'%} active show {% endif %}" role="tabpanel" aria-labelledby="molecularweight-tab">
+        <div class="container my-5">
+          <div class="row mb-4">
+            <div class="col text-center">
+              <h2>Molecular Weight</h2>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-5 mx-4 mb-5">
+              <form method="post" action="{% url 'ideal_gas' %}">
+                {% csrf_token %}
+                <input hidden="" type="text" name="idealGasProperty" value="molecularweight">
+                <label for="gasGravityMW" class="form-label">Gas Gravity</label>
+                <div class="input-group mb-3">
+                  <input required id="gasGravityMW" type="number" step="0.0000001" class="form-control" name="gasGravityMW" placeholder="0.7" value="{{gasGravityMW}}">
+                  <span class="input-group-text" style="width: 100px"></span>
+                </div>
+                <label for="molecularAirMW" class="form-label">Molecular Air</label>
+                <div class="input-group mb-3">
+                  <input required id="molecularAirMW" type="number" step="0.0000001" class="form-control" name="molecularAirMW" placeholder="1000" value="{{molecularAirMW}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb/lb-mol</span>
+                </div>
+                <div class="col-12 mb-3">
+                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Molecular Weight</button>
+                  <small style="color: #524e4e; display: block;">This value will be automatically assigned to other properties</small>
+                </div>
+                <div class="input-group mb-3">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{molecularWeight}}" style="color: #ed8505; font-weight: bold;">
+                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/lb-mol</span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade {% if idealGasProperty == 'density'%} active show {% endif %}" id="density" role="tabpanel" aria-labelledby="density-tab">
+        <div class="container my-5">
+          <div class="row mb-4">
+            <div class="col text-center">
+              <h2>Density</h2>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-5 mx-4 mb-5">
+              <form method="post" action="{% url 'ideal_gas' %}">
+                {% csrf_token %}
+                <input hidden="" type="text" name="idealGasProperty" value="density">
+                <label for="molarDensity" class="form-label">Molecular Weight</label>
+                <div class="input-group mb-3">
+                  <input required id="molarDensity" type="number" step="0.0000001" class="form-control" name="molarDensity" placeholder="20.272" value="{{molarDensity}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
+                </div>
+                <label for="pressureDensity" class="form-label">Pressure</label>
+                <div class="input-group mb-3">
+                  <input required id="pressureDensity" type="number" step="0.0000001" class="form-control" name="pressureDensity" placeholder="1000" value="{{pressureDensity}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
+                </div>
+                <label for="temperatureDensity" class="form-label">Temperature</label>
+                <div class="input-group mb-3">
+                  <input required id="temperatureDensity" type="number" step="0.0000001" class="form-control" name="temperatureDensity" placeholder="300" value="{{temperatureDensity}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
+                </div>
+                <div class="col mb-3">
+                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Density</button>
+                  <small style="color: #524e4e; display: block;">The value of molecular weight will be changed to the default</small>
+                </div>
+                <div class="input-group mb-3">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{density}}" style="color: #ed8505; font-weight: bold;">
+                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/ft3</span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade {% if idealGasProperty == 'specificvolume'%} active show {% endif %}" id="specificvolume" role="tabpanel" aria-labelledby="specificvolume-tab">
+        <div class="container my-5">
+          <div class="row mb-4">
+            <div class="col text-center">
+              <h2>Specific Volume</h2>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-5 mx-4 mb-5">
+              <form method="post" action="{% url 'ideal_gas' %}">
+                {% csrf_token %}
+                <input hidden="" type="text" name="idealGasProperty" value="specificvolume">
+                <label for="molarSV" class="form-label">Molecular Weight</label>
+                <div class="input-group mb-3">
+                  <input required id="molarSV" type="number" step="0.0000001" class="form-control" name="molarSV" placeholder="20.272" value="{{molarSV}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
+                </div>
+                <label for="pressureSV" class="form-label">Pressure</label>
+                <div class="input-group mb-3">
+                  <input required id="pressureSV" type="number" step="0.0000001" class="form-control" name="pressureSV" placeholder="1000" value="{{pressureSV}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
+                </div>
+                <label for="temperatureSV" class="form-label">Temperature</label>
+                <div class="input-group mb-3">
+                  <input required id="temperatureSV" type="number" step="0.0000001" class="form-control" name="temperatureSV" placeholder="300" value="{{temperatureSV}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
+                </div>
+                <div class="col mb-3">
+                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Specifiv Volume</button>
+                  <small style="color: #524e4e; display: block;">The value of molecular weight will be changed to the default</small>
+                </div>
+                <div class="input-group mb-3">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{specificvolume}}" style="color: #ed8505; font-weight: bold;">
+                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">ft3/lb</span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="specificgravity" class="tab-pane fade {% if idealGasProperty == 'specificgravity'%} active show {% endif %}" role="tabpanel" aria-labelledby="specificgravity-tab">
+        <div class="container my-5">
+          <div class="row mb-4">
+            <div class="col text-center">
+              <h2>Specific Gravity</h2>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-5 mx-4 mb-5">
+              <form method="post" action="{% url 'ideal_gas' %}">
+                {% csrf_token %}
+                <input hidden="" type="text" name="idealGasProperty" value="specificgravity">
+                <label for="molarGravity" class="form-label">Molecular Weight</label>
+                <div class="input-group mb-3">
+                  <input required id="molarGravity" type="number" step="0.0000001" class="form-control" name="molarGravity" placeholder="0.7" value="{{molarGravity}}">
+                  <span class="input-group-text" style="width: 100px">lb/lb-mol</span>
+                </div>
+                <label for="molecularAirSG" class="form-label">Molecular Air</label>
+                <div class="input-group mb-3">
+                  <input required id="molecularAirSG" type="number" step="0.0000001" class="form-control" name="molecularAirSG" placeholder="1000" value="{{molecularAirSG}}">
+                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb/lb-mol</span>
+                </div>
+                <div class="col-12 mb-3">
+                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Specific Gravity</button>
+                  <small style="color: #524e4e; display: block;">The value of molecular weight will be changed to the default</small>
+                </div>
+                <div class="input-group mb-3">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{specificgravity}}" style="color: #ed8505; font-weight: bold;">
+                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white"></span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container py-1">
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2 bd-highlight">
+          <h6 style="color: darkorange">&copy; Copyright 2021 Cafluity.</h6>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script> -->
+    
+  </body>
+</html>
