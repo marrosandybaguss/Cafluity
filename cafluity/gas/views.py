@@ -254,6 +254,10 @@ def ideal_gas(request):
 			molarDensity = igas.Ma(gasGravityMW, molecularAirMW)
 			pressureDensity = 50.0
 			temperatureDensity = 20.0
+
+			molarSV = igas.Ma(gasGravityMW, molecularAirMW)
+			pressureSV = 50.0
+			temperatureSV = 20.0
 		elif idealGasProperty == "density":
 			molarDensity = float(request.POST['molarDensity'])
 			pressureDensity = float(request.POST['pressureDensity'])
@@ -261,6 +265,21 @@ def ideal_gas(request):
 		
 			gasGravityMW = 0.7
 			molecularAirMW = 28.96
+
+			molarSV = 20.272
+			pressureSV = 50.0
+			temperatureSV = 20.0
+		elif idealGasProperty == "specificvolume":
+			molarSV = float(request.POST['molarSV'])
+			pressureSV = float(request.POST['pressureSV'])
+			temperatureSV = float(request.POST['temperatureSV'])
+
+			gasGravityMW = 0.7
+			molecularAirMW = 28.96
+
+			molarDensity = 20.272
+			pressureDensity = 50.0
+			temperatureDensity = 20.0
 	else:
 		idealGasProperty = "molecularweight"
 
@@ -271,10 +290,17 @@ def ideal_gas(request):
 		pressureDensity = 50.0
 		temperatureDensity = 20.0
 
+		molarSV = 20.272
+		pressureSV = 50.0
+		temperatureSV = 20.0
+
 	molecularWeight = igas.Ma(gasGravityMW, molecularAirMW)
 
 	temperatureConvDensity = conv.temp_FR(temperatureDensity)
 	density = igas.rho_g(pressureDensity, molarDensity, temperatureConvDensity)
+
+	temperatureConvSV = conv.temp_FR(temperatureSV)
+	specificvolume = igas.v(pressureSV, molarSV, temperatureConvSV)
 	
 	context = {
 		'idealGasProperty': idealGasProperty,
@@ -285,5 +311,9 @@ def ideal_gas(request):
 		'pressureDensity': pressureDensity,
 		'temperatureDensity': temperatureDensity,
 		'density': density,
+		'molarSV': molarSV,
+		'pressureSV': pressureSV,
+		'temperatureSV': temperatureSV,
+		'specificvolume': specificvolume,
 	}
 	return render(request, 'gas/ideal-gas.html', context)

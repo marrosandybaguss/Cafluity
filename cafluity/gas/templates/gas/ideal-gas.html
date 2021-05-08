@@ -144,25 +144,25 @@
                 <input hidden="" type="text" name="idealGasProperty" value="specificvolume">
                 <label for="molarSV" class="form-label">Molecular Weight</label>
                 <div class="input-group mb-3">
-                  <input required id="molarSV" type="number" step="0.0000001" class="form-control" name="molarSV" placeholder="20.272" value="">
+                  <input required id="molarSV" type="number" step="0.0000001" class="form-control" name="molarSV" placeholder="20.272" value="{{molarSV}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
                 </div>
                 <label for="pressureSV" class="form-label">Pressure</label>
                 <div class="input-group mb-3">
-                  <input required id="pressureSV" type="number" step="0.0000001" class="form-control" name="pressureSV" placeholder="1000" value="">
+                  <input required id="pressureSV" type="number" step="0.0000001" class="form-control" name="pressureSV" placeholder="1000" value="{{pressureSV}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
                 </div>
                 <label for="temperatureSV" class="form-label">Temperature</label>
                 <div class="input-group mb-3">
-                  <input required id="temperatureSV" type="number" step="0.0000001" class="form-control" name="temperatureSV" placeholder="300" value="">
+                  <input required id="temperatureSV" type="number" step="0.0000001" class="form-control" name="temperatureSV" placeholder="300" value="{{temperatureSV}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
                 </div>
                 <div class="col mb-3">
                   <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Specifiv Volume</button>
-                  <small style="color: #524e4e; display: block;">The value of each correlation Z Factor will be returned to the default</small>
+                  <small style="color: #524e4e; display: block;">The value of molecular weight will be changed to the default</small>
                 </div>
                 <div class="input-group mb-3">
-                  <input disabled="" class="form-control" placeholder="0.9612" value="" style="color: #ed8505; font-weight: bold;">
+                  <input disabled="" class="form-control" placeholder="0.9612" value="{{specificvolume}}" style="color: #ed8505; font-weight: bold;">
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">ft3/lb</span>
                 </div>
               </form>
