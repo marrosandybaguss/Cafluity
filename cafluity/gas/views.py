@@ -3,11 +3,12 @@ from django.shortcuts import render
 from .main import base_zfactor as zfac
 from .main import convertion as conv
 from .main import real_gas as rgas
+from .main import ideal_gas as igas
 
-
-def real_gas(request):
+def realgas_var(request):
 	if request.method == "POST":
 		realGasProperty = request.POST['realGasProperty']
+
 		if realGasProperty == "zfactor":
 			Yg = float(request.POST['gas-gravity'])
 			pressure = float(request.POST['pressure'])
@@ -18,12 +19,12 @@ def real_gas(request):
 		
 			pressureDensity = 1000
 			temperatureDensity = 300
-			molarDensity = rgas.Ma(Yg)
+			molarDensity = 20.272
 			zfactorDensity = 0.9612
 
 			pressureSV = 1000
 			temperatureSV = 300
-			molarSV = rgas.Ma(Yg)
+			molarSV = 20.272
 			zfactorSV = 0.9612
 
 		elif realGasProperty == "density":
@@ -41,7 +42,7 @@ def real_gas(request):
 
 			pressureSV = 1000
 			temperatureSV = 300
-			molarSV = rgas.Ma(Yg)
+			molarSV = 20.272
 			zfactorSV = 0.9612
 
 		elif realGasProperty == "specificvolume":
@@ -59,7 +60,7 @@ def real_gas(request):
 
 			pressureDensity = 1000
 			temperatureDensity = 300
-			molarDensity = rgas.Ma(Yg)
+			molarDensity = 20.272
 			zfactorDensity = 0.9612
 	else:
 		realGasProperty = "zfactor"
@@ -73,22 +74,22 @@ def real_gas(request):
 
 		pressureDensity = 1000
 		temperatureDensity = 300
-		molarDensity = rgas.Ma(Yg)
+		molarDensity = 20.272
 		zfactorDensity = 0.9612
 
 		pressureSV = 1000
 		temperatureSV = 300
-		molarSV = rgas.Ma(Yg)
+		molarSV = 20.272
 		zfactorSV = 0.9612
 
-	# Calculate Pseudo Critical
+	return realGasProperty, Yg, pressure, temperature, n2, co2, h2s, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV
+
+def zfactor(Yg, pressure, temperature, n2, co2, h2s):
 	Tpc, ppc = zfac.pseudo_critical(Yg, co2, h2s, n2)
 
-	# Calculate Pseudo Reduced
-	T_conv = conv.temp_FR(temperature)
-	Tpr, ppr = zfac.pseudo_reduced(T_conv, pressure, Tpc, ppc)
+	temperatureConv = conv.temp_FR(temperature)
+	Tpr, ppr = zfac.pseudo_reduced(temperatureConv, pressure, Tpc, ppc)
 
-	# Compressibility Factor Z
 	zDrancuk = rgas.z(Tpr, ppr, "da-k")
 	zHallYarborough = rgas.z(Tpr, ppr, "hy")
 	zBrillBegg = rgas.z(Tpr, ppr, "bb")
@@ -105,73 +106,90 @@ def real_gas(request):
 	heidaryanChart = rgas.z_graph(Tpr, ppr, "hmr")
 	sanjariChart = rgas.z_graph(Tpr, ppr, "sn")
 
-	# Density
-	density = rgas.rho_g(pressureDensity, temperatureDensity, molarDensity, zfactorDensity)
+	return Tpc, ppc, temperatureConv, Tpr, ppr, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari, drancukChart, hallYarboroughChart, brillBeggChart, newExplicitChart, aziziChart, heidaryanChart, sanjariChart
+
+def realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari):
+	temperatureConvDensity = conv.temp_FR(temperatureDensity)
+	density = rgas.rho_g(pressureDensity, temperatureConvDensity, molarDensity, zfactorDensity)
+
 	if zDrancuk != "NULL":
-		densityDrancuk = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zDrancuk)
+		densityDrancuk = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zDrancuk)
 	else:
 		densityDrancuk = "NULL"
 	if zHallYarborough != "NULL":
-		densityHallYarborough = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zHallYarborough)
+		densityHallYarborough = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zHallYarborough)
 	else:
 		densityHallYarborough = "NULL"
 	if zBrillBegg != "NULL":
-		densityBrillBegg = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zBrillBegg)
+		densityBrillBegg = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zBrillBegg)
 	else:
 		densityBrillBegg = "NULL"
 	if zNewExplicit != "NULL":
-		densityNewExplicit = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zNewExplicit)
+		densityNewExplicit = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zNewExplicit)
 	else:
 		densityNewExplicit = "NULL"
 	if zAzizi != "NULL":
-		densityAzizi = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zAzizi)
+		densityAzizi = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zAzizi)
 	else:
 		densityAzizi = "NULL"
 	if zHeidaryan != "NULL":
-		densityHeidaryan = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zHeidaryan)
+		densityHeidaryan = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zHeidaryan)
 	else:
 		densityHeidaryan = "NULL"
 	if zSanjari != "NULL":
-		densitySanjari = rgas.rho_g(pressure, T_conv, rgas.Ma(Yg), zSanjari)
+		densitySanjari = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zSanjari)
 	else:
 		densitySanjari = "NULL"
 
+	return density, densityDrancuk, densityHallYarborough, densityBrillBegg, densityNewExplicit, densityAzizi, densityHeidaryan, densitySanjari
 
-	# Specific Volume
-	specificvolume = rgas.v(pressureSV, temperatureSV, molarSV, zfactorSV)
+def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari):
+	temperatureConvSV = conv.temp_FR(temperatureSV)
+	specificvolume = rgas.v(pressureSV, temperatureConvSV, molarSV, zfactorSV)
+
 	if zDrancuk != "NULL":
-		svDrancuk = rgas.v(pressure, T_conv, rgas.Ma(Yg), zDrancuk)
+		svDrancuk = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zDrancuk)
 	else:
 		svDrancuk = "NULL"
 	if zHallYarborough != "NULL":
-		svHallYarborough = rgas.v(pressure, T_conv, rgas.Ma(Yg), zHallYarborough)
+		svHallYarborough = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zHallYarborough)
 	else:
 		svHallYarborough = "NULL"
 	if zBrillBegg != "NULL":
-		svBrillBegg = rgas.v(pressure, T_conv, rgas.Ma(Yg), zBrillBegg)
+		svBrillBegg = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zBrillBegg)
 	else:
 		svBrillBegg = "NULL"
 	if zNewExplicit != "NULL":
-		svNewExplicit = rgas.v(pressure, T_conv, rgas.Ma(Yg), zNewExplicit)
+		svNewExplicit = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zNewExplicit)
 	else:
 		svNewExplicit = "NULL"
 	if zAzizi != "NULL":
-		svAzizi = rgas.v(pressure, T_conv, rgas.Ma(Yg), zAzizi)
+		svAzizi = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zAzizi)
 	else:
 		svAzizi = "NULL"
 	if zHeidaryan != "NULL":
-		svHeidaryan = rgas.v(pressure, T_conv, rgas.Ma(Yg), zHeidaryan)
+		svHeidaryan = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zHeidaryan)
 	else:
 		svHeidaryan = "NULL"
 	if zSanjari != "NULL":
-		svSanjari = rgas.v(pressure, T_conv, rgas.Ma(Yg), zSanjari)
+		svSanjari = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zSanjari)
 	else:
 		svSanjari = "NULL"
 
+	return specificvolume, svDrancuk, svHallYarborough, svBrillBegg, svNewExplicit, svAzizi, svHeidaryan, svSanjari
 
+def real_gas(request):
+	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
+
+	Tpc, ppc, temperatureConv, Tpr, ppr, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari, drancukChart, hallYarboroughChart, brillBeggChart, newExplicitChart, aziziChart, heidaryanChart, sanjariChart = zfactor(Yg, pressure, temperature, n2, co2, h2s)
+
+	density, densityDrancuk, densityHallYarborough, densityBrillBegg, densityNewExplicit, densityAzizi, densityHeidaryan, densitySanjari = realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari)
+
+	specificvolume, svDrancuk, svHallYarborough, svBrillBegg, svNewExplicit, svAzizi, svHeidaryan, svSanjari = realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari)
+	
 	context = {
-		'title':'Compressibility Factor Z',
 		'realGasProperty': realGasProperty,
+		# zfactor
 		'gasGravity': Yg,
 		'pressure': pressure,
 		'temperature': temperature,
@@ -224,4 +242,123 @@ def real_gas(request):
 		'svSanjari': svSanjari,
 	}
 
-	return render(request, 'gas/index.html', context)
+	return render(request, 'gas/real-gas.html', context)
+
+def idealgas_var(request):
+	if request.method == "POST":
+		idealGasProperty = request.POST['idealGasProperty']
+		if idealGasProperty == "molecularweight":
+			gasGravityMW = float(request.POST['gasGravityMW'])
+			molecularAirMW = float(request.POST['molecularAirMW'])
+		
+			molarDensity = igas.Ma(gasGravityMW, molecularAirMW)
+			pressureDensity = 50.0
+			temperatureDensity = 20.0
+
+			molarSV = igas.Ma(gasGravityMW, molecularAirMW)
+			pressureSV = 50.0
+			temperatureSV = 20.0
+
+			molarGravity = igas.Ma(gasGravityMW, molecularAirMW)
+			molecularAirSG = 28.96
+
+		elif idealGasProperty == "density":
+			molarDensity = float(request.POST['molarDensity'])
+			pressureDensity = float(request.POST['pressureDensity'])
+			temperatureDensity = float(request.POST['temperatureDensity'])
+		
+			gasGravityMW = 0.7
+			molecularAirMW = 28.96
+
+			molarSV = 20.272
+			pressureSV = 50.0
+			temperatureSV = 20.0
+
+			molarGravity = 20.272
+			molecularAirSG = 28.96
+
+		elif idealGasProperty == "specificvolume":
+			molarSV = float(request.POST['molarSV'])
+			pressureSV = float(request.POST['pressureSV'])
+			temperatureSV = float(request.POST['temperatureSV'])
+
+			gasGravityMW = 0.7
+			molecularAirMW = 28.96
+
+			molarDensity = 20.272
+			pressureDensity = 50.0
+			temperatureDensity = 20.0
+
+			molarGravity = 20.272
+			molecularAirSG = 28.96
+
+		elif idealGasProperty == "specificgravity":
+			molarGravity = float(request.POST['molarGravity'])
+			molecularAirSG = float(request.POST['molecularAirSG'])
+
+			gasGravityMW = 0.7
+			molecularAirMW = 28.96
+
+			molarDensity = 20.272
+			pressureDensity = 50.0
+			temperatureDensity = 20.0
+
+			molarSV = 20.272
+			pressureSV = 50.0
+			temperatureSV = 20.0
+
+	else:
+		idealGasProperty = "molecularweight"
+
+		gasGravityMW = 0.7
+		molecularAirMW = 28.96
+
+		molarDensity = 20.272
+		pressureDensity = 50.0
+		temperatureDensity = 20.0
+
+		molarSV = 20.272
+		pressureSV = 50.0
+		temperatureSV = 20.0
+
+		molarGravity = 20.272
+		molecularAirSG = 28.96
+
+	return idealGasProperty, gasGravityMW, molecularAirMW, molarDensity, pressureDensity, temperatureDensity, molarSV, pressureSV, temperatureSV, molarGravity, molecularAirSG
+
+def ideal_gas(request):
+	idealGasProperty, gasGravityMW, molecularAirMW, molarDensity, pressureDensity, temperatureDensity, molarSV, pressureSV, temperatureSV, molarGravity, molecularAirSG = idealgas_var(request)
+
+	molecularWeight = igas.Ma(gasGravityMW, molecularAirMW)
+
+	temperatureConvDensity = conv.temp_FR(temperatureDensity)
+	density = igas.rho_g(pressureDensity, molarDensity, temperatureConvDensity)
+
+	temperatureConvSV = conv.temp_FR(temperatureSV)
+	specificvolume = igas.v(pressureSV, molarSV, temperatureConvSV)
+
+	specificgravity = igas.Yg(molarGravity, molecularAirSG)
+	
+	context = {
+		'idealGasProperty': idealGasProperty,
+		# Molecular Weight
+		'gasGravityMW': gasGravityMW,
+		'molecularAirMW': molecularAirMW,
+		'molecularWeight': molecularWeight,
+		# Density
+		'molarDensity': molarDensity,
+		'pressureDensity': pressureDensity,
+		'temperatureDensity': temperatureDensity,
+		'density': density,
+		# Specific Volume
+		'molarSV': molarSV,
+		'pressureSV': pressureSV,
+		'temperatureSV': temperatureSV,
+		'specificvolume': specificvolume,
+		# Specific Gravity
+		'molarGravity': molarGravity,
+		'molecularAirSG': molecularAirSG,
+		'specificgravity': specificgravity,
+	}
+	
+	return render(request, 'gas/ideal-gas.html', context)
