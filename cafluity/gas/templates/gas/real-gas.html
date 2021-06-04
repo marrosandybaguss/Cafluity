@@ -54,50 +54,112 @@
         <div class="container my-5">
           <div class="row mb-4">
             <div class="col text-center">
-              <h2>Compressibility Factor Z</h2>
+              <h3>Compressibility Factor Z</h3>
             </div>
           </div>
-          <div class="row">
-            <div class="col mx-4 mb-5">
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-5 mb-5 px-4">
               <form method="post" action="{% url 'real_gas' %}">
                 {% csrf_token %}
                 <input hidden="" type="text" name="realGasProperty" value="zfactor">
                 <label for="gas-gravity" class="form-label">Gas Gravity</label>
                 <div class="input-group mb-3">
                   <input required id="gas-gravity" type="number" step="0.0000001" class="form-control" name="gas-gravity" placeholder="0.7" value="{{gasGravity}}">
-                  <span class="input-group-text" style="width: 70px"></span>
+                  <span class="input-group-text" style="width: 80px"></span>
                 </div>
                 <label for="pressure" class="form-label">Pressure</label>
                 <div class="input-group mb-3">
                   <input required id="pressure" type="number" step="0.0000001" class="form-control" name="pressure" placeholder="1000" value="{{pressure}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">PSIA</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">PSIA</span>
                 </div>
                 <label for="temperature" class="form-label">Temperature</label>
                 <div class="input-group mb-3">
                   <input required id="temperature" type="number" step="0.0000001" class="form-control" name="temperature" placeholder="300" value="{{temperature}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">&#xb0;F</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">&#xb0;F</span>
                 </div>
                 <label for="nitrogen" class="form-label">Nitrogen</label>
                 <div class="input-group mb-3">
                   <input required id="nitrogen" type="number" step="0.0000001" class="form-control" name="nitrogen" placeholder="3.0" value="{{nitrogen}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">Mol &#x25;</span>
                 </div>
                 <label for="carbon-dioxide" class="form-label">Carbon Dioxide</label>
                 <div class="input-group mb-3">
                   <input required id="carbon-dioxide" type="number" step="0.0000001" class="form-control" name="carbon-dioxide" placeholder="6.0" value="{{carbonDioxide}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">Mol &#x25;</span>
                 </div>
                 <label for="hydrogen-sulfide" class="form-label">Hydrogen Sulfide</label>
                 <div class="input-group mb-3">
                   <input required id="hydrogen-sulfide" type="number" step="0.0000001" class="form-control" name="hydrogen-sulfide" placeholder="4.0" value="{{hydrogenSulfide}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">Mol &#x25;</span>
                 </div>
-                <div class="col-12">
+                <div class="btn-group dropend mb-3">
+                  <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white;">
+                    Choose Z Factor Correlations
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Azizi Behbahani Isazadeh 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Brill Begg 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Drancuk-Abou Kassem 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Hall Yarbrough 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Heidaryan 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        New Explicit Z Factor Correlation
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Sanjari
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+                <div>
                   <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Z Factor</button>
                 </div>
               </form>
             </div>
-            <div class="col mx-4">
+          </div>
+          <div class="row mb-4 mt-3">
+            <div class="col text-center">
+              <h3>Results</h3>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-7 px-4">
               <p>Sutton's correlations along with Wichert and Aziz corrections are used to calculate pseudo critical temperature and pressure for the natural gas mixture.</p>
               <table class="table table-borderless">
                 <tbody>
@@ -160,7 +222,7 @@
             </div>
           </div>
         </div>
-        <div class="container my-5">
+        <div class="container">
           <div class="row mb-3">
             <div class="col text-center">
               <h3>Graph</h3>
