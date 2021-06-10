@@ -16,6 +16,14 @@ def realgas_var(request):
 			n2 = float(request.POST['nitrogen'])
 			co2 = float(request.POST['carbon-dioxide'])
 			h2s = float(request.POST['hydrogen-sulfide'])
+			abiCorrelation = request.POST['abiCorrelation']
+			bbCorrelation = request.POST['bbCorrelation']
+			dakCorrelation = request.POST['da-kCorrelation']
+			hyCorrelation = request.POST['hyCorrelation']
+			hmrCorrelation = request.POST['hmrCorrelation']
+			neCorrelation = request.POST['neCorrelation']
+			snCorrelation = request.POST['snCorrelation']
+			correlation = [abiCorrelation, bbCorrelation, dakCorrelation, hyCorrelation, hmrCorrelation,  neCorrelation, snCorrelation]
 		
 			pressureDensity = 1000
 			temperatureDensity = 300
@@ -39,6 +47,7 @@ def realgas_var(request):
 			n2 = 3.0
 			co2 = 6.0
 			h2s = 4.0
+			correlation = []
 
 			pressureSV = 1000
 			temperatureSV = 300
@@ -57,6 +66,7 @@ def realgas_var(request):
 			n2 = 3.0
 			co2 = 6.0
 			h2s = 4.0
+			correlation = []
 
 			pressureDensity = 1000
 			temperatureDensity = 300
@@ -71,6 +81,7 @@ def realgas_var(request):
 		n2 = 3.0
 		co2 = 6.0
 		h2s = 4.0
+		correlation = []
 
 		pressureDensity = 1000
 		temperatureDensity = 300
@@ -82,7 +93,7 @@ def realgas_var(request):
 		molarSV = 20.272
 		zfactorSV = 0.9612
 
-	return realGasProperty, Yg, pressure, temperature, n2, co2, h2s, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV
+	return realGasProperty, Yg, pressure, temperature, n2, co2, h2s, correlation, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV
 
 def zfactor(Yg, pressure, temperature, n2, co2, h2s):
 	Tpc, ppc = zfac.pseudo_critical(Yg, co2, h2s, n2)
@@ -179,7 +190,7 @@ def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressu
 	return specificvolume, svDrancuk, svHallYarborough, svBrillBegg, svNewExplicit, svAzizi, svHeidaryan, svSanjari
 
 def real_gas(request):
-	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
+	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, correlation, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
 
 	Tpc, ppc, temperatureConv, Tpr, ppr, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari, drancukChart, hallYarboroughChart, brillBeggChart, newExplicitChart, aziziChart, heidaryanChart, sanjariChart = zfactor(Yg, pressure, temperature, n2, co2, h2s)
 
@@ -214,6 +225,7 @@ def real_gas(request):
 		'aziziChart': aziziChart,
 		'heidaryanChart': heidaryanChart,
 		'sanjariChart': sanjariChart,
+		'correlation': correlation,
 		# Density
 		'pressureDensity': pressureDensity,
 		'temperatureDensity': temperatureDensity,

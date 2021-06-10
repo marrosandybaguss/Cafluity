@@ -98,50 +98,57 @@
                   </button>
                   <ul class="dropdown-menu">
                     <li class="form-check" style="margin: 0 10px;">
-                      <input class="form-check-input" name="correlation" type="checkbox" value="abi" id="abi" checked>
+                      <input class="form-check-input" name="abiCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="abiCorrelation" type="checkbox" value="abi" id="abi" checked>
                       <label class="form-check-label" for="abi">
                         Azizi Behbahani Isazadeh 
                       </label>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
-                      <input class="form-check-input" name="correlation" type="checkbox" value="bb" id="bb">
+                      <input class="form-check-input" name="bbCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="bbCorrelation" type="checkbox" value="bb" id="bb">
                       <label class="form-check-label" for="bb">
                         Brill Begg 
                       </label>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
-                      <input class="form-check-input" name="correlation" type="checkbox" value="da-k" id="da-k">
+                      <input class="form-check-input" name="da-kCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="da-kCorrelation" type="checkbox" value="da-k" id="da-k">
                       <label class="form-check-label" for="da-k">
                         Drancuk-Abou Kassem 
                       </label>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
-                      <input class="form-check-input" name="correlation" type="checkbox" value="" id="flexCheckChecked">
-                      <label class="form-check-label" for="flexCheckChecked">
+                      <input class="form-check-input" name="hyCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="hyCorrelation" type="checkbox" value="hy" id="hy">
+                      <label class="form-check-label" for="hy">
                         Hall Yarbrough 
                       </label>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
-                      <input class="form-check-input" name="correlation" type="checkbox" value="" id="flexCheckChecked">
-                      <label class="form-check-label" for="flexCheckChecked">
+                      <input class="form-check-input" name="hmrCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="hmrCorrelation" type="checkbox" value="hmr" id="hmr">
+                      <label class="form-check-label" for="hmr">
                         Heidaryan 
                       </label>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
-                      <input class="form-check-input" name="correlation" type="checkbox" value="" id="flexCheckChecked">
-                      <label class="form-check-label" for="flexCheckChecked">
+                      <input class="form-check-input" name="neCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="neCorrelation" type="checkbox" value="ne" id="ne">
+                      <label class="form-check-label" for="ne">
                         New Explicit Z Factor Correlation
                       </label>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
-                      <input class="form-check-input" name="correlation" type="checkbox" value="" id="flexCheckChecked">
-                      <label class="form-check-label" for="flexCheckChecked">
+                      <input class="form-check-input" name="snCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="snCorrelation" type="checkbox" value="sn" id="sn">
+                      <label class="form-check-label" for="sn">
                         Sanjari
                       </label>
                     </li>
@@ -184,38 +191,47 @@
                   </tr>
                 </tbody>
               </table>
-              <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with several correlations.</p>
+              <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with selected correlations.</p>
               <table class="table table-borderless">
                 <tbody>
-                  <tr>
-                    <td>Azizi Behbahani Isazadeh's Z  Factor Correlation</td>
-                    <td><strong>{{zAzizi}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Brill Begg's Z Factor Correlation</td>
-                    <td><strong>{{zBrillBegg}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Drancuk-Abou Kassem's Z Factor Correlation</td>
-                    <td><strong>{{zDrancuk}}</strong></td>
-                  </tr>
-                  <tr>
-                  <tr>
-                    <td>Hall Yarbrough's Z Factor Correlation</td>
-                    <td><strong>{{zHallYarborough}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Heidaryan's Z Factor Correlation</td>
-                    <td><strong>{{zHeidaryan}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>New Explicit Z Factor Correlation</td>
-                    <td><strong>{{zNewExplicit}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Sanjari's Z Factor Correlation</td>
-                    <td><strong>{{zSanjari}}</strong></td>
-                  </tr>
+                  {% for data in correlation %}
+                    {% if data == "abi" %}
+                    <tr>
+                      <td>Azizi Behbahani Isazadeh's Z  Factor Correlation</td>
+                      <td><strong>{{zAzizi}}</strong></td>
+                    </tr>
+                    {% elif data == "bb" %}
+                    <tr>
+                      <td>Brill Begg's Z Factor Correlation</td>
+                      <td><strong>{{zBrillBegg}}</strong></td>
+                    </tr>
+                    {% elif data == "da-k" %}
+                    <tr>
+                      <td>Drancuk-Abou Kassem's Z Factor Correlation</td>
+                      <td><strong>{{zDrancuk}}</strong></td>
+                    </tr>
+                    {% elif data == "hy" %}
+                    <tr>
+                      <td>Hall Yarbrough's Z Factor Correlation</td>
+                      <td><strong>{{zHallYarborough}}</strong></td>
+                    </tr>
+                    {% elif data == "hmr" %}
+                    <tr>
+                      <td>Heidaryan's Z Factor Correlation</td>
+                      <td><strong>{{zHeidaryan}}</strong></td>
+                    </tr>
+                    {% elif data == "ne" %}
+                    <tr>
+                      <td>New Explicit Z Factor Correlation</td>
+                      <td><strong>{{zNewExplicit}}</strong></td>
+                    </tr>
+                    {% elif data == "sn" %}
+                    <tr>
+                      <td>Sanjari's Z Factor Correlation</td>
+                      <td><strong>{{zSanjari}}</strong></td>
+                    </tr>
+                    {% endif %}
+                  {% endfor %}
                 </tbody>
               </table>
               <p>If the result obtained is NULL, it means that the data provided is outside the correlation range</p>
@@ -225,7 +241,7 @@
         <div class="container">
           <div class="row mb-3">
             <div class="col text-center">
-              <h3>Graph</h3>
+              <h3>Graph</h3>    
             </div>
           </div>
           <div class="row">
