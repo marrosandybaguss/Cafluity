@@ -47,7 +47,7 @@ def realgas_var(request):
 			n2 = 3.0
 			co2 = 6.0
 			h2s = 4.0
-			correlation = []
+			correlation = ["da-k", "hy"]
 
 			pressureSV = 1000
 			temperatureSV = 300
@@ -66,7 +66,7 @@ def realgas_var(request):
 			n2 = 3.0
 			co2 = 6.0
 			h2s = 4.0
-			correlation = []
+			correlation = ["da-k", "hy"]
 
 			pressureDensity = 1000
 			temperatureDensity = 300
@@ -81,7 +81,7 @@ def realgas_var(request):
 		n2 = 3.0
 		co2 = 6.0
 		h2s = 4.0
-		correlation = []
+		correlation = ["da-k", "hy"]
 
 		pressureDensity = 1000
 		temperatureDensity = 300
@@ -95,7 +95,7 @@ def realgas_var(request):
 
 	return realGasProperty, Yg, pressure, temperature, n2, co2, h2s, correlation, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV
 
-def zfactor(Yg, pressure, temperature, n2, co2, h2s):
+def realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s):
 	Tpc, ppc = zfac.pseudo_critical(Yg, co2, h2s, n2)
 
 	temperatureConv = conv.temp_FR(temperature)
@@ -192,7 +192,7 @@ def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressu
 def real_gas(request):
 	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, correlation, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
 
-	Tpc, ppc, temperatureConv, Tpr, ppr, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari, drancukChart, hallYarboroughChart, brillBeggChart, newExplicitChart, aziziChart, heidaryanChart, sanjariChart = zfactor(Yg, pressure, temperature, n2, co2, h2s)
+	Tpc, ppc, temperatureConv, Tpr, ppr, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari, drancukChart, hallYarboroughChart, brillBeggChart, newExplicitChart, aziziChart, heidaryanChart, sanjariChart = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
 
 	density, densityDrancuk, densityHallYarborough, densityBrillBegg, densityNewExplicit, densityAzizi, densityHeidaryan, densitySanjari = realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari)
 
