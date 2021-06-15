@@ -200,57 +200,17 @@
               <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with selected correlations.</p>
               <table class="table table-borderless">
                 <tbody>
-                  {% for data in correlation %}
-                    {% if data == "abi" %}
-                      {% if zAzizi != "NULL" %}
-                      <tr>
-                        <td>Azizi Behbahani Isazadeh's Z  Factor Correlation</td>
-                        <td><strong>{{zAzizi}}</strong></td>
-                      </tr>
+                  {% for zfactor in zfactors %}
+                  <tr>
+                    {% for key, value in zfactor.items %}
+                      {% if key == "name" %}
+                      <td>{{ value }}</td>
                       {% endif %}
-                    {% elif data == "bb" %}
-                      {% if zBrillBegg != "NULL" %}
-                      <tr>
-                        <td>Brill Begg's Z Factor Correlation</td>
-                        <td><strong>{{zBrillBegg}}</strong></td>
-                      </tr>
+                      {% if key == "zfactor" %}
+                      <td><strong>{{ value }}</strong></td>
                       {% endif %}
-                    {% elif data == "da-k" %}
-                      {% if zDrancuk != "NULL" %}
-                      <tr>
-                        <td>Drancuk-Abou Kassem's Z Factor Correlation</td>
-                        <td><strong>{{zDrancuk}}</strong></td>
-                      </tr>
-                      {% endif %}
-                    {% elif data == "hy" %}
-                      {% if zHallYarborough != "NULL" %}
-                      <tr>
-                        <td>Hall Yarbrough's Z Factor Correlation</td>
-                        <td><strong>{{zHallYarborough}}</strong></td>
-                      </tr>
-                      {% endif %}
-                    {% elif data == "hmr" %}
-                      {% if zHeidaryan != "NULL" %}
-                      <tr>
-                        <td>Heidaryan's Z Factor Correlation</td>
-                        <td><strong>{{zHeidaryan}}</strong></td>
-                      </tr>
-                      {% endif %}
-                    {% elif data == "ne" %}
-                      {% if zNewExplicit != "NULL" %}
-                      <tr>
-                        <td>New Explicit Z Factor Correlation</td>
-                        <td><strong>{{zNewExplicit}}</strong></td>
-                      </tr>
-                      {% endif %}
-                    {% elif data == "sn" %}
-                      {% if zSanjari != "NULL" %}
-                      <tr>
-                        <td>Sanjari's Z Factor Correlation</td>
-                        <td><strong>{{zSanjari}}</strong></td>
-                      </tr>
-                      {% endif %}
-                    {% endif %}
+                    {% endfor %}
+                  </tr>
                   {% endfor %}
                 </tbody>
               </table>
@@ -265,80 +225,14 @@
             </div>
           </div>
           <div class="row">
-            {% for data in correlation %}
-              {% if data == "abi" %}
-                {% if zAzizi != "NULL" %}
-                <div class="col-sm-6 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                      <!-- <h5 class="card-title">New Explicit Graph</h5>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-                    </div>
-                    <img src="data:img/png;base64, {{aziziChart|safe}}" class="card-img-bottom">
-                  </div>
+            {% for zfactorGraph in zfactorGraphs %}
+            <div class="col-sm-6 mb-3">
+              <div class="card">
+                <div class="card-body">
                 </div>
-                {% endif %}
-              {% elif data == "bb" %}
-                {% if zBrillBegg != "NULL" %}
-                <div class="col-sm-6 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                    </div>
-                    <img src="data:img/png;base64, {{brillBeggChart|safe}}" class="card-img-bottom">
-                  </div>
-                </div>
-                {% endif %}
-              {% elif data == "da-k" %}
-                {% if zDrancuk != "NULL" %}
-                <div class="col-sm-6 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                    </div>
-                    <img src="data:img/png;base64, {{drancukChart|safe}}" class="card-img-bottom">
-                  </div>
-                </div>
-                {% endif %}
-              {% elif data == "hy" %}
-                {% if zHallYarborough != "NULL" %}
-                <div class="col-sm-6 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                    </div>
-                    <img src="data:img/png;base64, {{hallYarboroughChart|safe}}" class="card-img-bottom">
-                  </div>
-                </div>
-                {% endif %}
-              {% elif data == "hmr" %}
-                {% if zHeidaryan != "NULL" %}
-                <div class="col-sm-6 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                    </div>
-                    <img src="data:img/png;base64, {{heidaryanChart|safe}}" class="card-img-bottom">
-                  </div>
-                </div>
-                {% endif %}
-              {% elif data == "ne" %}
-                {% if zNewExplicit != "NULL" %}
-                <div class="col-sm-6 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                    </div>
-                    <img src="data:img/png;base64, {{newExplicitChart|safe}}" class="card-img-bottom">
-                  </div>
-                </div>
-                {% endif %}
-              {% elif data == "sn" %}
-                {% if zSanjari != "NULL" %}
-                <div class="col-sm-6 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                    </div>
-                    <img src="data:img/png;base64, {{sanjariChart|safe}}" class="card-img-bottom">
-                  </div>
-                </div>
-                {% endif %}
-              {% endif %}
+                <img src="data:img/png;base64, {{zfactorGraph|safe}}" class="card-img-bottom">
+              </div>
+            </div>
             {% endfor %}
           </div>
         </div>
@@ -387,41 +281,23 @@
               </form>
             </div>
             <div class="col mx-4">
-              <p> The following is the <strong>density value</strong> in <i>lb/ft3 unit</i> based on the z factor value for each correlation</p>
+              <p> The following is the <strong>density value</strong> in <i>lb/ft3 unit</i> based on the z factor value for selected correlation</p>
               <table class="table table-borderless">
                 <tbody>
+                  {% for density in correlationDensities %}
                   <tr>
-                    <td>Azizi Behbahani Isazadeh Correlation</td>
-                    <td><strong>{{densityAzizi}}</strong></td>
+                    {% for key, value in density.items %}
+                      {% if key == "name" %}
+                      <td>{{ value }}</td>
+                      {% endif %}
+                      {% if key == "density" %}
+                      <td><strong>{{ value }}</strong></td>
+                      {% endif %}
+                    {% endfor %}
                   </tr>
-                  <tr>
-                    <td>Brill Begg Correlation</td>
-                    <td><strong>{{densityBrillBegg}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Drancuk-Abou Kassem Correlation</td>
-                    <td><strong>{{densityDrancuk}}</strong></td>
-                  </tr>
-                  <tr>
-                  <tr>
-                    <td>Hall Yarbrough Correlation</td>
-                    <td><strong>{{densityHallYarborough}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Heidaryan Correlation</td>
-                    <td><strong>{{densityHeidaryan}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>New Explicit Correlation</td>
-                    <td><strong>{{densityNewExplicit}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Sanjari Correlation</td>
-                    <td><strong>{{densitySanjari}}</strong></td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
-              <p>If the result obtained is NULL, it means that the z factor value in the correlation is NULL</p>
             </div>
           </div>
         </div>
@@ -470,41 +346,23 @@
               </form>
             </div>
             <div class="col mx-4">
-              <p> The following is the <strong>specific volume value</strong> in <i>ft3/lb unit</i> based on the z factor value for each correlation</p>
+              <p> The following is the <strong>specific volume value</strong> in <i>ft3/lb unit</i> based on the z factor value for selected correlation</p>
               <table class="table table-borderless">
                 <tbody>
+                  {% for specificvolume in correlationSpecificvolumes %}
                   <tr>
-                    <td>Azizi Behbahani Isazadeh Correlation</td>
-                    <td><strong>{{svAzizi}}</strong></td>
+                    {% for key, value in specificvolume.items %}
+                      {% if key == "name" %}
+                      <td>{{ value }}</td>
+                      {% endif %}
+                      {% if key == "specificvolume" %}
+                      <td><strong>{{ value }}</strong></td>
+                      {% endif %}
+                    {% endfor %}
                   </tr>
-                  <tr>
-                    <td>Brill Begg Correlation</td>
-                    <td><strong>{{svBrillBegg}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Drancuk-Abou Kassem Correlation</td>
-                    <td><strong>{{svDrancuk}}</strong></td>
-                  </tr>
-                  <tr>
-                  <tr>
-                    <td>Hall Yarbrough Correlation</td>
-                    <td><strong>{{svHallYarborough}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Heidaryan Correlation</td>
-                    <td><strong>{{svHeidaryan}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>New Explicit Correlation</td>
-                    <td><strong>{{svNewExplicit}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Sanjari Correlation</td>
-                    <td><strong>{{svSanjari}}</strong></td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
-              <p>If the result obtained is NULL, it means that the z factor value in the correlation is NULL</p>
             </div>
           </div>
         </div>

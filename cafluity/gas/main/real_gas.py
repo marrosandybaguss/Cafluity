@@ -32,42 +32,42 @@ def v(p = 1, T = 1, Ma = 1, z = 1):
 
 # z gas factor
 def z(Tpr, ppr, zcorrelation = "da-k"):
-
+	
 	if zcorrelation == "da-k":
-		# Drancuk & Abou-Kassem
+		name = "Drancuk & Abou-Kassem's Z Factor Correlation"
 		e_tol = 0.00000001
 		x0 = 0.3
 		y = newton_rapson(e_tol, x0, Tpr, ppr, da.func_y, da.dev_func_y)
 		z = da.z_factor(y, Tpr, ppr)
 
 	elif zcorrelation == "hy":
-		# Hall & Yarborough
+		name = "Hall & Yarborough's Z Factor Correlation"
 		e_tol = 0.00000001
 		x0 = 0
 		y = newton_rapson(e_tol, x0, Tpr, ppr, hy.func_y, hy.dev_func_y)
 		z = hy.z_factor(y, Tpr, ppr)
 
 	elif zcorrelation == "abi":
-		# Azizi, Behbahani, & Isazadeh
+		name = "Azizi, Behbahani, & Isazadeh's Z Factor Correlation"
 		z = abi.z_factor(Tpr, ppr)
 
 	elif zcorrelation == "bb":
-		# Brill & Begg
+		name = "Brill & Begg's Z Factor Correlation"
 		z = bb.z_factor(Tpr, ppr)
 
 	elif zcorrelation == "hmr":
-		# Heidaryan, Moghdasi, & Rahimi
+		name = "Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation"
 		z = hmr.z_factor(Tpr, ppr)
 
 	elif zcorrelation == "sn":
-		# Sanjiri & Nemati
+		name = "Sanjiri & Nemati's Z Factor Correlation"
 		z = sn.z_factor(Tpr, ppr)
 
 	elif zcorrelation == "ne":
-		# New Explicit
+		name = "New Explicit Z Factor Correlation"
 		z = ne.z_factor(Tpr, ppr)
 
-	return z
+	return name, z
 
 def z_graph(Tpr, ppr, zcorrelation = "da-k"):
 	if zcorrelation == "da-k":

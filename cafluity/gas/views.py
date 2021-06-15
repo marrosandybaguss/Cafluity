@@ -23,7 +23,21 @@ def realgas_var(request):
 			hmrCorrelation = request.POST['hmrCorrelation']
 			neCorrelation = request.POST['neCorrelation']
 			snCorrelation = request.POST['snCorrelation']
-			correlation = [abiCorrelation, bbCorrelation, dakCorrelation, hyCorrelation, hmrCorrelation,  neCorrelation, snCorrelation]
+			correlation = []
+			if abiCorrelation != "false":
+				correlation.append(abiCorrelation)
+			if bbCorrelation != "false":
+				correlation.append(bbCorrelation)
+			if dakCorrelation != "false":
+				correlation.append(dakCorrelation)
+			if hyCorrelation != "false":
+				correlation.append(hyCorrelation)
+			if hmrCorrelation != "false":
+				correlation.append(hmrCorrelation)
+			if neCorrelation != "false":
+				correlation.append(neCorrelation)
+			if snCorrelation != "false":
+				correlation.append(snCorrelation)
 		
 			pressureDensity = 1000
 			temperatureDensity = 300
@@ -72,6 +86,7 @@ def realgas_var(request):
 			temperatureDensity = 300
 			molarDensity = 20.272
 			zfactorDensity = 0.9612
+	
 	else:
 		realGasProperty = "zfactor"
 
@@ -100,103 +115,45 @@ def realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s):
 
 	temperatureConv = conv.temp_FR(temperature)
 	Tpr, ppr = zfac.pseudo_reduced(temperatureConv, pressure, Tpc, ppc)
+	zfactors = []
+	zfactorGraphs = []
 
-	zDrancuk = rgas.z(Tpr, ppr, "da-k")
-	zHallYarborough = rgas.z(Tpr, ppr, "hy")
-	zBrillBegg = rgas.z(Tpr, ppr, "bb")
-	zNewExplicit = rgas.z(Tpr, ppr, "ne")
-	zAzizi = rgas.z(Tpr, ppr, "abi")
-	zHeidaryan = rgas.z(Tpr, ppr, "hmr")
-	zSanjari = rgas.z(Tpr, ppr, "sn")
+	for corr in correlation:
+		name, zfactor = rgas.z(Tpr, ppr, corr)
+		if zfactor != "NULL":
+			zfactors.append({"name": name, "zfactor": zfactor})
+			zfactorGraphs.append(rgas.z_graph(Tpr, ppr, corr))
 
-	drancukChart = rgas.z_graph(Tpr, ppr, "da-k")
-	hallYarboroughChart = rgas.z_graph(Tpr, ppr, "hy")
-	brillBeggChart = rgas.z_graph(Tpr, ppr, "bb")
-	newExplicitChart = rgas.z_graph(Tpr, ppr, "ne")
-	aziziChart = rgas.z_graph(Tpr, ppr, "abi")
-	heidaryanChart = rgas.z_graph(Tpr, ppr, "hmr")
-	sanjariChart = rgas.z_graph(Tpr, ppr, "sn")
+	return Tpc, ppc, temperatureConv, Tpr, ppr, zfactors, zfactorGraphs
 
-	return Tpc, ppc, temperatureConv, Tpr, ppr, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari, drancukChart, hallYarboroughChart, brillBeggChart, newExplicitChart, aziziChart, heidaryanChart, sanjariChart
-
-def realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari):
+def realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zfactors):
 	temperatureConvDensity = conv.temp_FR(temperatureDensity)
 	density = rgas.rho_g(pressureDensity, temperatureConvDensity, molarDensity, zfactorDensity)
+	correlationDensities = []
 
-	if zDrancuk != "NULL":
-		densityDrancuk = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zDrancuk)
-	else:
-		densityDrancuk = "NULL"
-	if zHallYarborough != "NULL":
-		densityHallYarborough = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zHallYarborough)
-	else:
-		densityHallYarborough = "NULL"
-	if zBrillBegg != "NULL":
-		densityBrillBegg = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zBrillBegg)
-	else:
-		densityBrillBegg = "NULL"
-	if zNewExplicit != "NULL":
-		densityNewExplicit = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zNewExplicit)
-	else:
-		densityNewExplicit = "NULL"
-	if zAzizi != "NULL":
-		densityAzizi = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zAzizi)
-	else:
-		densityAzizi = "NULL"
-	if zHeidaryan != "NULL":
-		densityHeidaryan = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zHeidaryan)
-	else:
-		densityHeidaryan = "NULL"
-	if zSanjari != "NULL":
-		densitySanjari = rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), zSanjari)
-	else:
-		densitySanjari = "NULL"
+	for z in zfactors:
+		correlationDensities.append({"name": z["name"], "density": rgas.rho_g(pressure, temperatureConv, rgas.Ma(Yg), z["zfactor"])})
 
-	return density, densityDrancuk, densityHallYarborough, densityBrillBegg, densityNewExplicit, densityAzizi, densityHeidaryan, densitySanjari
+	return density, correlationDensities
 
-def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari):
+def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zfactors):
 	temperatureConvSV = conv.temp_FR(temperatureSV)
 	specificvolume = rgas.v(pressureSV, temperatureConvSV, molarSV, zfactorSV)
+	correlationSpecificvolumes = []
 
-	if zDrancuk != "NULL":
-		svDrancuk = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zDrancuk)
-	else:
-		svDrancuk = "NULL"
-	if zHallYarborough != "NULL":
-		svHallYarborough = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zHallYarborough)
-	else:
-		svHallYarborough = "NULL"
-	if zBrillBegg != "NULL":
-		svBrillBegg = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zBrillBegg)
-	else:
-		svBrillBegg = "NULL"
-	if zNewExplicit != "NULL":
-		svNewExplicit = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zNewExplicit)
-	else:
-		svNewExplicit = "NULL"
-	if zAzizi != "NULL":
-		svAzizi = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zAzizi)
-	else:
-		svAzizi = "NULL"
-	if zHeidaryan != "NULL":
-		svHeidaryan = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zHeidaryan)
-	else:
-		svHeidaryan = "NULL"
-	if zSanjari != "NULL":
-		svSanjari = rgas.v(pressure, temperatureConv, rgas.Ma(Yg), zSanjari)
-	else:
-		svSanjari = "NULL"
+	for z in zfactors:
+		correlationSpecificvolumes.append({"name": z["name"], "specificvolume": rgas.v(pressure, temperatureConv, rgas.Ma(Yg), z["zfactor"])})
 
-	return specificvolume, svDrancuk, svHallYarborough, svBrillBegg, svNewExplicit, svAzizi, svHeidaryan, svSanjari
+	return specificvolume, correlationSpecificvolumes
 
 def real_gas(request):
 	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, correlation, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
 
-	Tpc, ppc, temperatureConv, Tpr, ppr, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari, drancukChart, hallYarboroughChart, brillBeggChart, newExplicitChart, aziziChart, heidaryanChart, sanjariChart = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
+	Tpc, ppc, temperatureConv, Tpr, ppr, zfactors, zfactorGraphs = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
 
-	density, densityDrancuk, densityHallYarborough, densityBrillBegg, densityNewExplicit, densityAzizi, densityHeidaryan, densitySanjari = realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari)
+	density, correlationDensities = realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zfactors)
 
-	specificvolume, svDrancuk, svHallYarborough, svBrillBegg, svNewExplicit, svAzizi, svHeidaryan, svSanjari = realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zDrancuk, zHallYarborough, zBrillBegg, zNewExplicit, zAzizi, zHeidaryan, zSanjari)
+	specificvolume, correlationSpecificvolumes = realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressure, temperatureConv, Yg, zfactors)
 	
 	context = {
 		'realGasProperty': realGasProperty,
@@ -211,47 +168,23 @@ def real_gas(request):
 		'ppc': ppc,
 		'Tpr': Tpr,
 		'ppr': ppr,
-		'zDrancuk': zDrancuk,
-		'zHallYarborough': zHallYarborough,
-		'zBrillBegg': zBrillBegg,
-		'zNewExplicit': zNewExplicit,
-		'zAzizi': zAzizi,
-		'zHeidaryan': zHeidaryan,
-		'zSanjari': zSanjari,
-		'drancukChart': drancukChart,
-		'hallYarboroughChart': hallYarboroughChart,
-		'brillBeggChart': brillBeggChart,
-		'newExplicitChart': newExplicitChart,
-		'aziziChart': aziziChart,
-		'heidaryanChart': heidaryanChart,
-		'sanjariChart': sanjariChart,
 		'correlation': correlation,
+		'zfactors': zfactors,
+		'zfactorGraphs': zfactorGraphs,
 		# Density
 		'pressureDensity': pressureDensity,
 		'temperatureDensity': temperatureDensity,
 		'molarDensity': molarDensity,
 		'zfactorDensity': zfactorDensity,
 		'density': density,
-		'densityDrancuk': densityDrancuk,
-		'densityHallYarborough': densityHallYarborough,
-		'densityBrillBegg': densityBrillBegg,
-		'densityNewExplicit': densityNewExplicit,
-		'densityAzizi': densityAzizi,
-		'densityHeidaryan': densityHeidaryan,
-		'densitySanjari': densitySanjari,
+		'correlationDensities': correlationDensities,
 		# Specific Volume
 		'pressureSV': pressureSV,
 		'temperatureSV': temperatureSV,
 		'molarSV': molarSV,
 		'zfactorSV': zfactorSV,
 		'specificvolume': specificvolume,
-		'svDrancuk': svDrancuk,
-		'svHallYarborough': svHallYarborough,
-		'svBrillBegg': svBrillBegg,
-		'svNewExplicit': svNewExplicit,
-		'svAzizi': svAzizi,
-		'svHeidaryan': svHeidaryan,
-		'svSanjari': svSanjari,
+		'correlationSpecificvolumes': correlationSpecificvolumes,
 	}
 
 	return render(request, 'gas/real-gas.html', context)
