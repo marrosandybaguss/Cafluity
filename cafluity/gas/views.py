@@ -117,6 +117,7 @@ def realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s):
 	Tpr, ppr = zfac.pseudo_reduced(temperatureConv, pressure, Tpc, ppc)
 	zfactors = []
 	zfactorGraphs = []
+	boundaryBool = 	1
 	boundaries = []
 
 	for corr in correlation:
@@ -125,12 +126,14 @@ def realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s):
 			zfactors.append({"name": name, "zfactor": zfactor})
 			zfactorGraphs.append(rgas.z_graph(Tpr, ppr, corr))
 		else :
-			boundaryText = "<td><i>" + name + "</i></td>"
-			boundaryText += "<td>" + str(boundary["minTpr"]) + " <= Pseudoreduced Temperature <= " + str(boundary["maxTpr"]) + "</td>"
-			boundaryText += "<td>" + str(boundary["minPpr"]) + " <= Pseudoreduced Pressure <= " + str(boundary["maxPpr"]) + "</td>"
-			boundaries.append(boundaryText)
+			boundaryBool = 0
+			if boundary["noPpr"] != "NULL":
+				boundaries.append({"name": name, "PprBoundary": PprBoundary, "TprBoundary": TprBoundary, "noPprBoundary": noPprBoundary})
+			else :
+				boundaries.append({"name": name, "PprBoundary": boundary["PprBoundary"], "TprBoundary": boundary["TprBoundary"]})
+			
 
-	return Tpc, ppc, temperatureConv, Tpr, ppr, zfactors, boundaries, zfactorGraphs
+	return Tpc, ppc, temperatureConv, Tpr, ppr, boundaryBool, zfactors, boundaries, zfactorGraphs
 
 def realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zfactors):
 	temperatureConvDensity = conv.temp_FR(temperatureDensity)
@@ -155,7 +158,7 @@ def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressu
 def real_gas(request):
 	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, correlation, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
 
-	Tpc, ppc, temperatureConv, Tpr, ppr, zfactors, boundaries, zfactorGraphs = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
+	Tpc, ppc, temperatureConv, Tpr, ppr, boundaryBool, zfactors, boundaries, zfactorGraphs = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
 
 	density, correlationDensities = realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zfactors)
 
@@ -175,6 +178,7 @@ def real_gas(request):
 		'Tpr': Tpr,
 		'ppr': ppr,
 		'correlation': correlation,
+		'boundaryBool': boundaryBool,
 		'zfactors': zfactors,
 		'zfactorGraphs': zfactorGraphs,
 		'boundaries': boundaries,

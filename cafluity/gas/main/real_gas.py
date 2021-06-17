@@ -40,10 +40,9 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 		y = newton_rapson(e_tol, x0, Tpr, ppr, da.func_y, da.dev_func_y)
 		z = da.z_factor(y, Tpr, ppr)
 		boundary = {
-			"minTpr": da.minTpr, 
-			"maxTpr": da.maxTpr, 
-			"minPpr": da.minPpr, 
-			"maxPpr": da.maxPpr
+			"TprBoundary": [da.minTpr, da.maxTpr],
+			"PprBoundary": [da.minPpr, da.maxPpr],
+			"noPpr": "NULL"
 			}
 
 	elif zcorrelation == "hy":
@@ -56,17 +55,23 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 			"minTpr": hy.minTpr, 
 			"maxTpr": hy.maxTpr, 
 			"minPpr": hy.minPpr, 
-			"maxPpr": hy.maxPpr
+			"maxPpr": hy.maxPpr,
+			"noPpr": "NULL"
 			}
 
 	elif zcorrelation == "abi":
 		name = "Azizi, Behbahani, & Isazadeh's Z Factor Correlation"
 		z = abi.z_factor(Tpr, ppr)
 		boundary = {
-			"minTpr": abi.minTpr, 
-			"maxTpr": abi.maxTpr, 
-			"minPpr": abi.minPpr, 
-			"maxPpr": abi.maxPpr
+			"TprBoundary": {
+				"minTpr": abi.minTpr, 
+				"maxTpr": abi.maxTpr
+				},
+			"PprBoundary": {
+				"minPpr": abi.minPpr, 
+				"maxPpr": abi.maxPpr
+				},
+			"noPpr": "NULL"
 			}
 
 	elif zcorrelation == "bb":
@@ -76,7 +81,8 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 			"minTpr": bb.minTpr, 
 			"maxTpr": bb.maxTpr, 
 			"minPpr": bb.minPpr, 
-			"maxPpr": bb.maxPpr
+			"maxPpr": bb.maxPpr,
+			"noPpr": "NULL"
 			}
 
 	elif zcorrelation == "hmr":
@@ -108,7 +114,8 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 			"minTpr": ne.minTpr, 
 			"maxTpr": ne.maxTpr, 
 			"minPpr": ne.minPpr, 
-			"maxPpr": ne.maxPpr
+			"maxPpr": ne.maxPpr,
+			"noPpr": "NULL"
 			}
 
 	return name, boundary, z

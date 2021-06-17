@@ -100,7 +100,7 @@
                   <ul class="dropdown-menu">
                     <li class="form-check" style="margin: 0 10px;">
                       <input class="form-check-input" name="abiCorrelation" type="hidden" value="false">
-                      <input class="form-check-input" name="abiCorrelation" type="checkbox" value="abi" id="abi">
+                      <input class="form-check-input" name="abiCorrelation" type="checkbox" value="abi" id="abi" {% for corr in correlation %}{% if corr == "abi" %}checked{% endif %}{% endfor %}>
                       <label class="form-check-label" for="abi">
                         Azizi Behbahani Isazadeh 
                       </label>
@@ -108,7 +108,7 @@
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
                       <input class="form-check-input" name="bbCorrelation" type="hidden" value="false">
-                      <input class="form-check-input" name="bbCorrelation" type="checkbox" value="bb" id="bb">
+                      <input class="form-check-input" name="bbCorrelation" type="checkbox" value="bb" id="bb" {% for corr in correlation %}{% if corr == "bb" %}checked{% endif %}{% endfor %}>
                       <label class="form-check-label" for="bb">
                         Brill Begg 
                       </label>
@@ -116,7 +116,7 @@
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
                       <input class="form-check-input" name="da-kCorrelation" type="hidden" value="false">
-                      <input class="form-check-input" name="da-kCorrelation" type="checkbox" value="da-k" id="da-k" checked>
+                      <input class="form-check-input" name="da-kCorrelation" type="checkbox" value="da-k" id="da-k" {% for corr in correlation %}{% if corr == "da-k" %}checked{% endif %}{% endfor %}>
                       <label class="form-check-label" for="da-k">
                         Drancuk-Abou Kassem 
                       </label>
@@ -124,7 +124,7 @@
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
                       <input class="form-check-input" name="hyCorrelation" type="hidden" value="false">
-                      <input class="form-check-input" name="hyCorrelation" type="checkbox" value="hy" id="hy" checked>
+                      <input class="form-check-input" name="hyCorrelation" type="checkbox" value="hy" id="hy" checked {% for corr in correlation %}{% if corr == "hy" %}checked{% endif %}{% endfor %}>
                       <label class="form-check-label" for="hy">
                         Hall Yarbrough 
                       </label>
@@ -132,7 +132,7 @@
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
                       <input class="form-check-input" name="hmrCorrelation" type="hidden" value="false">
-                      <input class="form-check-input" name="hmrCorrelation" type="checkbox" value="hmr" id="hmr">
+                      <input class="form-check-input" name="hmrCorrelation" type="checkbox" value="hmr" id="hmr" {% for corr in correlation %}{% if corr == "hmr" %}checked{% endif %}{% endfor %}>
                       <label class="form-check-label" for="hmr">
                         Heidaryan 
                       </label>
@@ -140,7 +140,7 @@
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
                       <input class="form-check-input" name="neCorrelation" type="hidden" value="false">
-                      <input class="form-check-input" name="neCorrelation" type="checkbox" value="ne" id="ne">
+                      <input class="form-check-input" name="neCorrelation" type="checkbox" value="ne" id="ne" {% for corr in correlation %}{% if corr == "ne" %}checked{% endif %}{% endfor %}>
                       <label class="form-check-label" for="ne">
                         New Explicit Z Factor Correlation
                       </label>
@@ -148,7 +148,7 @@
                     <li><hr class="dropdown-divider"></li>
                     <li class="form-check" style="margin: 0 10px;">
                       <input class="form-check-input" name="snCorrelation" type="hidden" value="false">
-                      <input class="form-check-input" name="snCorrelation" type="checkbox" value="sn" id="sn">
+                      <input class="form-check-input" name="snCorrelation" type="checkbox" value="sn" id="sn" {% for corr in correlation %}{% if corr == "sn" %}checked{% endif %}{% endfor %}>
                       <label class="form-check-label" for="sn">
                         Sanjari
                       </label>
@@ -158,19 +158,74 @@
                 <div>
                   <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Z Factor</button>
                 </div>
+                {% if boundaryBool == 0 %}
                 <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
-                  <strong>Outside the correlation limit!</strong>
-                  <p>You should check in on some of those fields above.</p>
+                  <p><strong>Outside the correlation boundaries!</strong></p>
                   {% for boundary in boundaries %}
-                  <tr>
-                    {{boundary}}
-                  </tr>
+                  <div class="mb-3">
+                    {% for keyBoundary, BoundaryValues in boundary.items %}
+                      {% if keyBoundary == "name" %}
+                      <div><strong>{{ BoundaryValues }}</strong></div>
+                      {% elif keyBoundary == "PprBoundary" %}
+                      <div>
+                        {% for key, value in BoundaryValues.items %}
+                          {% if key == "minPpr" %}
+                          {{ value }} <span>&#8804;</span> 
+                          {% else %}
+                          Pseudoreduced Pressure <span>&#8805;</span> {{ value }}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                      {% elif keyBoundary == "TprBoundary" %}
+                      <div>
+                        {% for key, value in BoundaryValues.items %}
+                          {% if key == "minTpr" %}
+                          {{ value }} <span>&#8804;</span> 
+                          {% else %}
+                          Pseudoreduced Temperature <span>&#8805;</span> {{ value }}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                      {% else %}
+                      <div>with Pseudoreduced Pressure cannot be equal to {{BoundaryValues}}</div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <p>Please check the data you entered!</p>
                   {% endfor %}
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+                <div class="px-3">
+                  <p>Sutton's corelations along with Wichert and Aziz corrections are used to calculate pseudo critical temperature and pressure for the natural gas mixture.</p>
+                  <table class="table table-borderless">
+                    <tbody>
+                      <tr>
+                        <td>Pseudocritical Pressure</td>
+                        <td>{{ppc}}</td>
+                        <td>PSIA</td>
+                      </tr>
+                      <tr>
+                        <td>Pseudocritical Temperature</td>
+                        <td>{{Tpc}}</td>
+                        <td>&#xb0;R</td>
+                      </tr><tr>
+                        <td>Pseudoreduced Pressure</td>
+                        <td>{{ppr}}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Pseudoreduced Temperature</td>
+                        <td>{{Tpr}}</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                {% endif %}
               </form>
             </div>
           </div>
+          {% if boundaryBool %}
           <div class="row mb-4 mt-3">
             <div class="col text-center">
               <h3>Results</h3>
@@ -222,7 +277,9 @@
               <!-- <p>If the result obtained is NULL, it means that the data provided is outside the correlation range</p> -->
             </div>
           </div>
+          {% endif %}
         </div>
+        {% if boundaryBool %}
         <div class="container">
           <div class="row mb-3">
             <div class="col text-center">
@@ -241,6 +298,7 @@
             {% endfor %}
           </div>
         </div>
+        {% endif %}
       </div>
 
       <div class="tab-pane fade {% if realGasProperty == 'density'%} active show {% endif %}" id="density" role="tabpanel" aria-labelledby="density-tab">
