@@ -117,14 +117,20 @@ def realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s):
 	Tpr, ppr = zfac.pseudo_reduced(temperatureConv, pressure, Tpc, ppc)
 	zfactors = []
 	zfactorGraphs = []
+	boundaries = []
 
 	for corr in correlation:
-		name, zfactor = rgas.z(Tpr, ppr, corr)
+		name, boundary, zfactor = rgas.z(Tpr, ppr, corr)
 		if zfactor != "NULL":
 			zfactors.append({"name": name, "zfactor": zfactor})
 			zfactorGraphs.append(rgas.z_graph(Tpr, ppr, corr))
+		else :
+			boundaryText = "<td><i>" + name + "</i></td>"
+			boundaryText += "<td>" + str(boundary["minTpr"]) + " <= Pseudoreduced Temperature <= " + str(boundary["maxTpr"]) + "</td>"
+			boundaryText += "<td>" + str(boundary["minPpr"]) + " <= Pseudoreduced Pressure <= " + str(boundary["maxPpr"]) + "</td>"
+			boundaries.append(boundaryText)
 
-	return Tpc, ppc, temperatureConv, Tpr, ppr, zfactors, zfactorGraphs
+	return Tpc, ppc, temperatureConv, Tpr, ppr, zfactors, boundaries, zfactorGraphs
 
 def realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zfactors):
 	temperatureConvDensity = conv.temp_FR(temperatureDensity)
@@ -149,7 +155,7 @@ def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressu
 def real_gas(request):
 	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, correlation, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
 
-	Tpc, ppc, temperatureConv, Tpr, ppr, zfactors, zfactorGraphs = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
+	Tpc, ppc, temperatureConv, Tpr, ppr, zfactors, boundaries, zfactorGraphs = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
 
 	density, correlationDensities = realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zfactors)
 
@@ -171,6 +177,7 @@ def real_gas(request):
 		'correlation': correlation,
 		'zfactors': zfactors,
 		'zfactorGraphs': zfactorGraphs,
+		'boundaries': boundaries,
 		# Density
 		'pressureDensity': pressureDensity,
 		'temperatureDensity': temperatureDensity,

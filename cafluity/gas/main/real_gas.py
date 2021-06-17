@@ -39,6 +39,12 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 		x0 = 0.3
 		y = newton_rapson(e_tol, x0, Tpr, ppr, da.func_y, da.dev_func_y)
 		z = da.z_factor(y, Tpr, ppr)
+		boundary = {
+			"minTpr": da.minTpr, 
+			"maxTpr": da.maxTpr, 
+			"minPpr": da.minPpr, 
+			"maxPpr": da.maxPpr
+			}
 
 	elif zcorrelation == "hy":
 		name = "Hall & Yarborough's Z Factor Correlation"
@@ -46,28 +52,66 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 		x0 = 0
 		y = newton_rapson(e_tol, x0, Tpr, ppr, hy.func_y, hy.dev_func_y)
 		z = hy.z_factor(y, Tpr, ppr)
+		boundary = {
+			"minTpr": hy.minTpr, 
+			"maxTpr": hy.maxTpr, 
+			"minPpr": hy.minPpr, 
+			"maxPpr": hy.maxPpr
+			}
 
 	elif zcorrelation == "abi":
 		name = "Azizi, Behbahani, & Isazadeh's Z Factor Correlation"
 		z = abi.z_factor(Tpr, ppr)
+		boundary = {
+			"minTpr": abi.minTpr, 
+			"maxTpr": abi.maxTpr, 
+			"minPpr": abi.minPpr, 
+			"maxPpr": abi.maxPpr
+			}
 
 	elif zcorrelation == "bb":
 		name = "Brill & Begg's Z Factor Correlation"
 		z = bb.z_factor(Tpr, ppr)
+		boundary = {
+			"minTpr": bb.minTpr, 
+			"maxTpr": bb.maxTpr, 
+			"minPpr": bb.minPpr, 
+			"maxPpr": bb.maxPpr
+			}
 
 	elif zcorrelation == "hmr":
 		name = "Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation"
 		z = hmr.z_factor(Tpr, ppr)
+		boundary = {
+			"minTpr": hmr.minTpr, 
+			"maxTpr": hmr.maxTpr, 
+			"minPpr": hmr.minPpr, 
+			"maxPpr": hmr.maxPpr,
+			"noPpr": hmr.noPpr
+			}
 
 	elif zcorrelation == "sn":
 		name = "Sanjiri & Nemati's Z Factor Correlation"
 		z = sn.z_factor(Tpr, ppr)
+		boundary = {
+			"minTpr": sn.minTpr, 
+			"maxTpr": sn.maxTpr, 
+			"minPpr": sn.minPpr, 
+			"maxPpr": sn.maxPpr,
+			"noPpr": sn.noPpr
+			}
 
 	elif zcorrelation == "ne":
 		name = "New Explicit Z Factor Correlation"
 		z = ne.z_factor(Tpr, ppr)
+		boundary = {
+			"minTpr": ne.minTpr, 
+			"maxTpr": ne.maxTpr, 
+			"minPpr": ne.minPpr, 
+			"maxPpr": ne.maxPpr
+			}
 
-	return name, z
+	return name, boundary, z
 
 def z_graph(Tpr, ppr, zcorrelation = "da-k"):
 	if zcorrelation == "da-k":
@@ -103,3 +147,4 @@ def z_graph(Tpr, ppr, zcorrelation = "da-k"):
 		zGraph = ne.graph(Tpr, ppr)
 
 	return zGraph
+

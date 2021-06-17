@@ -161,6 +161,11 @@
                 <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
                   <strong>Outside the correlation limit!</strong>
                   <p>You should check in on some of those fields above.</p>
+                  {% for boundary in boundaries %}
+                  <tr>
+                    {{boundary}}
+                  </tr>
+                  {% endfor %}
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               </form>
