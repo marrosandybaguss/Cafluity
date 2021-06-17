@@ -34,14 +34,20 @@ def v(p = 1, T = 1, Ma = 1, z = 1):
 def z(Tpr, ppr, zcorrelation = "da-k"):
 	
 	if zcorrelation == "da-k":
-		name = "Drancuk & Abou-Kassem's Z Factor Correlation"
+		name = "Dranchuk & Abou-Kassem's Z Factor Correlation"
 		e_tol = 0.00000001
-		x0 = 0.3
+		x0 = 0.01
 		y = newton_rapson(e_tol, x0, Tpr, ppr, da.func_y, da.dev_func_y)
 		z = da.z_factor(y, Tpr, ppr)
 		boundary = {
-			"TprBoundary": [da.minTpr, da.maxTpr],
-			"PprBoundary": [da.minPpr, da.maxPpr],
+			"TprBoundary": {
+				"minTpr": da.minTpr, 
+				"maxTpr": da.maxTpr
+				},
+			"PprBoundary": {
+				"minPpr": da.minPpr, 
+				"maxPpr": da.maxPpr
+				},
 			"noPpr": "NULL"
 			}
 
@@ -52,10 +58,14 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 		y = newton_rapson(e_tol, x0, Tpr, ppr, hy.func_y, hy.dev_func_y)
 		z = hy.z_factor(y, Tpr, ppr)
 		boundary = {
-			"minTpr": hy.minTpr, 
-			"maxTpr": hy.maxTpr, 
-			"minPpr": hy.minPpr, 
-			"maxPpr": hy.maxPpr,
+			"TprBoundary": {
+				"minTpr": hy.minTpr, 
+				"maxTpr": hy.maxTpr
+				},
+			"PprBoundary": {
+				"minPpr": hy.minPpr, 
+				"maxPpr": hy.maxPpr
+				},
 			"noPpr": "NULL"
 			}
 
@@ -78,10 +88,14 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 		name = "Brill & Begg's Z Factor Correlation"
 		z = bb.z_factor(Tpr, ppr)
 		boundary = {
-			"minTpr": bb.minTpr, 
-			"maxTpr": bb.maxTpr, 
-			"minPpr": bb.minPpr, 
-			"maxPpr": bb.maxPpr,
+			"TprBoundary": {
+				"minTpr": bb.minTpr, 
+				"maxTpr": bb.maxTpr
+				},
+			"PprBoundary": {
+				"minPpr": bb.minPpr, 
+				"maxPpr": bb.maxPpr
+				},
 			"noPpr": "NULL"
 			}
 
@@ -89,10 +103,14 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 		name = "Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation"
 		z = hmr.z_factor(Tpr, ppr)
 		boundary = {
-			"minTpr": hmr.minTpr, 
-			"maxTpr": hmr.maxTpr, 
-			"minPpr": hmr.minPpr, 
-			"maxPpr": hmr.maxPpr,
+			"TprBoundary": {
+				"minTpr": hmr.minTpr, 
+				"maxTpr": hmr.maxTpr
+				},
+			"PprBoundary": {
+				"minPpr": hmr.minPpr, 
+				"maxPpr": hmr.maxPpr
+				},
 			"noPpr": hmr.noPpr
 			}
 
@@ -100,10 +118,14 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 		name = "Sanjiri & Nemati's Z Factor Correlation"
 		z = sn.z_factor(Tpr, ppr)
 		boundary = {
-			"minTpr": sn.minTpr, 
-			"maxTpr": sn.maxTpr, 
-			"minPpr": sn.minPpr, 
-			"maxPpr": sn.maxPpr,
+			"TprBoundary": {
+				"minTpr": sn.minTpr, 
+				"maxTpr": sn.maxTpr
+				},
+			"PprBoundary": {
+				"minPpr": sn.minPpr, 
+				"maxPpr": sn.maxPpr
+				},
 			"noPpr": sn.noPpr
 			}
 
@@ -111,10 +133,14 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 		name = "New Explicit Z Factor Correlation"
 		z = ne.z_factor(Tpr, ppr)
 		boundary = {
-			"minTpr": ne.minTpr, 
-			"maxTpr": ne.maxTpr, 
-			"minPpr": ne.minPpr, 
-			"maxPpr": ne.maxPpr,
+			"TprBoundary": {
+				"minTpr": ne.minTpr, 
+				"maxTpr": ne.maxTpr
+				},
+			"PprBoundary": {
+				"minPpr": ne.minPpr, 
+				"maxPpr": ne.maxPpr
+				},
 			"noPpr": "NULL"
 			}
 
@@ -124,7 +150,7 @@ def z_graph(Tpr, ppr, zcorrelation = "da-k"):
 	if zcorrelation == "da-k":
 		# Drancuk & Abou-Kassem
 		e_tol = 0.00000001
-		x0 = 0.3
+		x0 = 0.01
 		zGraph = da.graph(Tpr, ppr, e_tol, x0)
 
 	elif zcorrelation == "hy":

@@ -39,12 +39,12 @@ def realgas_var(request):
 			if snCorrelation != "false":
 				correlation.append(snCorrelation)
 		
-			pressureDensity = 1000
+			pressureDensity = 2000
 			temperatureDensity = 300
 			molarDensity = 20.272
 			zfactorDensity = 0.9612
 
-			pressureSV = 1000
+			pressureSV = 2000
 			temperatureSV = 300
 			molarSV = 20.272
 			zfactorSV = 0.9612
@@ -56,14 +56,14 @@ def realgas_var(request):
 			zfactorDensity = float(request.POST['zfactorDensity'])
 		
 			Yg = 0.7
-			pressure = 1000
+			pressure = 2000
 			temperature = 300
 			n2 = 3.0
 			co2 = 6.0
 			h2s = 4.0
 			correlation = ["da-k", "hy"]
 
-			pressureSV = 1000
+			pressureSV = 2000
 			temperatureSV = 300
 			molarSV = 20.272
 			zfactorSV = 0.9612
@@ -75,14 +75,14 @@ def realgas_var(request):
 			zfactorSV = float(request.POST['zfactorSV'])
 		
 			Yg = 0.7
-			pressure = 1000
+			pressure = 2000
 			temperature = 300
 			n2 = 3.0
 			co2 = 6.0
 			h2s = 4.0
 			correlation = ["da-k", "hy"]
 
-			pressureDensity = 1000
+			pressureDensity = 2000
 			temperatureDensity = 300
 			molarDensity = 20.272
 			zfactorDensity = 0.9612
@@ -91,19 +91,19 @@ def realgas_var(request):
 		realGasProperty = "zfactor"
 
 		Yg = 0.7
-		pressure = 1000
+		pressure = 2000
 		temperature = 300
 		n2 = 3.0
 		co2 = 6.0
 		h2s = 4.0
 		correlation = ["da-k", "hy"]
 
-		pressureDensity = 1000
+		pressureDensity = 2000
 		temperatureDensity = 300
 		molarDensity = 20.272
 		zfactorDensity = 0.9612
 
-		pressureSV = 1000
+		pressureSV = 2000
 		temperatureSV = 300
 		molarSV = 20.272
 		zfactorSV = 0.9612
@@ -128,7 +128,7 @@ def realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s):
 		else :
 			boundaryBool = 0
 			if boundary["noPpr"] != "NULL":
-				boundaries.append({"name": name, "PprBoundary": PprBoundary, "TprBoundary": TprBoundary, "noPprBoundary": noPprBoundary})
+				boundaries.append({"name": name, "PprBoundary": boundary["PprBoundary"], "TprBoundary": boundary["TprBoundary"], "noPprBoundary": boundary["noPpr"]})
 			else :
 				boundaries.append({"name": name, "PprBoundary": boundary["PprBoundary"], "TprBoundary": boundary["TprBoundary"]})
 			
