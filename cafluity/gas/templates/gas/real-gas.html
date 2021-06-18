@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"> -->
 
     <link rel="stylesheet" type="text/css" href="{% static 'gas/css/style.css' %}">
-
+    <link rel="stylesheet" type="text/css" href="{% static 'gas/css/bootstrap.min.css' %}">
+    
     <title>Cafluity | Real Gas</title>
   </head>
   <body>
@@ -54,50 +55,184 @@
         <div class="container my-5">
           <div class="row mb-4">
             <div class="col text-center">
-              <h2>Compressibility Factor Z</h2>
+              <h3>Compressibility Factor Z</h3>
             </div>
           </div>
-          <div class="row">
-            <div class="col mx-4 mb-5">
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-5 mb-5 px-4">
               <form method="post" action="{% url 'real_gas' %}">
                 {% csrf_token %}
                 <input hidden="" type="text" name="realGasProperty" value="zfactor">
                 <label for="gas-gravity" class="form-label">Gas Gravity</label>
                 <div class="input-group mb-3">
                   <input required id="gas-gravity" type="number" step="0.0000001" class="form-control" name="gas-gravity" placeholder="0.7" value="{{gasGravity}}">
-                  <span class="input-group-text" style="width: 70px"></span>
+                  <span class="input-group-text" style="width: 80px"></span>
                 </div>
                 <label for="pressure" class="form-label">Pressure</label>
                 <div class="input-group mb-3">
-                  <input required id="pressure" type="number" step="0.0000001" class="form-control" name="pressure" placeholder="1000" value="{{pressure}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">PSIA</span>
+                  <input required id="pressure" type="number" step="0.0000001" class="form-control" name="pressure" placeholder="2000" value="{{pressure}}">
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">PSIA</span>
                 </div>
                 <label for="temperature" class="form-label">Temperature</label>
                 <div class="input-group mb-3">
                   <input required id="temperature" type="number" step="0.0000001" class="form-control" name="temperature" placeholder="300" value="{{temperature}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">&#xb0;F</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">&#xb0;F</span>
                 </div>
                 <label for="nitrogen" class="form-label">Nitrogen</label>
                 <div class="input-group mb-3">
                   <input required id="nitrogen" type="number" step="0.0000001" class="form-control" name="nitrogen" placeholder="3.0" value="{{nitrogen}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">Mol &#x25;</span>
                 </div>
                 <label for="carbon-dioxide" class="form-label">Carbon Dioxide</label>
                 <div class="input-group mb-3">
                   <input required id="carbon-dioxide" type="number" step="0.0000001" class="form-control" name="carbon-dioxide" placeholder="6.0" value="{{carbonDioxide}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">Mol &#x25;</span>
                 </div>
                 <label for="hydrogen-sulfide" class="form-label">Hydrogen Sulfide</label>
                 <div class="input-group mb-3">
                   <input required id="hydrogen-sulfide" type="number" step="0.0000001" class="form-control" name="hydrogen-sulfide" placeholder="4.0" value="{{hydrogenSulfide}}">
-                  <span class="input-group-text" style="width: 70px; color: #524e4e;">Mol &#x25;</span>
+                  <span class="input-group-text" style="width: 80px; color: #524e4e;">Mol &#x25;</span>
                 </div>
-                <div class="col-12">
+                <div class="btn-group mb-3">
+                  <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white;">
+                    Choose Z Factor Correlations
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" name="abiCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="abiCorrelation" type="checkbox" value="abi" id="abi" {% for corr in correlation %}{% if corr == "abi" %}checked{% endif %}{% endfor %}>
+                      <label class="form-check-label" for="abi">
+                        Azizi Behbahani Isazadeh 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" name="bbCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="bbCorrelation" type="checkbox" value="bb" id="bb" {% for corr in correlation %}{% if corr == "bb" %}checked{% endif %}{% endfor %}>
+                      <label class="form-check-label" for="bb">
+                        Brill Begg 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" name="da-kCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="da-kCorrelation" type="checkbox" value="da-k" id="da-k" {% for corr in correlation %}{% if corr == "da-k" %}checked{% endif %}{% endfor %}>
+                      <label class="form-check-label" for="da-k">
+                        Drancuk-Abou Kassem 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" name="hyCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="hyCorrelation" type="checkbox" value="hy" id="hy" checked {% for corr in correlation %}{% if corr == "hy" %}checked{% endif %}{% endfor %}>
+                      <label class="form-check-label" for="hy">
+                        Hall Yarbrough 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" name="hmrCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="hmrCorrelation" type="checkbox" value="hmr" id="hmr" {% for corr in correlation %}{% if corr == "hmr" %}checked{% endif %}{% endfor %}>
+                      <label class="form-check-label" for="hmr">
+                        Heidaryan 
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" name="neCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="neCorrelation" type="checkbox" value="ne" id="ne" {% for corr in correlation %}{% if corr == "ne" %}checked{% endif %}{% endfor %}>
+                      <label class="form-check-label" for="ne">
+                        New Explicit Z Factor Correlation
+                      </label>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="form-check" style="margin: 0 10px;">
+                      <input class="form-check-input" name="snCorrelation" type="hidden" value="false">
+                      <input class="form-check-input" name="snCorrelation" type="checkbox" value="sn" id="sn" {% for corr in correlation %}{% if corr == "sn" %}checked{% endif %}{% endfor %}>
+                      <label class="form-check-label" for="sn">
+                        Sanjari
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+                <div>
                   <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Z Factor</button>
                 </div>
+                {% if boundaryBool == 0 %}
+                <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                  <p><strong>Outside the correlation boundaries!</strong></p>
+                  {% for boundary in boundaries %}
+                  <div class="mb-3">
+                    {% for keyBoundary, BoundaryValues in boundary.items %}
+                      {% if keyBoundary == "name" %}
+                      <div><strong>{{ BoundaryValues }}</strong></div>
+                      {% elif keyBoundary == "PprBoundary" %}
+                      <div>
+                        {% for key, value in BoundaryValues.items %}
+                          {% if key == "minPpr" %}
+                          {{ value }} <span>&#8804;</span> 
+                          {% else %}
+                          Pseudoreduced Pressure <span>&#8805;</span> {{ value }}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                      {% elif keyBoundary == "TprBoundary" %}
+                      <div>
+                        {% for key, value in BoundaryValues.items %}
+                          {% if key == "minTpr" %}
+                          {{ value }} <span>&#8804;</span> 
+                          {% else %}
+                          Pseudoreduced Temperature <span>&#8805;</span> {{ value }}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                      {% else %}
+                      <div>with Pseudoreduced Pressure cannot be equal to {{BoundaryValues}}</div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <p>Please check the data you entered!</p>
+                  {% endfor %}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="px-3">
+                  <p>Sutton's corelations along with Wichert and Aziz corrections are used to calculate pseudo critical temperature and pressure for the natural gas mixture.</p>
+                  <table class="table table-borderless">
+                    <tbody>
+                      <tr>
+                        <td>Pseudocritical Pressure</td>
+                        <td>{{ppc}}</td>
+                        <td>PSIA</td>
+                      </tr>
+                      <tr>
+                        <td>Pseudocritical Temperature</td>
+                        <td>{{Tpc}}</td>
+                        <td>&#xb0;R</td>
+                      </tr><tr>
+                        <td>Pseudoreduced Pressure</td>
+                        <td>{{ppr}}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Pseudoreduced Temperature</td>
+                        <td>{{Tpr}}</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                {% endif %}
               </form>
             </div>
-            <div class="col mx-4">
+          </div>
+          {% if boundaryBool %}
+          <div class="row mb-4 mt-3">
+            <div class="col text-center">
+              <h3>Results</h3>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-7 px-4">
               <p>Sutton's correlations along with Wichert and Aziz corrections are used to calculate pseudo critical temperature and pressure for the natural gas mixture.</p>
               <table class="table table-borderless">
                 <tbody>
@@ -122,104 +257,48 @@
                   </tr>
                 </tbody>
               </table>
-              <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with several correlations.</p>
+              <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with selected correlations.</p>
               <table class="table table-borderless">
                 <tbody>
+                  {% for zfactor in zfactors %}
                   <tr>
-                    <td>Azizi Behbahani Isazadeh's Z  Factor Correlation</td>
-                    <td><strong>{{zAzizi}}</strong></td>
+                    {% for key, value in zfactor.items %}
+                      {% if key == "name" %}
+                      <td>{{ value }}</td>
+                      {% endif %}
+                      {% if key == "zfactor" %}
+                      <td><strong>{{ value }}</strong></td>
+                      {% endif %}
+                    {% endfor %}
                   </tr>
-                  <tr>
-                    <td>Brill Begg's Z Factor Correlation</td>
-                    <td><strong>{{zBrillBegg}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Drancuk-Abou Kassem's Z Factor Correlation</td>
-                    <td><strong>{{zDrancuk}}</strong></td>
-                  </tr>
-                  <tr>
-                  <tr>
-                    <td>Hall Yarbrough's Z Factor Correlation</td>
-                    <td><strong>{{zHallYarborough}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Heidaryan's Z Factor Correlation</td>
-                    <td><strong>{{zHeidaryan}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>New Explicit Z Factor Correlation</td>
-                    <td><strong>{{zNewExplicit}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Sanjari's Z Factor Correlation</td>
-                    <td><strong>{{zSanjari}}</strong></td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
-              <p>If the result obtained is NULL, it means that the data provided is outside the correlation range</p>
+              <!-- <p>If the result obtained is NULL, it means that the data provided is outside the correlation range</p> -->
             </div>
           </div>
+          {% endif %}
         </div>
-        <div class="container my-5">
+        {% if boundaryBool %}
+        <div class="container">
           <div class="row mb-3">
             <div class="col text-center">
-              <h3>Graph</h3>
+              <h3>Graph</h3>    
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <!-- <h5 class="card-title">New Explicit Graph</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-                </div>
-                <img src="data:img/png;base64, {{aziziChart|safe}}" class="card-img-bottom">
-              </div>
-            </div>
+            {% for zfactorGraph in zfactorGraphs %}
             <div class="col-sm-6 mb-3">
               <div class="card">
                 <div class="card-body">
                 </div>
-                <img src="data:img/png;base64, {{brillBeggChart|safe}}" class="card-img-bottom">
+                <img src="data:img/png;base64, {{zfactorGraph|safe}}" class="card-img-bottom">
               </div>
             </div>
-            <div class="col-sm-6 mb-3">
-              <div class="card">
-                <div class="card-body">
-                </div>
-                <img src="data:img/png;base64, {{drancukChart|safe}}" class="card-img-bottom">
-              </div>
-            </div>
-            <div class="col-sm-6 mb-3">
-              <div class="card">
-                <div class="card-body">
-                </div>
-                <img src="data:img/png;base64, {{hallYarboroughChart|safe}}" class="card-img-bottom">
-              </div>
-            </div>
-            <div class="col-sm-6 mb-3">
-              <div class="card">
-                <div class="card-body">
-                </div>
-                <img src="data:img/png;base64, {{heidaryanChart|safe}}" class="card-img-bottom">
-              </div>
-            </div>
-            <div class="col-sm-6 mb-3">
-              <div class="card">
-                <div class="card-body">
-                </div>
-                <img src="data:img/png;base64, {{newExplicitChart|safe}}" class="card-img-bottom">
-              </div>
-            </div>
-            <div class="col-sm-6 mb-3">
-              <div class="card">
-                <div class="card-body">
-                </div>
-                <img src="data:img/png;base64, {{sanjariChart|safe}}" class="card-img-bottom">
-              </div>
-            </div>
+            {% endfor %}
           </div>
         </div>
+        {% endif %}
       </div>
 
       <div class="tab-pane fade {% if realGasProperty == 'density'%} active show {% endif %}" id="density" role="tabpanel" aria-labelledby="density-tab">
@@ -265,41 +344,23 @@
               </form>
             </div>
             <div class="col mx-4">
-              <p> The following is the <strong>density value</strong> in <i>lb/ft3 unit</i> based on the z factor value for each correlation</p>
+              <p> The following is the <strong>density value</strong> in <i>lb/ft3 unit</i> based on the z factor value for selected correlation</p>
               <table class="table table-borderless">
                 <tbody>
+                  {% for density in correlationDensities %}
                   <tr>
-                    <td>Azizi Behbahani Isazadeh Correlation</td>
-                    <td><strong>{{densityAzizi}}</strong></td>
+                    {% for key, value in density.items %}
+                      {% if key == "name" %}
+                      <td>{{ value }}</td>
+                      {% endif %}
+                      {% if key == "density" %}
+                      <td><strong>{{ value }}</strong></td>
+                      {% endif %}
+                    {% endfor %}
                   </tr>
-                  <tr>
-                    <td>Brill Begg Correlation</td>
-                    <td><strong>{{densityBrillBegg}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Drancuk-Abou Kassem Correlation</td>
-                    <td><strong>{{densityDrancuk}}</strong></td>
-                  </tr>
-                  <tr>
-                  <tr>
-                    <td>Hall Yarbrough Correlation</td>
-                    <td><strong>{{densityHallYarborough}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Heidaryan Correlation</td>
-                    <td><strong>{{densityHeidaryan}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>New Explicit Correlation</td>
-                    <td><strong>{{densityNewExplicit}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Sanjari Correlation</td>
-                    <td><strong>{{densitySanjari}}</strong></td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
-              <p>If the result obtained is NULL, it means that the z factor value in the correlation is NULL</p>
             </div>
           </div>
         </div>
@@ -348,41 +409,23 @@
               </form>
             </div>
             <div class="col mx-4">
-              <p> The following is the <strong>specific volume value</strong> in <i>ft3/lb unit</i> based on the z factor value for each correlation</p>
+              <p> The following is the <strong>specific volume value</strong> in <i>ft3/lb unit</i> based on the z factor value for selected correlation</p>
               <table class="table table-borderless">
                 <tbody>
+                  {% for specificvolume in correlationSpecificvolumes %}
                   <tr>
-                    <td>Azizi Behbahani Isazadeh Correlation</td>
-                    <td><strong>{{svAzizi}}</strong></td>
+                    {% for key, value in specificvolume.items %}
+                      {% if key == "name" %}
+                      <td>{{ value }}</td>
+                      {% endif %}
+                      {% if key == "specificvolume" %}
+                      <td><strong>{{ value }}</strong></td>
+                      {% endif %}
+                    {% endfor %}
                   </tr>
-                  <tr>
-                    <td>Brill Begg Correlation</td>
-                    <td><strong>{{svBrillBegg}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Drancuk-Abou Kassem Correlation</td>
-                    <td><strong>{{svDrancuk}}</strong></td>
-                  </tr>
-                  <tr>
-                  <tr>
-                    <td>Hall Yarbrough Correlation</td>
-                    <td><strong>{{svHallYarborough}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Heidaryan Correlation</td>
-                    <td><strong>{{svHeidaryan}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>New Explicit Correlation</td>
-                    <td><strong>{{svNewExplicit}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Sanjari Correlation</td>
-                    <td><strong>{{svSanjari}}</strong></td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
-              <p>If the result obtained is NULL, it means that the z factor value in the correlation is NULL</p>
             </div>
           </div>
         </div>
