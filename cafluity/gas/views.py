@@ -318,3 +318,7 @@ def ideal_gas(request):
 	}
 	
 	return render(request, 'gas/ideal-gas.html', context)
+
+def reference(request):
+
+	return render(request, 'gas/reference.html')

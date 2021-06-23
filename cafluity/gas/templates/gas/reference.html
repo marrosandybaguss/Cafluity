@@ -12,20 +12,20 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'gas/css/style.css' %}">
 
-    <title>Cafluity | Ideal Gas</title>
+    <title>Cafluity | Reference</title>
   </head>
   <body>
 
     <div class="container py-1">
       <div class="d-flex flex-row-reverse bd-highlight">
         <div class="p-2 bd-highlight">
-          <a class="text-decoration-none" style="color: orange" href="/ideal-gas">Ideal Gas</a>
+          <a class="text-decoration-none" href="/ideal-gas">Ideal Gas</a>
         </div>
         <div class="p-2 bd-highlight">
           <a class="text-decoration-none" href="/real-gas">Real Gas</a>
         </div>
         <div class="p-2 bd-highlight">
-          <a class="text-decoration-none" href="/reference">Reference</a>
+          <a class="text-decoration-none" style="color: orange" href="/reference">Reference</a>
         </div>
       </div>
     </div>
@@ -39,16 +39,28 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" id="pills-tab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link {% if idealGasProperty == 'molecularweight'%} active {% endif %}" id="molecularweight-tab" data-bs-toggle="pill" data-bs-target="#molecularweight" type="button" role="tab" aria-controls="molecularweight" aria-selected="{% if idealGasProperty == 'molecularweight'%} true {% else %} false {% endif %}">Molecular Weight</a>
+              <a class="nav-link {% if idealGasProperty == 'Pseudo'%} active {% endif %}" id="Pseudo-tab" data-bs-toggle="pill" data-bs-target="#Pseudo" type="button" role="tab" aria-controls="Pseudo" aria-selected="{% if idealGasProperty == 'Pseudo'%} true {% else %} false {% endif %}">Pseudo</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {% if idealGasProperty == 'density'%} active {% endif %}" id="density-tab" data-bs-toggle="pill" data-bs-target="#density" type="button" role="tab" aria-controls="density" aria-selected="{% if idealGasProperty == 'density'%} true {% else %} false {% endif %}">Density</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="implicitCorrelation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Implicit Correlation
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="implicitCorrelation">
+                <li><a class="dropdown-item" href="#da-k-corr" active>Dranchuk & Abou-Kassem</a></li>
+                <li><a class="dropdown-item" href="#hy-corr">Hall & Yarborough</a></li>
+              </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {% if idealGasProperty == 'specificvolume'%} active {% endif %}" id="specificvolume-tab" data-bs-toggle="pill" data-bs-target="#specificvolume" type="button" role="tab" aria-controls="specificvolume" aria-selected="{% if idealGasProperty == 'specificvolume'%} true {% else %} false {% endif %}">Specific Volume</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if idealGasProperty == 'specificgravity'%} active {% endif %}" id="specificgravity-tab" data-bs-toggle="pill" data-bs-target="#specificgravity" type="button" role="tab" aria-controls="specificgravity" aria-selected="{% if idealGasProperty == 'specificgravity'%} true {% else %} false {% endif %}">Specific Gravity</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="explicitCorrelation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Explicit Correlation
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="explicitCorrelation">
+                <li><a class="dropdown-item" href="#abi-corr">Azizi, Behbahani, & Isazadeh</a></li>
+                <li><a class="dropdown-item" href="#bb-corr">Brill & Begg</a></li>
+                <li><a class="dropdown-item" href="#hy-corr">Heidaryan, Moghdasi, & Rahimi</a></li>
+                <li><a class="dropdown-item" href="#sn-corr">Sanjiri & Nemati</a></li>
+                <li><a class="dropdown-item" href="#ne-corr">New Explicit Z Factor Correlation</a></li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -57,11 +69,11 @@
 
     <div class="tab-content" id="pills-tabContent">
       
-      <div id="molecularweight" class="tab-pane fade {% if idealGasProperty == 'molecularweight'%} active show {% endif %}" role="tabpanel" aria-labelledby="molecularweight-tab">
+      <div id="da-k-corr" class="tab-pane fade {% if idealGasProperty == 'da-k-corr'%} active show {% endif %}" role="tabpanel" aria-labelledby="implicitCorrelation">
         <div class="container my-5">
           <div class="row mb-4">
             <div class="col text-center">
-              <h2>Molecular Weight</h2>
+              <h2>Dranchuk & Abou-Kassem's Z Factor Correlation</h2>
             </div>
           </div>
           <div class="row d-flex justify-content-center">
