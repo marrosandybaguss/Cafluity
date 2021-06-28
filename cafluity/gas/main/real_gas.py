@@ -130,7 +130,7 @@ def z(Tpr, ppr, zcorrelation = "da-k"):
 			}
 
 	elif zcorrelation == "ne":
-		name = "New Explicit Z Factor Correlation"
+		name = "Kareem, Iwalewa, & Al-Marhoun's Z Factor Correlation"
 		z = ne.z_factor(Tpr, ppr)
 		boundary = {
 			"TprBoundary": {

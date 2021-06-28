@@ -103,15 +103,15 @@ def graph(Tpr = 1, Ppr = 1, e_tol = 0.3, x0 = 1):
 	x = []
 	y = []
 
-	for i in range(1,30):
-		ppr = ppr + 0.1
+	for i in range(0,30):
 		y_root = newton_rapson(e_tol, x0, Tpr, ppr, func_y, dev_func_y)
 		z = z_factor(y_root, Tpr, ppr)
 		x.append(ppr)
 		y.append(z)
+		ppr = ppr + 0.1
 
 	title = "Hall Yarborough's Correlation"
-	xlabel = 'Pseudoreduced Pressure Ppr'
+	xlabel = 'Pseudo-Reduced Pressure (Ppr)'
 	ylabel = 'Compressibility Factor z'
 
 	chart = get_plot(x, y, title, xlabel, ylabel)

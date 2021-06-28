@@ -39,14 +39,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" id="pills-tab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link {% if idealGasProperty == 'Pseudo'%} active {% endif %}" id="Pseudo-tab" data-bs-toggle="pill" data-bs-target="#Pseudo" type="button" role="tab" aria-controls="Pseudo" aria-selected="{% if idealGasProperty == 'Pseudo'%} true {% else %} false {% endif %}">Pseudo</a>
+              <a class="nav-link active" id="pseudo-tab" data-bs-toggle="pill" data-bs-target="#pseudo" type="button" role="tab" aria-controls="pseudo" aria-selected="true">Pseudo</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="implicitCorrelation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" id="implicitCorrelation-tab" data-bs-toggle="pill" data-bs-target="#implicitCorrelation" type="button" role="button" aria-controls="implicitCorrelation" aria-selected="false">
                 Implicit Correlation
               </a>
               <ul class="dropdown-menu" aria-labelledby="implicitCorrelation">
-                <li><a class="dropdown-item" href="#da-k-corr" active>Dranchuk & Abou-Kassem</a></li>
+                <li><a class="dropdown-item" href="#da-k-corr">Dranchuk & Abou-Kassem</a></li>
                 <li><a class="dropdown-item" href="#hy-corr">Hall & Yarborough</a></li>
               </ul>
             </li>
@@ -69,155 +69,108 @@
 
     <div class="tab-content" id="pills-tabContent">
       
-      <div id="da-k-corr" class="tab-pane fade {% if idealGasProperty == 'da-k-corr'%} active show {% endif %}" role="tabpanel" aria-labelledby="implicitCorrelation">
+      <div id="pseudo" class="tab-pane fade active show" role="tabpanel" aria-labelledby="pseudo-tab">
         <div class="container my-5">
-          <div class="row mb-4">
-            <div class="col text-center">
-              <h2>Dranchuk & Abou-Kassem's Z Factor Correlation</h2>
+          <div id="ppc">
+            <div class="row mb-4">
+              <div class="col text-center">
+                <h2>Pseudo-Critical Pressure</h2>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
             </div>
           </div>
-          <div class="row d-flex justify-content-center">
-            <div class="col-sm-5 mx-4 mb-5">
-              <form method="post" action="{% url 'ideal_gas' %}">
-                {% csrf_token %}
-                <input hidden="" type="text" name="idealGasProperty" value="molecularweight">
-                <label for="gasGravityMW" class="form-label">Gas Gravity</label>
-                <div class="input-group mb-3">
-                  <input required id="gasGravityMW" type="number" step="0.0000001" class="form-control" name="gasGravityMW" placeholder="0.7" value="{{gasGravityMW}}">
-                  <span class="input-group-text" style="width: 100px"></span>
-                </div>
-                <label for="molecularAirMW" class="form-label">Molecular Air</label>
-                <div class="input-group mb-3">
-                  <input required id="molecularAirMW" type="number" step="0.0000001" class="form-control" name="molecularAirMW" placeholder="28.96" value="{{molecularAirMW}}">
-                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb/lb-mol</span>
-                </div>
-                <div class="col-12 mb-3">
-                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Molecular Weight</button>
-                  <small style="color: #524e4e; display: block;">This value will be automatically assigned to other properties</small>
-                </div>
-                <div class="input-group mb-3">
-                  <input disabled="" class="form-control" placeholder="0.9612" value="{{molecularWeight}}" style="color: #ed8505; font-weight: bold;">
-                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/lb-mol</span>
-                </div>
-              </form>
+          <div id="tpc">
+            <div class="row mb-4">
+              <div class="col text-center">
+                <h2>Pseudo-Critical Temperature</h2>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+            </div>
+          </div>
+          <div id="ppr">
+            <div class="row mb-4">
+              <div class="col text-center">
+                <h2>Pseudo-Reduced Pressure</h2>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+            </div>
+          </div>
+          <div id="tpr">
+            <div class="row mb-4">
+              <div class="col text-center">
+                <h2>Pseudo-Reduced Temperature</h2>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="tab-pane fade {% if idealGasProperty == 'density'%} active show {% endif %}" id="density" role="tabpanel" aria-labelledby="density-tab">
+      <div id="implicitCorrelation" class="tab-pane fade" role="tabpanel" aria-labelledby="implicitCorrelation-tab">
         <div class="container my-5">
-          <div class="row mb-4">
-            <div class="col text-center">
-              <h2>Density</h2>
+          <div id="ppc">
+            <div class="row mb-4">
+              <div class="col text-center">
+                <h2>Dranchuk & Abou-Kassem's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
             </div>
           </div>
-          <div class="row d-flex justify-content-center">
-            <div class="col-sm-5 mx-4 mb-5">
-              <form method="post" action="{% url 'ideal_gas' %}">
-                {% csrf_token %}
-                <input hidden="" type="text" name="idealGasProperty" value="density">
-                <label for="molarDensity" class="form-label">Molecular Weight</label>
-                <div class="input-group mb-3">
-                  <input required id="molarDensity" type="number" step="0.0000001" class="form-control" name="molarDensity" placeholder="20.272" value="{{molarDensity}}">
-                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
-                </div>
-                <label for="pressureDensity" class="form-label">Pressure</label>
-                <div class="input-group mb-3">
-                  <input required id="pressureDensity" type="number" step="0.0000001" class="form-control" name="pressureDensity" placeholder="50.0" value="{{pressureDensity}}">
-                  <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
-                </div>
-                <label for="temperatureDensity" class="form-label">Temperature</label>
-                <div class="input-group mb-3">
-                  <input required id="temperatureDensity" type="number" step="0.0000001" class="form-control" name="temperatureDensity" placeholder="20.0" value="{{temperatureDensity}}">
-                  <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
-                </div>
-                <div class="col mb-3">
-                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Density</button>
-                  <small style="color: #524e4e; display: block;">The value of molecular weight will be changed to the default</small>
-                </div>
-                <div class="input-group mb-3">
-                  <input disabled="" class="form-control" placeholder="0.9612" value="{{density}}" style="color: #ed8505; font-weight: bold;">
-                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/ft3</span>
-                </div>
-              </form>
+          <div id="tpc">
+            <div class="row mb-4">
+              <div class="col text-center">
+                <h2>Pseudo-Critical Temperature</h2>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="tab-pane fade {% if idealGasProperty == 'specificvolume'%} active show {% endif %}" id="specificvolume" role="tabpanel" aria-labelledby="specificvolume-tab">
-        <div class="container my-5">
-          <div class="row mb-4">
-            <div class="col text-center">
-              <h2>Specific Volume</h2>
+          <div id="ppr">
+            <div class="row mb-4">
+              <div class="col text-center">
+                <h2>Pseudo-Reduced Pressure</h2>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
             </div>
           </div>
-          <div class="row d-flex justify-content-center">
-            <div class="col-sm-5 mx-4 mb-5">
-              <form method="post" action="{% url 'ideal_gas' %}">
-                {% csrf_token %}
-                <input hidden="" type="text" name="idealGasProperty" value="specificvolume">
-                <label for="molarSV" class="form-label">Molecular Weight</label>
-                <div class="input-group mb-3">
-                  <input required id="molarSV" type="number" step="0.0000001" class="form-control" name="molarSV" placeholder="20.272" value="{{molarSV}}">
-                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb / lb-mol</span>
-                </div>
-                <label for="pressureSV" class="form-label">Pressure</label>
-                <div class="input-group mb-3">
-                  <input required id="pressureSV" type="number" step="0.0000001" class="form-control" name="pressureSV" placeholder="50.0" value="{{pressureSV}}">
-                  <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
-                </div>
-                <label for="temperatureSV" class="form-label">Temperature</label>
-                <div class="input-group mb-3">
-                  <input required id="temperatureSV" type="number" step="0.0000001" class="form-control" name="temperatureSV" placeholder="20.0" value="{{temperatureSV}}">
-                  <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
-                </div>
-                <div class="col mb-3">
-                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Specifiv Volume</button>
-                  <small style="color: #524e4e; display: block;">The value of molecular weight will be changed to the default</small>
-                </div>
-                <div class="input-group mb-3">
-                  <input disabled="" class="form-control" placeholder="0.9612" value="{{specificvolume}}" style="color: #ed8505; font-weight: bold;">
-                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">ft3/lb</span>
-                </div>
-              </form>
+          <div id="tpr">
+            <div class="row mb-4">
+              <div class="col text-center">
+                <h2>Pseudo-Reduced Temperature</h2>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="specificgravity" class="tab-pane fade {% if idealGasProperty == 'specificgravity'%} active show {% endif %}" role="tabpanel" aria-labelledby="specificgravity-tab">
-        <div class="container my-5">
-          <div class="row mb-4">
-            <div class="col text-center">
-              <h2>Specific Gravity</h2>
-            </div>
-          </div>
-          <div class="row d-flex justify-content-center">
-            <div class="col-sm-5 mx-4 mb-5">
-              <form method="post" action="{% url 'ideal_gas' %}">
-                {% csrf_token %}
-                <input hidden="" type="text" name="idealGasProperty" value="specificgravity">
-                <label for="molarGravity" class="form-label">Molecular Weight</label>
-                <div class="input-group mb-3">
-                  <input required id="molarGravity" type="number" step="0.0000001" class="form-control" name="molarGravity" placeholder="20.272" value="{{molarGravity}}">
-                  <span class="input-group-text" style="width: 100px">lb/lb-mol</span>
-                </div>
-                <label for="molecularAirSG" class="form-label">Molecular Air</label>
-                <div class="input-group mb-3">
-                  <input required id="molecularAirSG" type="number" step="0.0000001" class="form-control" name="molecularAirSG" placeholder="28.96" value="{{molecularAirSG}}">
-                  <span class="input-group-text" style="width: 100px; color: #524e4e;">lb/lb-mol</span>
-                </div>
-                <div class="col-12 mb-3">
-                  <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Specific Gravity</button>
-                  <small style="color: #524e4e; display: block;">The value of molecular weight will be changed to the default</small>
-                </div>
-                <div class="input-group mb-3">
-                  <input disabled="" class="form-control" placeholder="0.9612" value="{{specificgravity}}" style="color: #ed8505; font-weight: bold;">
-                  <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white"></span>
-                </div>
-              </form>
+            <div class="row mb-5">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              Dranchuk & Abou-Kassem's Z Factor Correlation
             </div>
           </div>
         </div>

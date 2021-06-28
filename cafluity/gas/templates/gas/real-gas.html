@@ -59,7 +59,7 @@
         <div class="container my-5">
           <div class="row mb-4">
             <div class="col text-center">
-              <h3>Compressibility Factor Z</h3>
+              <h2>Compressibility Factor</h3>
             </div>
           </div>
           <div class="row d-flex justify-content-center">
@@ -146,7 +146,7 @@
                       <input class="form-check-input" name="neCorrelation" type="hidden" value="false">
                       <input class="form-check-input" name="neCorrelation" type="checkbox" value="ne" id="ne" {% for corr in correlation %}{% if corr == "ne" %}checked{% endif %}{% endfor %}>
                       <label class="form-check-label" for="ne">
-                        New Explicit Z Factor Correlation
+                        Kareem, Iwalewa, & Al-Marhoun
                       </label>
                     </li>
                     <li><hr class="dropdown-divider"></li>
@@ -176,7 +176,7 @@
                           {% if key == "minPpr" %}
                           {{ value }} <span>&#8804;</span> 
                           {% else %}
-                          Pseudoreduced Pressure <span>&#8804;</span> {{ value }}
+                          Pseudo-Reduced Pressure <span>&#8804;</span> {{ value }}
                           {% endif %}
                         {% endfor %}
                       </div>
@@ -186,39 +186,40 @@
                           {% if key == "minTpr" %}
                           {{ value }} <span>&#8804;</span> 
                           {% else %}
-                          Pseudoreduced Temperature <span>&#8804;</span> {{ value }}
+                          Pseudo-Reduced Temperature <span>&#8804;</span> {{ value }}
                           {% endif %}
                         {% endfor %}
                       </div>
                       {% else %}
-                      <div>with Pseudoreduced Pressure cannot be equal to {{BoundaryValues}}</div>
+                      <div>with Pseudo-reduced Pressure cannot be equal to {{BoundaryValues}}</div>
                       {% endif %}
                     {% endfor %}
                   </div>
-                  <p>Please check the data you entered!</p>
                   {% endfor %}
+                  <p>Please check the data you entered!</p>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <div class="px-3 mt-3">
-                  <p>Sutton's corelations along with Wichert and Aziz corrections are used to calculate pseudo critical temperature and pressure for the natural gas mixture.</p>
+                  <p>Sutton's corelations along with Wichert and Aziz corrections are used to calculate pseudo-critical temperature and pressure for the natural gas mixture.</p>
                   <table class="table table-borderless">
                     <tbody>
                       <tr>
-                        <td>Pseudocritical Pressure</td>
+                        
+                        <td>Pseudo-Critical Pressure</td>
                         <td>{{ppc}}</td>
                         <td>PSIA</td>
                       </tr>
                       <tr>
-                        <td>Pseudocritical Temperature</td>
+                        <td>Pseudo-Critical Temperature</td>
                         <td>{{Tpc}}</td>
                         <td>&#xb0;R</td>
                       </tr><tr>
-                        <td>Pseudoreduced Pressure</td>
+                        <td>Pseudo-Reduced Pressure</td>
                         <td>{{ppr}}</td>
                         <td></td>
                       </tr>
                       <tr>
-                        <td>Pseudoreduced Temperature</td>
+                        <td>Pseudo-Reduced Temperature</td>
                         <td>{{Tpr}}</td>
                         <td></td>
                       </tr>
@@ -237,31 +238,33 @@
           </div>
           <div class="row d-flex justify-content-center">
             <div class="col-sm-7 px-4">
-              <p>Sutton's correlations along with Wichert and Aziz corrections are used to calculate pseudo critical temperature and pressure for the natural gas mixture.</p>
+              <p>Sutton's correlations along with Wichert and Aziz corrections are used to calculate pseudo-critical temperature and pressure for the natural gas mixture.</p>
               <table class="table table-borderless">
                 <tbody>
                   <tr>
-                    <td>Pseudocritical Pressure</td>
+                    <td><a class="text-decoration-none" href="/reference/#ppc">Pseudo-Critical Pressure</a></td>
                     <td>{{ppc}}</td>
                     <td>PSIA</td>
                   </tr>
                   <tr>
-                    <td>Pseudocritical Temperature</td>
+                    <td><a class="text-decoration-none" href="/reference/#tpc">Pseudo-Critical Temperature</a></td>
                     <td>{{Tpc}}</td>
                     <td>&#xb0;R</td>
-                  </tr><tr>
-                    <td>Pseudoreduced Pressure</td>
+                  </tr>
+                  <tr>
+                    <td><a class="text-decoration-none" href="/reference/#ppr">Pseudo-Reduced Pressure</a></td>
                     <td>{{ppr}}</td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Pseudoreduced Temperature</td>
+                    <td><a class="text-decoration-none" href="/reference/#tpr">Pseudo-Reduced Temperature</a></td>
                     <td>{{Tpr}}</td>
                     <td></td>
                   </tr>
                 </tbody>
               </table>
-              <p> Value of pseudoreduced pressure and pseudoreduced temperature is used to calculate <strong>compressibility factor z</strong> with selected correlations.</p>
+              {% if zfactors %}
+              <p> Value of pseudo-reduced pressure and pseudo-reduced temperature is used to calculate <strong>compressibility factor z</strong> with selected correlations.</p>
               <table class="table table-borderless">
                 <tbody>
                   {% for zfactor in zfactors %}
@@ -278,7 +281,9 @@
                   {% endfor %}
                 </tbody>
               </table>
-              <!-- <p>If the result obtained is NULL, it means that the data provided is outside the correlation range</p> -->
+              {% else %}
+              <p><strong>No correlation selected.</strong></p>
+              {% endif %}
             </div>
           </div>
           {% endif %}
@@ -286,11 +291,13 @@
         {% if boundaryBool %}
         <div class="container">
           <div class="row mb-3">
+            {% if zfactorGraphs %}
             <div class="col text-center">
               <h3>Graph</h3>    
             </div>
+            {% endif %}
           </div>
-          <div class="row">
+          <div class="row mb-5 d-flex justify-content-center">
             {% for zfactorGraph in zfactorGraphs %}
             <div class="col-sm-6 mb-3">
               <div class="card">
@@ -305,15 +312,15 @@
         {% endif %}
       </div>
 
-      <div class="tab-pane fade {% if realGasProperty == 'density'%} active show {% endif %}" id="density" role="tabpanel" aria-labelledby="density-tab">
+      <div id="density" class="tab-pane fade {% if realGasProperty == 'density'%} active show {% endif %}" role="tabpanel" aria-labelledby="density-tab">
         <div class="container my-5">
           <div class="row mb-4">
             <div class="col text-center">
               <h2>Density</h2>
             </div>
           </div>
-          <div class="row">
-            <div class="col mx-4 mb-5">
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-5 mx-4 mb-5">
               <form method="post" action="{% url 'real_gas' %}">
                 {% csrf_token %}
                 <input hidden="" type="text" name="realGasProperty" value="density">
@@ -324,7 +331,7 @@
                 </div>
                 <label for="pressureDensity" class="form-label">Pressure</label>
                 <div class="input-group mb-3">
-                  <input required id="pressureDensity" type="number" step="0.0000001" class="form-control" name="pressureDensity" placeholder="1000" value="{{pressureDensity}}">
+                  <input required id="pressureDensity" type="number" step="0.0000001" class="form-control" name="pressureDensity" placeholder="2000" value="{{pressureDensity}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
                 </div>
                 <label for="temperatureDensity" class="form-label">Temperature</label>
@@ -332,7 +339,7 @@
                   <input required id="temperatureDensity" type="number" step="0.0000001" class="form-control" name="temperatureDensity" placeholder="300" value="{{temperatureDensity}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
                 </div>
-                <label for="zfactorDensity" class="form-label">Compressibility Factor Z</label>
+                <label for="zfactorDensity" class="form-label">Z-Factor</label>
                 <div class="input-group mb-3">
                   <input required id="zfactorDensity" type="number" step="0.0000001" class="form-control" name="zfactorDensity" placeholder="0.9612" value="{{zfactorDensity}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;"></span>
@@ -347,6 +354,7 @@
                 </div>
               </form>
             </div>
+            {% if correlationDensities %}
             <div class="col mx-4">
               <p> The following is the <strong>density value</strong> in <i>lb/ft3 unit</i> based on the z factor value for selected correlation</p>
               <table class="table table-borderless">
@@ -366,19 +374,20 @@
                 </tbody>
               </table>
             </div>
+            {% endif %}
           </div>
         </div>
       </div>
 
-      <div class="tab-pane fade {% if realGasProperty == 'specificvolume'%} active show {% endif %}" id="specificvolume" role="tabpanel" aria-labelledby="specificvolume-tab">
+      <div id="specificvolume" class="tab-pane fade {% if realGasProperty == 'specificvolume'%} active show {% endif %}" role="tabpanel" aria-labelledby="specificvolume-tab">
         <div class="container my-5">
           <div class="row mb-4">
             <div class="col text-center">
               <h2>Specific Volume</h2>
             </div>
           </div>
-          <div class="row">
-            <div class="col mx-4 mb-5">
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-5 mx-4 mb-5">
               <form method="post" action="{% url 'real_gas' %}">
                 {% csrf_token %}
                 <input hidden="" type="text" name="realGasProperty" value="specificvolume">
@@ -389,7 +398,7 @@
                 </div>
                 <label for="pressureSV" class="form-label">Pressure</label>
                 <div class="input-group mb-3">
-                  <input required id="pressureSV" type="number" step="0.0000001" class="form-control" name="pressureSV" placeholder="1000" value="{{pressureSV}}">
+                  <input required id="pressureSV" type="number" step="0.0000001" class="form-control" name="pressureSV" placeholder="2000" value="{{pressureSV}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">PSIA</span>
                 </div>
                 <label for="temperatureSV" class="form-label">Temperature</label>
@@ -397,7 +406,7 @@
                   <input required id="temperatureSV" type="number" step="0.0000001" class="form-control" name="temperatureSV" placeholder="300" value="{{temperatureSV}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;">&#xb0;F</span>
                 </div>
-                <label for="zfactorSV" class="form-label">Compressibility Factor Z</label>
+                <label for="zfactorSV" class="form-label">Z-Factor</label>
                 <div class="input-group mb-3">
                   <input required id="zfactorSV" type="number" step="0.0000001" class="form-control" name="zfactorSV" placeholder="0.9612" value="{{zfactorSV}}">
                   <span class="input-group-text" style="width: 100px; color: #524e4e;"></span>
@@ -412,6 +421,7 @@
                 </div>
               </form>
             </div>
+            {% if correlationDensities %}
             <div class="col mx-4">
               <p> The following is the <strong>specific volume value</strong> in <i>ft3/lb unit</i> based on the z factor value for selected correlation</p>
               <table class="table table-borderless">
@@ -431,6 +441,7 @@
                 </tbody>
               </table>
             </div>
+            {% endif %}
           </div>
         </div>
       </div>
