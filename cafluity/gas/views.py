@@ -123,7 +123,7 @@ def realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s):
 	for corr in correlation:
 		name, boundary, zfactor = rgas.z(Tpr, ppr, corr)
 		if zfactor != "NULL":
-			zfactors.append({"name": name, "zfactor": zfactor})
+			zfactors.append({"corr": corr, "name": name, "zfactor": zfactor})
 			zfactorGraphs.append(rgas.z_graph(Tpr, ppr, corr))
 		else :
 			boundaryBool = 0
@@ -320,5 +320,12 @@ def ideal_gas(request):
 	return render(request, 'gas/ideal-gas.html', context)
 
 def reference(request):
-
-	return render(request, 'gas/reference.html')
+	if request.method == "GET" and 'ref' in request.GET:
+		activeURL = request.GET['ref']
+	else:
+		activeURL = 'p'
+	
+	context = {
+		'activeURL': activeURL
+	}
+	return render(request, 'gas/reference.html', context)

@@ -204,22 +204,22 @@
                   <table class="table table-borderless">
                     <tbody>
                       <tr>
-                        <td><a class="text-decoration-none" href="/reference/#pc">Pseudo-Critical Pressure</a></td>
+                        <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Pressure</a></td>
                         <td>{{ppc}}</td>
                         <td>PSIA</td>
                       </tr>
                       <tr>
-                        <td><a class="text-decoration-none" href="/reference/#pc">Pseudo-Critical Temperature</a></td>
+                        <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Temperature</a></td>
                         <td>{{Tpc}}</td>
                         <td>&#xb0;R</td>
                       </tr>
                       <tr>
-                        <td><a class="text-decoration-none" href="/reference/#pr">Pseudo-Reduced Pressure</a></td>
+                        <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Pressure</a></td>
                         <td>{{ppr}}</td>
                         <td></td>
                       </tr>
                       <tr>
-                        <td><a class="text-decoration-none" href="/reference/#pr">Pseudo-Reduced Temperature</a></td>
+                        <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Temperature</a></td>
                         <td>{{Tpr}}</td>
                         <td></td>
                       </tr>
@@ -242,22 +242,22 @@
               <table class="table table-borderless">
                 <tbody>
                   <tr>
-                    <td><a class="text-decoration-none" href="/reference/#pc">Pseudo-Critical Pressure</a></td>
+                    <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Pressure</a></td>
                     <td>{{ppc}}</td>
                     <td>PSIA</td>
                   </tr>
                   <tr>
-                    <td><a class="text-decoration-none" href="/reference/#pc">Pseudo-Critical Temperature</a></td>
+                    <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Temperature</a></td>
                     <td>{{Tpc}}</td>
                     <td>&#xb0;R</td>
                   </tr>
                   <tr>
-                    <td><a class="text-decoration-none" href="/reference/#pr">Pseudo-Reduced Pressure</a></td>
+                    <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Pressure</a></td>
                     <td>{{ppr}}</td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td><a class="text-decoration-none" href="/reference/#pr">Pseudo-Reduced Temperature</a></td>
+                    <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Temperature</a></td>
                     <td>{{Tpr}}</td>
                     <td></td>
                   </tr>
@@ -270,8 +270,22 @@
                   {% for zfactor in zfactors %}
                   <tr>
                     {% for key, value in zfactor.items %}
-                      {% if key == "name" %}
-                      <td>{{ value }}</td>
+                      {% if key == "corr" %}
+                        {% if value == "da-k" %}
+                        <td><a class="text-decoration-none" href="/reference/?ref=ic#{{value}}">Dranchuk & Abou-Kassem's Z Factor Correlation</a></td>
+                        {% elif value == "hy" %}
+                        <td><a class="text-decoration-none" href="/reference/?ref=ic#{{value}}">Hall & Yarborough's Z Factor Correlation</a></td>
+                        {% elif value == "abi" %}
+                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Azizi, Behbahani, & Isazadeh's Z Factor Correlation</a></td>
+                        {% elif value == "bb" %}
+                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Brill & Begg's Z Factor Correlation</a></td>
+                        {% elif value == "hmr" %}
+                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation</a></td>
+                        {% elif value == "sn" %}
+                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Sanjiri & Nemati's Z Factor Correlation</a></td>
+                        {% elif value == "ne" %}
+                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Kareem, Iwalewa, & Al-Marhoun's Z Factor Correlation</a></td>
+                        {% endif %}
                       {% endif %}
                       {% if key == "zfactor" %}
                       <td><strong>{{ value }}</strong></td>

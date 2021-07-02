@@ -42,12 +42,12 @@
               <a class="nav-link active" id="pseudo-tab" data-bs-toggle="pill" data-bs-target="#pseudo" type="button" role="tab" aria-controls="pseudo" aria-selected="true">Pseudo</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="implicitCorrelation-tab" data-bs-toggle="pill" data-bs-target="#implicitCorrelation" type="button" role="button" aria-controls="implicitCorrelation" aria-selected="false">
+              <a class="nav-link dropdown-toggle" id="implicitCorrelation-tab" type="button" role="button" data-bs-toggle="dropdown" aria-selected="false" aria-controls="implicitCorrelation">
                 Implicit Correlation
               </a>
               <ul class="dropdown-menu" aria-labelledby="implicitCorrelation">
-                <li><a class="dropdown-item" href="#da-k-corr">Dranchuk & Abou-Kassem</a></li>
-                <li><a class="dropdown-item" href="#hy-corr">Hall & Yarborough</a></li>
+                <li><a data-bs-toggle="pill" data-bs-target="#implicitCorrelation" class="dropdown-item" href="#da-k-corr">Dranchuk & Abou-Kassem</a></li>
+                <li><a data-bs-toggle="pill" data-bs-target="#implicitCorrelation" class="dropdown-item" href="#hy-corr">Hall & Yarborough</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -70,53 +70,71 @@
     <div class="tab-content" id="pills-tabContent">
       
       <div id="pseudo" class="tab-pane fade active show" role="tabpanel" aria-labelledby="pseudo-tab">
-        <div class="container my-5">
-          <div id="ppc">
-            <div class="row mb-4">
+        <div class="container col-sm-8" style="line-height: 1.6;">
+          <div id="pc" class="pt-5">
+            <div class="row mb-4 pt-5">
               <div class="col text-center">
-                <h2>Pseudo-Critical Pressure</h2>
+                <h2>Pseudo-Critical</h2>
               </div>
             </div>
-            <div class="row mb-5">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+            <div class="row">
+              <p>In cases where the composition of a natural gas is not available, the pseudo-critical properties, ppc and Tpc, can be predicted solely from the specific gravity of the gas. Brown et al. (1948) presented a graphical method for a convenient approximation of the pseudo-critical pressure and pseudo-critical temperature of gases when only the specific gravity of the gas is available.</p>
+              <p>The correlation is presented in Figure 3–2. Standing (1977) expressed this graphical correlation in the following mathematical forms.</p>
+              <div class="container col-sm-11">
+                  <p>For Case 1, natural gas systems,</p>
+                  <div class="ml-3"><i>Tpc = 168 + 325&upsih;g - 12.5&upsih;g&#178;</i></div>
+                  <div class="ml-3"><i>Ppc = 677 + 15&upsih; - 37.5&upsih;g&#178;</i></div>
+              </div>
+              <div class="row mt-3 justify-content-center">
+                <div class="card" style="width: 33rem;">
+                  <img src="{% static 'gas/img/pseudo-critical.png' %}" class="card-img-top" alt="pseudo-critical">
+                </div>
+              </div>
+              <div class="container col-sm-11 mt-3 mb-4">
+                <p>For Case 2, wet gas systems,</p>
+                <div class="ml-3"><i>Tpc = 187 + 330&upsih;g - 71.5&upsih;g&#178;</i></div>
+                <div class="ml-3"><i>Ppc = 706 - 51.7&upsih; - 11.1&upsih;g&#178;</i></div>
+              </div>
+              <p>where Tpc is pseudo-critical temperature with &#xb0;R unit, Ppc is pseudo-critical pressure with psia unit, and &upsih;g is specific gravity of the gas mixture.</p>
+            </div>
+            <div class="row mt-5 mb-4">
+              <div class="col text-center">
+                <h4>Effect of Nonhydrocarbon Components on the Z-Factor</h4>
+              </div>
+            </div>
+            <div class="row">
+              <p>Natural gases frequently contain materials other than hydrocarbon components, such as nitrogen, carbon dioxide, and hydrogen sulfide. Hydrocarbon gases are classified as sweet or sour depending on the hydrogen sulfide content. Both sweet and sour gases may contain nitrogen, carbon dioxide, or both. A hydrocarbon gas is termed a sour gas if it contains 1 grain of H2S per 100 cubic feet.</p>
+              <p>Carr-Kobayashi-Burrows method were developed to adjust the pseudo-critical properties of the gases to account for the presence of the n-hydrocarbon components.</p>
+              <p>Carr, Kobayashi, and Burrows (1954) proposed a simplified procedure to adjust the
+                pseudo-critical properties of natural gases when nonhydrocarbon components are present. The method can be used when the composition of the natural gas is not available.</p>
+              <div class="container col-sm-11 mb-3">
+                  <p>Adjust the estimated pseudo-critical properties by using the following two expressions:</p>
+                  <div class="ml-3"><i>T&prime;pc = Tpc - 80yCO2 + 130yH2S - 250yN2</i></div>
+                  <div class="ml-3"><i>P&prime;pc = Ppc + 440yCO2 + 600yH2S - 17yN2</i></div>
+              </div>
+              <p>where T&prime;pc is adjusted pseudo-critical temperature and Tpc is unadjusted pseudo-critical temperature with unit &#xb0;R. 
+                P&prime;pc is adjusted pseudo-critical pressure and Ppc is unadjusted pseudo-critical pressure with unit psia. 
+                yCO2 is mole fraction of CO2, yN2 mole fraction of nitrogen, and yH2S mole fraction of H2S in the gas mixture.</p>
             </div>
           </div>
-          <div id="tpc">
-            <div class="row mb-4">
+          <div id="pr" class="pt-5">
+            <div class="row mb-4 pt-5">
               <div class="col text-center">
-                <h2>Pseudo-Critical Temperature</h2>
+                <h2>Pseudo-Reduced</h2>
               </div>
             </div>
             <div class="row mb-5">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-            </div>
-          </div>
-          <div id="ppr">
-            <div class="row mb-4">
-              <div class="col text-center">
-                <h2>Pseudo-Reduced Pressure</h2>
+              <p>Studies of the gas compressibility factors for natural gases of various compositions show that the compressibility factor can be generalized with sufficient accuracy for most engineering purposes when they are expressed in terms of the following two dimensionless properties: pseudo-reduced pressure, ppr, and pseudo-reduced temperature, Tpr. These dimensionless terms are defined by the following expressions:</p>
+              <div class="row my-3 justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 10rem;">
+                  <img src="{% static 'gas/img/tpr.png' %}" class="card-img-top" alt="Tpr">
+                </div>
+                <div class="card mx-2 mb-2" style="width: 10rem;">
+                  <img src="{% static 'gas/img/ppr.png' %}" class="card-img-top" alt="Ppr">
+                </div>
               </div>
-            </div>
-            <div class="row mb-5">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-            </div>
-          </div>
-          <div id="tpr">
-            <div class="row mb-4">
-              <div class="col text-center">
-                <h2>Pseudo-Reduced Temperature</h2>
-              </div>
-            </div>
-            <div class="row mb-5">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
+              <p>where p is system pressure with unit psia, Ppc is adjusted pseudo-critical pressure with unit psia, and Ppr is pseudo-reduced pressure with unit dimensionless.
+                T is system temperature with &#xb0;R unit, Tpc is adjusted pseudo-critical temperature with unit &#xb0;R, and Tpr pseudo-reduced temperature with unit dimensionless.</p>
             </div>
           </div>
         </div>
@@ -124,49 +142,49 @@
 
       <div id="implicitCorrelation" class="tab-pane fade" role="tabpanel" aria-labelledby="implicitCorrelation-tab">
         <div class="container my-5">
-          <div id="ppc">
+          <div id="ppc mt-5">
             <div class="row mb-4">
               <div class="col text-center">
                 <h2>Dranchuk & Abou-Kassem's Z Factor Correlation</h2>
               </div>
             </div>
-            <div class="row mb-5">
+            <div class="row">
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
             </div>
           </div>
-          <div id="tpc">
+          <div id="tpc mt-5">
             <div class="row mb-4">
               <div class="col text-center">
                 <h2>Pseudo-Critical Temperature</h2>
               </div>
             </div>
-            <div class="row mb-5">
+            <div class="row">
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
             </div>
           </div>
-          <div id="ppr">
+          <div id="ppr mt-5">
             <div class="row mb-4">
               <div class="col text-center">
                 <h2>Pseudo-Reduced Pressure</h2>
               </div>
             </div>
-            <div class="row mb-5">
+            <div class="row">
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
             </div>
           </div>
-          <div id="tpr">
+          <div id="tpr mt-5">
             <div class="row mb-4">
               <div class="col text-center">
                 <h2>Pseudo-Reduced Temperature</h2>
               </div>
             </div>
-            <div class="row mb-5">
+            <div class="row">
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
               <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>

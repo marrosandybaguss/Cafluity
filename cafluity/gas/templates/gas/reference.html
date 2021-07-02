@@ -39,28 +39,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" id="pills-tab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="pseudo-tab" data-bs-toggle="pill" data-bs-target="#pseudo" type="button" role="tab" aria-controls="pseudo" aria-selected="true">Pseudo</a>
+              <a class="nav-link {% if activeURL == 'p' %} active {% endif %}" id="pseudo-tab" data-bs-toggle="pill" data-bs-target="#pseudo" type="button" role="tab" aria-controls="pseudo" aria-selected="{% if activeURL == 'p' %}true{% else %}false{% endif %}">Pseudo</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="implicitCorrelation-tab" data-bs-toggle="pill" data-bs-target="#implicitCorrelation" type="button" role="button" aria-controls="implicitCorrelation" aria-selected="false">
-                Implicit Correlation
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="implicitCorrelation">
-                <li><a class="dropdown-item" href="#da-k-corr">Dranchuk & Abou-Kassem</a></li>
-                <li><a class="dropdown-item" href="#hy-corr">Hall & Yarborough</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link {% if activeURL == 'ic' %} active {% endif %}" id="implicit-correlation-tab" data-bs-toggle="pill" data-bs-target="#implicit-correlation" type="button" role="tab" aria-controls="implicit-correlation" aria-selected="{% if activeURL == 'ic' %}true{% else %}false{% endif %}">Implicit Correlation</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="explicitCorrelation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Explicit Correlation
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="explicitCorrelation">
-                <li><a class="dropdown-item" href="#abi-corr">Azizi, Behbahani, & Isazadeh</a></li>
-                <li><a class="dropdown-item" href="#bb-corr">Brill & Begg</a></li>
-                <li><a class="dropdown-item" href="#hy-corr">Heidaryan, Moghdasi, & Rahimi</a></li>
-                <li><a class="dropdown-item" href="#sn-corr">Sanjiri & Nemati</a></li>
-                <li><a class="dropdown-item" href="#ne-corr">New Explicit Z Factor Correlation</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link {% if activeURL == 'ec' %} active {% endif %}" id="explicit-correlation-tab" data-bs-toggle="pill" data-bs-target="#explicit-correlation" type="button" role="tab" aria-controls="explicit-correlation" aria-selected="{% if activeURL == 'ec' %}true{% else %}false{% endif %}">Explicit Correlation</a>
+            </li>
             </li>
           </ul>
         </div>
@@ -69,12 +55,131 @@
 
     <div class="tab-content" id="pills-tabContent">
       
-      <div id="pseudo" class="tab-pane fade active show" role="tabpanel" aria-labelledby="pseudo-tab">
+      <div id="pseudo" class="tab-pane fade {% if activeURL == 'p' %}active show{% endif %}" role="tabpanel" aria-labelledby="pseudo-tab">
         <div class="container col-sm-8" style="line-height: 1.6;">
           <div id="pc" class="pt-5">
             <div class="row mb-4 pt-5">
               <div class="col text-center">
                 <h2>Pseudo-Critical</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Perhitungan pseudo-critical dilakukan menggunakan korelasi Brown, dkk (1948). Persamaan matematis korelasi tersebut adalah sebagai berikut:</p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 20rem;">
+                  <img src="{% static 'gas/img/tpc.png' %}" class="card-img-top" alt="Tpc">
+                </div>
+                <div class="card mx-2 mb-2" style="width: 20rem;">
+                  <img src="{% static 'gas/img/ppc.png' %}" class="card-img-top" alt="Ppc">
+                </div>
+              </div> 
+              <p>dengan Tpc merupakan pseudo-critical temperature satuan &#xb0;R, Ppc merupakan pseudo-critical pressure satuan psia, dan &upsih;g merupakan specific gravity atau gas gravity satuan dimensionless.</p>
+              <p>Ketika gas alam mengandung selain komponen hidrokarbon, seperti nitrogen, karbon dioksida, dan hidrogen sulfida, dilakukan metode perhitungan tambahan menggunakan korelasi Carr, Kobayashi, and Burrows (1954), yaitu sebagai berikut:</p>
+              <!-- <p>Korelasi Brown, dkk (1948) hanya dapat digunakan pada gas alam yang hanya mengandung komponen hidrokarbon. Namun pada umumnya, gas alam sering mengandung bahan selain komponen hidrokarbon, seperti nitrogen, karbon dioksida, dan hidrogen sulfida. Sehingga diperlukan metode tambahan, dalam kalkulator ini digunakan korelasi Carr, Kobayashi, and Burrows (1954), berikut persamaan matematisnya:</p> -->
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 27rem;">
+                  <img src="{% static 'gas/img/tpc-n.png' %}" class="card-img-top" alt="Tpc yang sudah disesuaikan">
+                </div>
+                <div class="card mx-2 mb-2" style="width: 27rem;">
+                  <img src="{% static 'gas/img/ppc-n.png' %}" class="card-img-top" alt="Ppc yang sudah disesuaikan">
+                </div>
+              </div>
+              <p>di mana T′pc adalah pseudo-critical temperature yang sudah disesuaikan dan Tpc adalah pseudo-critical temperature yang belum disesuaikan, masing-masing bersatuan °R. P′pc adalah pseudo-critical pressure yang sudah disesuaikan dan Ppc adalah pseudo-critical pressure yang belum disesuaikan, masing-masing bersatuan psia. Kemudian yCO2 adalah fraksi mol karbon dioksida, yN2 fraksi mol nitrogen, dan yH2S fraksi mol dari hidrogen sulfida dalam satuan mol persen.</p>
+            </div>
+          </div>
+          <div id="pr" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Pseudo-Reduced</h2>
+              </div>
+            </div>
+            <div class="row mb-5 pb-5">
+              <p>Perhitungan pseudo-reduced dilakukan dengan menggunakan Tpc dan Ppc yang sudah disesuaikan. Berikut rumusan yang digunakan dalam menghitung pseudo-reduced (Ahmed, 2007): </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 9rem;">
+                  <img src="{% static 'gas/img/tpr.png' %}" class="card-img-top" alt="Tpr">
+                </div>
+                <div class="card mx-2 mb-2" style="width: 9rem;">
+                  <img src="{% static 'gas/img/ppr.png' %}" class="card-img-top" alt="Ppr">
+                </div>
+              </div>
+              <p>dengan Tpr merupakan pseudo-reduced temperature satuan dimensionless, T merupakan suhu sistem satuan &#xb0;R, dan Tpc merupakan pseudo-critical temperature yang sudah disesuaikan. Kemudian Ppr merupakan pseudo-reduced pressure satuan dimensionless, P merupakan tekanan sistem satuan psia, dan Ppc merupakan Pseudo-critical yang sudah disesuaikan satuan psia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="implicit-correlation" class="tab-pane fade {% if activeURL == 'ic' %}active show{% endif %}" role="tabpanel" aria-labelledby="implicit-correlation-tab">
+        <div class="container col-sm-8" style="line-height: 1.6;">
+          <div id="da-k" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Dranchuk & Abou-Kassem's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Korelasi Abou-kassem and Dranchuk (1975) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Dranchuk & Abou-Kassem: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 12rem;">
+                  <img src="{% static 'gas/img/da-k1.png' %}" class="card-img-top" alt="Dranchuk & Abou-Kassem's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan nilai y adalah akar dari persamaan berikut: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/da-k2.png' %}" class="card-img-top" alt="Persamaan Non-Linier Korelasi Dranchuk & Abou-Kassem">
+                </div>
+              </div>
+              <p>Persemaan tersebut merupakan persamaan non-linier. Dalam mendapatkan akar dari persamaan tersebut dilakukan metode Newton Raphson. Kemudian berikut persamaan variabel diatas: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 27rem;">
+                  <img src="{% static 'gas/img/da-k3.png' %}" class="card-img-top" alt="Variabel Korelasi Dranchuk & Abou-Kassem">
+                </div>
+              </div>
+              <p>dengan konstanta: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 51rem;">
+                  <img src="{% static 'gas/img/da-k6.png' %}" class="card-img-top" alt="Konstanta Korelasi Dranchuk & Abou-Kassem">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="hy" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Hall & Yarborough's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row mb-5 pb-5">
+              <p>Korelasi Hall and Yarborough (Trube, 1957) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Hall & Yarborough: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 12rem;">
+                  <img src="{% static 'gas/img/hy1.png' %}" class="card-img-top" alt="Hall & Yarborough's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan nilai y adalah akar dari persamaan berikut: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 38rem;">
+                  <img src="{% static 'gas/img/hy2.png' %}" class="card-img-top" alt="Persamaan Non-Linier Korelasi Hall & Yarborough">
+                </div>
+              </div>
+              <p>Persemaan tersebut merupakan persamaan non-linier. Dalam mendapatkan akar dari persamaan tersebut dilakukan metode Newton Raphson. Kemudian berikut persamaan variabel diatas: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 25rem;">
+                  <img src="{% static 'gas/img/hy3.png' %}" class="card-img-top" alt="Variabel Korelasi Hall & Yarborough">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="explicit-correlation" class="tab-pane fade {% if activeURL == 'ec' %}active show{% endif %}" role="tabpanel" aria-labelledby="explicit-correlation-tab">
+        <div class="container col-sm-8" style="line-height: 1.6;">
+          <div id="hh" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>explicit-correlation-Critical</h2>
               </div>
             </div>
             <div class="row">
@@ -85,7 +190,7 @@
                   <div class="ml-3"><i>Tpc = 168 + 325&upsih;g - 12.5&upsih;g&#178;</i></div>
                   <div class="ml-3"><i>Ppc = 677 + 15&upsih; - 37.5&upsih;g&#178;</i></div>
               </div>
-              <div class="row mt-3 justify-content-center">
+              <div class="row mt-3 d-flex justify-content-center">
                 <div class="card" style="width: 33rem;">
                   <img src="{% static 'gas/img/pseudo-critical.png' %}" class="card-img-top" alt="pseudo-critical">
                 </div>
@@ -117,7 +222,7 @@
                 yCO2 is mole fraction of CO2, yN2 mole fraction of nitrogen, and yH2S mole fraction of H2S in the gas mixture.</p>
             </div>
           </div>
-          <div id="pr" class="pt-5">
+          <div id="pras" class="pt-5">
             <div class="row mb-4 pt-5">
               <div class="col text-center">
                 <h2>Pseudo-Reduced</h2>
@@ -125,70 +230,16 @@
             </div>
             <div class="row mb-5">
               <p>Studies of the gas compressibility factors for natural gases of various compositions show that the compressibility factor can be generalized with sufficient accuracy for most engineering purposes when they are expressed in terms of the following two dimensionless properties: pseudo-reduced pressure, ppr, and pseudo-reduced temperature, Tpr. These dimensionless terms are defined by the following expressions:</p>
-              <div class="row my-3 justify-content-center">
-                <div class="card mx-2" style="width: 10rem;">
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 10rem;">
                   <img src="{% static 'gas/img/tpr.png' %}" class="card-img-top" alt="Tpr">
                 </div>
-                <div class="card mx-2" style="width: 10rem;">
+                <div class="card mx-2 mb-2" style="width: 10rem;">
                   <img src="{% static 'gas/img/ppr.png' %}" class="card-img-top" alt="Ppr">
                 </div>
               </div>
               <p>where p is system pressure with unit psia, Ppc is adjusted pseudo-critical pressure with unit psia, and Ppr is pseudo-reduced pressure with unit dimensionless.
                 T is system temperature with &#xb0;R unit, Tpc is adjusted pseudo-critical temperature with unit &#xb0;R, and Tpr pseudo-reduced temperature with unit dimensionless.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="implicitCorrelation" class="tab-pane fade" role="tabpanel" aria-labelledby="implicitCorrelation-tab">
-        <div class="container my-5">
-          <div id="ppc mt-5">
-            <div class="row mb-4">
-              <div class="col text-center">
-                <h2>Dranchuk & Abou-Kassem's Z Factor Correlation</h2>
-              </div>
-            </div>
-            <div class="row">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-            </div>
-          </div>
-          <div id="tpc mt-5">
-            <div class="row mb-4">
-              <div class="col text-center">
-                <h2>Pseudo-Critical Temperature</h2>
-              </div>
-            </div>
-            <div class="row">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-            </div>
-          </div>
-          <div id="ppr mt-5">
-            <div class="row mb-4">
-              <div class="col text-center">
-                <h2>Pseudo-Reduced Pressure</h2>
-              </div>
-            </div>
-            <div class="row">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-            </div>
-          </div>
-          <div id="tpr mt-5">
-            <div class="row mb-4">
-              <div class="col text-center">
-                <h2>Pseudo-Reduced Temperature</h2>
-              </div>
-            </div>
-            <div class="row">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus harum mollitia iusto recusandae dolores deleniti eaque laudantium beatae a consequuntur hic dolorem delectus, molestias vero, accusantium libero, non ex. Ipsam?</p>
-              Dranchuk & Abou-Kassem's Z Factor Correlation
             </div>
           </div>
         </div>

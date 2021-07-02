@@ -20,7 +20,7 @@ def get_plot(x, y, title, xlabel, ylabel):
 	plt.xlabel(xlabel)
 	plt.ylabel(ylabel)
 	plt.plot(x, y, color = 'darkorange')
-	plt.scatter(x, y)
+	# plt.scatter(x, y)
 	plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
 	plt.tight_layout()
 	graph = get_graph()
