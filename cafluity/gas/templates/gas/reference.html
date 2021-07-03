@@ -176,70 +176,127 @@
 
       <div id="explicit-correlation" class="tab-pane fade {% if activeURL == 'ec' %}active show{% endif %}" role="tabpanel" aria-labelledby="explicit-correlation-tab">
         <div class="container col-sm-8" style="line-height: 1.6;">
-          <div id="hh" class="pt-5">
+          <div id="abi" class="pt-5">
             <div class="row mb-4 pt-5">
               <div class="col text-center">
-                <h2>explicit-correlation-Critical</h2>
+                <h2>Azizi, Behbahani, & Isazadeh's Z Factor Correlation</h2>
               </div>
             </div>
             <div class="row">
-              <p>In cases where the composition of a natural gas is not available, the pseudo-critical properties, ppc and Tpc, can be predicted solely from the specific gravity of the gas. Brown et al. (1948) presented a graphical method for a convenient approximation of the pseudo-critical pressure and pseudo-critical temperature of gases when only the specific gravity of the gas is available.</p>
-              <p>The correlation is presented in Figure 3–2. Standing (1977) expressed this graphical correlation in the following mathematical forms.</p>
-              <div class="container col-sm-11">
-                  <p>For Case 1, natural gas systems,</p>
-                  <div class="ml-3"><i>Tpc = 168 + 325&upsih;g - 12.5&upsih;g&#178;</i></div>
-                  <div class="ml-3"><i>Ppc = 677 + 15&upsih; - 37.5&upsih;g&#178;</i></div>
-              </div>
-              <div class="row mt-3 d-flex justify-content-center">
-                <div class="card" style="width: 33rem;">
-                  <img src="{% static 'gas/img/pseudo-critical.png' %}" class="card-img-top" alt="pseudo-critical">
+              <p>Korelasi Azizi et al. (2010) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 11) dan pada Pseudo-Reduced Temperature (1.1 <span>&#8804;</span> Tpr <span>&#8804;</span> 2). Berikut persamaan matematis korelasi Azizi, Behbahani, & Isazadeh: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 14rem;">
+                  <img src="{% static 'gas/img/abi1.png' %}" class="card-img-top" alt="Azizi, Behbahani, & Isazadeh's Z Factor Correlation">
                 </div>
               </div>
-              <div class="container col-sm-11 mt-3 mb-4">
-                <p>For Case 2, wet gas systems,</p>
-                <div class="ml-3"><i>Tpc = 187 + 330&upsih;g - 71.5&upsih;g&#178;</i></div>
-                <div class="ml-3"><i>Ppc = 706 - 51.7&upsih; - 11.1&upsih;g&#178;</i></div>
+              <p>dengan </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/abi2.png' %}" class="card-img-top" alt="Variabel Korelasi Azizi, Behbahani, & Isazadeh">
+                </div>
               </div>
-              <p>where Tpc is pseudo-critical temperature with &#xb0;R unit, Ppc is pseudo-critical pressure with psia unit, and &upsih;g is specific gravity of the gas mixture.</p>
-            </div>
-            <div class="row mt-5 mb-4">
-              <div class="col text-center">
-                <h4>Effect of Nonhydrocarbon Components on the Z-Factor</h4>
+              <p>dengan konstanta: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 55rem;">
+                  <img src="{% static 'gas/img/abi3.png' %}" class="card-img-top" alt="Konstanta Korelasi Azizi, Behbahani, & Isazadeh">
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <p>Natural gases frequently contain materials other than hydrocarbon components, such as nitrogen, carbon dioxide, and hydrogen sulfide. Hydrocarbon gases are classified as sweet or sour depending on the hydrogen sulfide content. Both sweet and sour gases may contain nitrogen, carbon dioxide, or both. A hydrocarbon gas is termed a sour gas if it contains 1 grain of H2S per 100 cubic feet.</p>
-              <p>Carr-Kobayashi-Burrows method were developed to adjust the pseudo-critical properties of the gases to account for the presence of the n-hydrocarbon components.</p>
-              <p>Carr, Kobayashi, and Burrows (1954) proposed a simplified procedure to adjust the
-                pseudo-critical properties of natural gases when nonhydrocarbon components are present. The method can be used when the composition of the natural gas is not available.</p>
-              <div class="container col-sm-11 mb-3">
-                  <p>Adjust the estimated pseudo-critical properties by using the following two expressions:</p>
-                  <div class="ml-3"><i>T&prime;pc = Tpc - 80yCO2 + 130yH2S - 250yN2</i></div>
-                  <div class="ml-3"><i>P&prime;pc = Ppc + 440yCO2 + 600yH2S - 17yN2</i></div>
-              </div>
-              <p>where T&prime;pc is adjusted pseudo-critical temperature and Tpc is unadjusted pseudo-critical temperature with unit &#xb0;R. 
-                P&prime;pc is adjusted pseudo-critical pressure and Ppc is unadjusted pseudo-critical pressure with unit psia. 
-                yCO2 is mole fraction of CO2, yN2 mole fraction of nitrogen, and yH2S mole fraction of H2S in the gas mixture.</p>
             </div>
           </div>
-          <div id="pras" class="pt-5">
+          <div id="bb" class="pt-5">
             <div class="row mb-4 pt-5">
               <div class="col text-center">
-                <h2>Pseudo-Reduced</h2>
+                <h2>Brill & Begg's Z Factor Correlation</h2>
               </div>
             </div>
-            <div class="row mb-5">
-              <p>Studies of the gas compressibility factors for natural gases of various compositions show that the compressibility factor can be generalized with sufficient accuracy for most engineering purposes when they are expressed in terms of the following two dimensionless properties: pseudo-reduced pressure, ppr, and pseudo-reduced temperature, Tpr. These dimensionless terms are defined by the following expressions:</p>
+            <div class="row">
+              <p>Korelasi Brill and Begg (1973) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan pada Pseudo-Reduced Temperature (0.92 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Brill & Begg: </p>
               <div class="row my-3 d-flex justify-content-center">
-                <div class="card mx-2 mb-2" style="width: 10rem;">
-                  <img src="{% static 'gas/img/tpr.png' %}" class="card-img-top" alt="Tpr">
-                </div>
-                <div class="card mx-2 mb-2" style="width: 10rem;">
-                  <img src="{% static 'gas/img/ppr.png' %}" class="card-img-top" alt="Ppr">
+                <div class="card mx-2 mb-2" style="width: 21rem;">
+                  <img src="{% static 'gas/img/bb1.png' %}" class="card-img-top" alt="Brill & Begg's Z Factor Correlation">
                 </div>
               </div>
-              <p>where p is system pressure with unit psia, Ppc is adjusted pseudo-critical pressure with unit psia, and Ppr is pseudo-reduced pressure with unit dimensionless.
-                T is system temperature with &#xb0;R unit, Tpc is adjusted pseudo-critical temperature with unit &#xb0;R, and Tpr pseudo-reduced temperature with unit dimensionless.</p>
+              <p>dengan </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 47rem;">
+                  <img src="{% static 'gas/img/bb2.png' %}" class="card-img-top" alt="Variabel Korelasi Brill & Begg">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="hmr" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Korelasi Heidaryan et al. (2010) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan tidak boleh bernilai 3 serta batasan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Heidaryan, Moghdasi, & Rahimi: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/hmr1.png' %}" class="card-img-top" alt="Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan konstanta Heidaryan ketika Ppr kurang dari sama dengan 3 dan lebih dari 3 </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/hmr2.png' %}" class="card-img-top" alt="Konstanta Korelasi Heidaryan, Moghdasi, & Rahimi">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="sn" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Sanjiri & Nemati's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Korelasi Sanjari and Lay (2012) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan tidak boleh bernilai 3 serta batasan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Sanjiri & Nemati: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 40rem;">
+                  <img src="{% static 'gas/img/sn1.png' %}" class="card-img-top" alt="Sanjiri & Nemati's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan konstanta Sanjari ketika Ppr kurang dari sama dengan 3 dan lebih dari 3 </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/sn2.png' %}" class="card-img-top" alt="Konstanta Korelasi Sanjiri & Nemati">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="ne" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Kareem, Iwalewa, & Al-Marhoun's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row mb-5 pb-5">
+              <p>Korelasi Kareem at al. (2015) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Kareem, Iwalewa, & Al-Marhoun: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 27rem;">
+                  <img src="{% static 'gas/img/ne1.png' %}" class="card-img-top" alt="Kareem, Iwalewa, & Al-Marhoun's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan nilai y adalah persamaan berikut: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 17rem;">
+                  <img src="{% static 'gas/img/ne2.png' %}" class="card-img-top" alt="Persamaan Non-Linier Korelasi Kareem, Iwalewa, & Al-Marhoun">
+                </div>
+              </div>
+              <p>dengan </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 25rem;">
+                  <img src="{% static 'gas/img/hy3.png' %}" class="card-img-top" alt="Variabel Korelasi Kareem, Iwalewa, & Al-Marhoun">
+                </div>
+              </div>
+              <p>dengan konstanta </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 50rem;">
+                  <img src="{% static 'gas/img/ne4.png' %}" class="card-img-top" alt="Konstanta Korelasi Kareem, Iwalewa, & Al-Marhoun">
+                </div>
+              </div>
             </div>
           </div>
         </div>
