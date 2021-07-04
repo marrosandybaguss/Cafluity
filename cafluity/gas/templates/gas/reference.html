@@ -1,0 +1,326 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'gas/img/logo.png' %}" type="image/gif" sizes="16x16">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'gas/css/style.css' %}">
+
+    <title>Cafluity | Reference</title>
+  </head>
+  <body>
+
+    <div class="container py-1">
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2 bd-highlight">
+          <a class="text-decoration-none" href="/ideal-gas">Ideal Gas</a>
+        </div>
+        <div class="p-2 bd-highlight">
+          <a class="text-decoration-none" href="/real-gas">Real Gas</a>
+        </div>
+        <div class="p-2 bd-highlight">
+          <a class="text-decoration-none" style="color: orange" href="/reference">Reference</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <div class="container py-2">
+        <a class="navbar-brand fs-3" href="/" style="color: orange">Cafluity <span style="color: white">.</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link {% if activeURL == 'p' %} active {% endif %}" id="pseudo-tab" data-bs-toggle="pill" data-bs-target="#pseudo" type="button" role="tab" aria-controls="pseudo" aria-selected="{% if activeURL == 'p' %}true{% else %}false{% endif %}">Pseudo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if activeURL == 'ic' %} active {% endif %}" id="implicit-correlation-tab" data-bs-toggle="pill" data-bs-target="#implicit-correlation" type="button" role="tab" aria-controls="implicit-correlation" aria-selected="{% if activeURL == 'ic' %}true{% else %}false{% endif %}">Implicit Correlation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if activeURL == 'ec' %} active {% endif %}" id="explicit-correlation-tab" data-bs-toggle="pill" data-bs-target="#explicit-correlation" type="button" role="tab" aria-controls="explicit-correlation" aria-selected="{% if activeURL == 'ec' %}true{% else %}false{% endif %}">Explicit Correlation</a>
+            </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="tab-content" id="pills-tabContent">
+      
+      <div id="pseudo" class="tab-pane fade {% if activeURL == 'p' %}active show{% endif %}" role="tabpanel" aria-labelledby="pseudo-tab">
+        <div class="container col-sm-8" style="line-height: 1.6;">
+          <div id="pc" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Pseudo-Critical</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Perhitungan pseudo-critical dilakukan menggunakan korelasi Brown, dkk (1948). Persamaan matematis korelasi tersebut adalah sebagai berikut:</p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 20rem;">
+                  <img src="{% static 'gas/img/tpc.png' %}" class="card-img-top" alt="Tpc">
+                </div>
+                <div class="card mx-2 mb-2" style="width: 20rem;">
+                  <img src="{% static 'gas/img/ppc.png' %}" class="card-img-top" alt="Ppc">
+                </div>
+              </div> 
+              <p>dengan Tpc merupakan pseudo-critical temperature satuan &#xb0;R, Ppc merupakan pseudo-critical pressure satuan psia, dan &upsih;g merupakan specific gravity atau gas gravity satuan dimensionless.</p>
+              <p>Ketika gas alam mengandung selain komponen hidrokarbon, seperti nitrogen, karbon dioksida, dan hidrogen sulfida, dilakukan metode perhitungan tambahan menggunakan korelasi Carr, Kobayashi, and Burrows (1954), yaitu sebagai berikut:</p>
+              <!-- <p>Korelasi Brown, dkk (1948) hanya dapat digunakan pada gas alam yang hanya mengandung komponen hidrokarbon. Namun pada umumnya, gas alam sering mengandung bahan selain komponen hidrokarbon, seperti nitrogen, karbon dioksida, dan hidrogen sulfida. Sehingga diperlukan metode tambahan, dalam kalkulator ini digunakan korelasi Carr, Kobayashi, and Burrows (1954), berikut persamaan matematisnya:</p> -->
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 27rem;">
+                  <img src="{% static 'gas/img/tpc-n.png' %}" class="card-img-top" alt="Tpc yang sudah disesuaikan">
+                </div>
+                <div class="card mx-2 mb-2" style="width: 27rem;">
+                  <img src="{% static 'gas/img/ppc-n.png' %}" class="card-img-top" alt="Ppc yang sudah disesuaikan">
+                </div>
+              </div>
+              <p>di mana T′pc adalah pseudo-critical temperature yang sudah disesuaikan dan Tpc adalah pseudo-critical temperature yang belum disesuaikan, masing-masing bersatuan °R. P′pc adalah pseudo-critical pressure yang sudah disesuaikan dan Ppc adalah pseudo-critical pressure yang belum disesuaikan, masing-masing bersatuan psia. Kemudian yCO2 adalah fraksi mol karbon dioksida, yN2 fraksi mol nitrogen, dan yH2S fraksi mol dari hidrogen sulfida dalam satuan mol persen.</p>
+            </div>
+          </div>
+          <div id="pr" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Pseudo-Reduced</h2>
+              </div>
+            </div>
+            <div class="row mb-5 pb-5">
+              <p>Perhitungan pseudo-reduced dilakukan dengan menggunakan Tpc dan Ppc yang sudah disesuaikan. Berikut rumusan yang digunakan dalam menghitung pseudo-reduced (Ahmed, 2007): </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 9rem;">
+                  <img src="{% static 'gas/img/tpr.png' %}" class="card-img-top" alt="Tpr">
+                </div>
+                <div class="card mx-2 mb-2" style="width: 9rem;">
+                  <img src="{% static 'gas/img/ppr.png' %}" class="card-img-top" alt="Ppr">
+                </div>
+              </div>
+              <p>dengan Tpr merupakan pseudo-reduced temperature satuan dimensionless, T merupakan suhu sistem satuan &#xb0;R, dan Tpc merupakan pseudo-critical temperature yang sudah disesuaikan. Kemudian Ppr merupakan pseudo-reduced pressure satuan dimensionless, P merupakan tekanan sistem satuan psia, dan Ppc merupakan Pseudo-critical yang sudah disesuaikan satuan psia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="implicit-correlation" class="tab-pane fade {% if activeURL == 'ic' %}active show{% endif %}" role="tabpanel" aria-labelledby="implicit-correlation-tab">
+        <div class="container col-sm-8" style="line-height: 1.6;">
+          <div id="da-k" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Dranchuk & Abou-Kassem's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Korelasi Abou-kassem and Dranchuk (1975) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Dranchuk & Abou-Kassem: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 12rem;">
+                  <img src="{% static 'gas/img/da-k1.png' %}" class="card-img-top" alt="Dranchuk & Abou-Kassem's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan nilai y adalah akar dari persamaan berikut: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/da-k2.png' %}" class="card-img-top" alt="Persamaan Non-Linier Korelasi Dranchuk & Abou-Kassem">
+                </div>
+              </div>
+              <p>Persemaan tersebut merupakan persamaan non-linier. Dalam mendapatkan akar dari persamaan tersebut dilakukan metode Newton Raphson. Kemudian berikut persamaan variabel diatas: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 27rem;">
+                  <img src="{% static 'gas/img/da-k3.png' %}" class="card-img-top" alt="Variabel Korelasi Dranchuk & Abou-Kassem">
+                </div>
+              </div>
+              <p>dengan konstanta: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 51rem;">
+                  <img src="{% static 'gas/img/da-k6.png' %}" class="card-img-top" alt="Konstanta Korelasi Dranchuk & Abou-Kassem">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="hy" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Hall & Yarborough's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row mb-5 pb-5">
+              <p>Korelasi Hall and Yarborough (Trube, 1957) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Hall & Yarborough: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 12rem;">
+                  <img src="{% static 'gas/img/hy1.png' %}" class="card-img-top" alt="Hall & Yarborough's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan nilai y adalah akar dari persamaan berikut: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 38rem;">
+                  <img src="{% static 'gas/img/hy2.png' %}" class="card-img-top" alt="Persamaan Non-Linier Korelasi Hall & Yarborough">
+                </div>
+              </div>
+              <p>Persemaan tersebut merupakan persamaan non-linier. Dalam mendapatkan akar dari persamaan tersebut dilakukan metode Newton Raphson. Kemudian berikut persamaan variabel diatas: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 25rem;">
+                  <img src="{% static 'gas/img/hy3.png' %}" class="card-img-top" alt="Variabel Korelasi Hall & Yarborough">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="explicit-correlation" class="tab-pane fade {% if activeURL == 'ec' %}active show{% endif %}" role="tabpanel" aria-labelledby="explicit-correlation-tab">
+        <div class="container col-sm-8" style="line-height: 1.6;">
+          <div id="abi" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Azizi, Behbahani, & Isazadeh's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Korelasi Azizi et al. (2010) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 11) dan pada Pseudo-Reduced Temperature (1.1 <span>&#8804;</span> Tpr <span>&#8804;</span> 2). Berikut persamaan matematis korelasi Azizi, Behbahani, & Isazadeh: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 14rem;">
+                  <img src="{% static 'gas/img/abi1.png' %}" class="card-img-top" alt="Azizi, Behbahani, & Isazadeh's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/abi2.png' %}" class="card-img-top" alt="Variabel Korelasi Azizi, Behbahani, & Isazadeh">
+                </div>
+              </div>
+              <p>dengan konstanta: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 55rem;">
+                  <img src="{% static 'gas/img/abi3.png' %}" class="card-img-top" alt="Konstanta Korelasi Azizi, Behbahani, & Isazadeh">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="bb" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Brill & Begg's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Korelasi Brill and Begg (1973) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan pada Pseudo-Reduced Temperature (0.92 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Brill & Begg: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 21rem;">
+                  <img src="{% static 'gas/img/bb1.png' %}" class="card-img-top" alt="Brill & Begg's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 47rem;">
+                  <img src="{% static 'gas/img/bb2.png' %}" class="card-img-top" alt="Variabel Korelasi Brill & Begg">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="hmr" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Korelasi Heidaryan et al. (2010) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan tidak boleh bernilai 3 serta batasan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Heidaryan, Moghdasi, & Rahimi: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/hmr1.png' %}" class="card-img-top" alt="Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan konstanta Heidaryan ketika Ppr kurang dari sama dengan 3 dan lebih dari 3 </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/hmr2.png' %}" class="card-img-top" alt="Konstanta Korelasi Heidaryan, Moghdasi, & Rahimi">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="sn" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Sanjiri & Nemati's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row">
+              <p>Korelasi Sanjari and Lay (2012) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan tidak boleh bernilai 3 serta batasan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Sanjiri & Nemati: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 40rem;">
+                  <img src="{% static 'gas/img/sn1.png' %}" class="card-img-top" alt="Sanjiri & Nemati's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan konstanta Sanjari ketika Ppr kurang dari sama dengan 3 dan lebih dari 3 </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 45rem;">
+                  <img src="{% static 'gas/img/sn2.png' %}" class="card-img-top" alt="Konstanta Korelasi Sanjiri & Nemati">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="ne" class="pt-5">
+            <div class="row mb-4 pt-5">
+              <div class="col text-center">
+                <h2>Kareem, Iwalewa, & Al-Marhoun's Z Factor Correlation</h2>
+              </div>
+            </div>
+            <div class="row mb-5 pb-5">
+              <p>Korelasi Kareem at al. (2015) memiliki batasan pada Pseudo-Reduced Pressure (0.2 <span>&#8804;</span> Ppr <span>&#8804;</span> 15) dan pada Pseudo-Reduced Temperature (1.15 <span>&#8804;</span> Tpr <span>&#8804;</span> 3). Berikut persamaan matematis korelasi Kareem, Iwalewa, & Al-Marhoun: </p>
+              <div class="row my-3 d-flex justify-content-center">
+                <div class="card mx-2 mb-2" style="width: 27rem;">
+                  <img src="{% static 'gas/img/ne1.png' %}" class="card-img-top" alt="Kareem, Iwalewa, & Al-Marhoun's Z Factor Correlation">
+                </div>
+              </div>
+              <p>dengan nilai y adalah persamaan berikut: </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 17rem;">
+                  <img src="{% static 'gas/img/ne2.png' %}" class="card-img-top" alt="Persamaan Non-Linier Korelasi Kareem, Iwalewa, & Al-Marhoun">
+                </div>
+              </div>
+              <p>dengan </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 25rem;">
+                  <img src="{% static 'gas/img/hy3.png' %}" class="card-img-top" alt="Variabel Korelasi Kareem, Iwalewa, & Al-Marhoun">
+                </div>
+              </div>
+              <p>dengan konstanta </p>
+              <div class="row my-3 d-flex justify-content-center pl-2">
+                <div class="card mx-2 mb-2" style="width: 50rem;">
+                  <img src="{% static 'gas/img/ne4.png' %}" class="card-img-top" alt="Konstanta Korelasi Kareem, Iwalewa, & Al-Marhoun">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container py-1">
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2 bd-highlight">
+          <h6 style="color: darkorange">&copy; Copyright 2021 Cafluity.</h6>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script> -->
+    
+  </body>
+</html>

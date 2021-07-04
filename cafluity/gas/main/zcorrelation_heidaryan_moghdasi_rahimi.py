@@ -119,14 +119,14 @@ def graph(Tpr = 1, Ppr = 1):
 	x = []
 	y = []
 
-	for i in range(1,30):
-		ppr = ppr + 0.1
+	for i in range(0,30):
 		z = z_factor(Tpr, ppr)
 		x.append(ppr)
 		y.append(z)
+		ppr = ppr + 0.1
 
 	title = "Heidaryan's Correlation"
-	xlabel = 'Pseudoreduced Pressure Ppr'
+	xlabel = 'Pseudo-Reduced Pressure (Ppr)'
 	ylabel = 'Compressibility Factor z'
 
 	chart = get_plot(x, y, title, xlabel, ylabel)
