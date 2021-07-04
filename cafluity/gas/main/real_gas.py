@@ -24,10 +24,14 @@ def Yg(Ma = 1, Mair = Mair):
 
 # density
 def rho_g(p = 1, T = 1, Ma = 1, z = 1):
+	if z == 0 or T == 0:
+		return "NULL"
 	return round((p*Ma/(z*R*T)),4)
 
 # specific volume
 def v(p = 1, T = 1, Ma = 1, z = 1):
+	if Ma == 0 or p == 0:
+		return "NULL"
 	return round((z*R*T/(p*Ma)),4)
 
 # z gas factor

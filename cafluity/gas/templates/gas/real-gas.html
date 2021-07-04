@@ -162,167 +162,178 @@
                 <div>
                   <button type="submit" class="btn btn-warning mt-2" style="background-color: darkorange; color: white">Calculate Z Factor</button>
                 </div>
-                {% if boundaryBool == 0 %}
-                <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
-                  <p><strong>Outside the correlation boundaries!</strong></p>
-                  {% for boundary in boundaries %}
-                  <div class="mb-3">
-                    {% for keyBoundary, BoundaryValues in boundary.items %}
-                      {% if keyBoundary == "name" %}
-                      <div><strong>{{ BoundaryValues }}</strong></div>
-                      {% elif keyBoundary == "PprBoundary" %}
-                      <div>
-                        {% for key, value in BoundaryValues.items %}
-                          {% if key == "minPpr" %}
-                          {{ value }} <span>&#8804;</span> 
-                          {% else %}
-                          Pseudo-Reduced Pressure <span>&#8804;</span> {{ value }}
-                          {% endif %}
-                        {% endfor %}
-                      </div>
-                      {% elif keyBoundary == "TprBoundary" %}
-                      <div>
-                        {% for key, value in BoundaryValues.items %}
-                          {% if key == "minTpr" %}
-                          {{ value }} <span>&#8804;</span> 
-                          {% else %}
-                          Pseudo-Reduced Temperature <span>&#8804;</span> {{ value }}
-                          {% endif %}
-                        {% endfor %}
-                      </div>
-                      {% else %}
-                      <div>with Pseudo-reduced Pressure cannot be equal to {{BoundaryValues}}</div>
-                      {% endif %}
-                    {% endfor %}
+                {% if outsideValue == 0 %}
+                  <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                    <strong>Outside range!</strong> The value of gas gravity must be greater than 0, pressure cannot be equal to 0 psia, and temperature cannot be equal to -459.67 &#xb0;F
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
-                  {% endfor %}
-                  <p>Please check the data you entered!</p>
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <div class="px-3 mt-3">
-                  <p>Sutton's corelations along with Carr-Kobayashi-Burrows corrections are used to calculate pseudo-critical temperature and pressure for the natural gas mixture.</p>
-                  <table class="table table-borderless">
-                    <tbody>
-                      <tr>
-                        <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Pressure</a></td>
-                        <td>{{ppc}}</td>
-                        <td>PSIA</td>
-                      </tr>
-                      <tr>
-                        <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Temperature</a></td>
-                        <td>{{Tpc}}</td>
-                        <td>&#xb0;R</td>
-                      </tr>
-                      <tr>
-                        <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Pressure</a></td>
-                        <td>{{ppr}}</td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Temperature</a></td>
-                        <td>{{Tpr}}</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                {% else %}
+                  {% if boundaryBool == 0 %}
+                  <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                    <p><strong>Outside the correlation boundaries!</strong></p>
+                    {% for boundary in boundaries %}
+                    <div class="mb-3">
+                      {% for keyBoundary, BoundaryValues in boundary.items %}
+                        {% if keyBoundary == "name" %}
+                        <div><strong>{{ BoundaryValues }}</strong></div>
+                        {% elif keyBoundary == "PprBoundary" %}
+                        <div>
+                          {% for key, value in BoundaryValues.items %}
+                            {% if key == "minPpr" %}
+                            {{ value }} <span>&#8804;</span> 
+                            {% else %}
+                            Pseudo-Reduced Pressure <span>&#8804;</span> {{ value }}
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                        {% elif keyBoundary == "TprBoundary" %}
+                        <div>
+                          {% for key, value in BoundaryValues.items %}
+                            {% if key == "minTpr" %}
+                            {{ value }} <span>&#8804;</span> 
+                            {% else %}
+                            Pseudo-Reduced Temperature <span>&#8804;</span> {{ value }}
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                        {% else %}
+                        <div>with Pseudo-reduced Pressure cannot be equal to {{BoundaryValues}}</div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endfor %}
+                    <p>Please check the data you entered!</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  <div class="px-3 mt-3">
+                    <p>Sutton's corelations along with Carr-Kobayashi-Burrows corrections are used to calculate pseudo-critical temperature and pressure for the natural gas mixture.</p>
+                    <table class="table table-borderless">
+                      <tbody>
+                        <tr>
+                          <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Pressure</a></td>
+                          <td>{{ppc}}</td>
+                          <td>PSIA</td>
+                        </tr>
+                        <tr>
+                          <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Temperature</a></td>
+                          <td>{{Tpc}}</td>
+                          <td>&#xb0;R</td>
+                        </tr>
+                        <tr>
+                          <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Pressure</a></td>
+                          <td>{{ppr}}</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Temperature</a></td>
+                          <td>{{Tpr}}</td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  {% endif %}
                 {% endif %}
               </form>
             </div>
           </div>
-          {% if boundaryBool %}
-          <div class="row mb-4 mt-3">
-            <div class="col text-center">
-              <h3>Results</h3>
+          {% if outsideValue %}
+            {% if boundaryBool %}
+            <div class="row mb-4 mt-3">
+              <div class="col text-center">
+                <h3>Results</h3>
+              </div>
             </div>
-          </div>
-          <div class="row d-flex justify-content-center">
-            <div class="col-sm-7 px-4">
-              <p>Sutton's correlations along with Carr-Kobayashi-Burrows corrections are used to calculate pseudo-critical temperature and pressure for the natural gas mixture.</p>
-              <table class="table table-borderless">
-                <tbody>
-                  <tr>
-                    <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Pressure</a></td>
-                    <td>{{ppc}}</td>
-                    <td>PSIA</td>
-                  </tr>
-                  <tr>
-                    <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Temperature</a></td>
-                    <td>{{Tpc}}</td>
-                    <td>&#xb0;R</td>
-                  </tr>
-                  <tr>
-                    <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Pressure</a></td>
-                    <td>{{ppr}}</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Temperature</a></td>
-                    <td>{{Tpr}}</td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-              {% if zfactors %}
-              <p> Value of pseudo-reduced pressure and pseudo-reduced temperature is used to calculate <strong>compressibility factor z</strong> with selected correlations.</p>
-              <table class="table table-borderless">
-                <tbody>
-                  {% for zfactor in zfactors %}
-                  <tr>
-                    {% for key, value in zfactor.items %}
-                      {% if key == "corr" %}
-                        {% if value == "da-k" %}
-                        <td><a class="text-decoration-none" href="/reference/?ref=ic#{{value}}">Dranchuk & Abou-Kassem's Z Factor Correlation</a></td>
-                        {% elif value == "hy" %}
-                        <td><a class="text-decoration-none" href="/reference/?ref=ic#{{value}}">Hall & Yarborough's Z Factor Correlation</a></td>
-                        {% elif value == "abi" %}
-                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Azizi, Behbahani, & Isazadeh's Z Factor Correlation</a></td>
-                        {% elif value == "bb" %}
-                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Brill & Begg's Z Factor Correlation</a></td>
-                        {% elif value == "hmr" %}
-                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation</a></td>
-                        {% elif value == "sn" %}
-                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Sanjiri & Nemati's Z Factor Correlation</a></td>
-                        {% elif value == "ne" %}
-                        <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Kareem, Iwalewa, & Al-Marhoun's Z Factor Correlation</a></td>
+            <div class="row d-flex justify-content-center">
+              <div class="col-sm-7 px-4">
+                <p>Sutton's correlations along with Carr-Kobayashi-Burrows corrections are used to calculate pseudo-critical temperature and pressure for the natural gas mixture.</p>
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Pressure</a></td>
+                      <td>{{ppc}}</td>
+                      <td>PSIA</td>
+                    </tr>
+                    <tr>
+                      <td><a class="text-decoration-none" href="/reference/?ref=p#pc">Pseudo-Critical Temperature</a></td>
+                      <td>{{Tpc}}</td>
+                      <td>&#xb0;R</td>
+                    </tr>
+                    <tr>
+                      <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Pressure</a></td>
+                      <td>{{ppr}}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><a class="text-decoration-none" href="/reference/?ref=p#pr">Pseudo-Reduced Temperature</a></td>
+                      <td>{{Tpr}}</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+                {% if zfactors %}
+                <p> Value of pseudo-reduced pressure and pseudo-reduced temperature is used to calculate <strong>compressibility factor z</strong> with selected correlations.</p>
+                <table class="table table-borderless">
+                  <tbody>
+                    {% for zfactor in zfactors %}
+                    <tr>
+                      {% for key, value in zfactor.items %}
+                        {% if key == "corr" %}
+                          {% if value == "da-k" %}
+                          <td><a class="text-decoration-none" href="/reference/?ref=ic#{{value}}">Dranchuk & Abou-Kassem's Z Factor Correlation</a></td>
+                          {% elif value == "hy" %}
+                          <td><a class="text-decoration-none" href="/reference/?ref=ic#{{value}}">Hall & Yarborough's Z Factor Correlation</a></td>
+                          {% elif value == "abi" %}
+                          <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Azizi, Behbahani, & Isazadeh's Z Factor Correlation</a></td>
+                          {% elif value == "bb" %}
+                          <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Brill & Begg's Z Factor Correlation</a></td>
+                          {% elif value == "hmr" %}
+                          <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Heidaryan, Moghdasi, & Rahimi's Z Factor Correlation</a></td>
+                          {% elif value == "sn" %}
+                          <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Sanjiri & Nemati's Z Factor Correlation</a></td>
+                          {% elif value == "ne" %}
+                          <td><a class="text-decoration-none" href="/reference/?ref=ec#{{value}}">Kareem, Iwalewa, & Al-Marhoun's Z Factor Correlation</a></td>
+                          {% endif %}
                         {% endif %}
-                      {% endif %}
-                      {% if key == "zfactor" %}
-                      <td><strong>{{ value }}</strong></td>
-                      {% endif %}
+                        {% if key == "zfactor" %}
+                        <td><strong>{{ value }}</strong></td>
+                        {% endif %}
+                      {% endfor %}
+                    </tr>
                     {% endfor %}
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-              {% else %}
-              <p><strong>No correlation selected.</strong></p>
+                  </tbody>
+                </table>
+                {% else %}
+                <p><strong>No correlation selected.</strong></p>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          {% endif %}
+        </div>
+        {% if outsideValue %}
+          {% if boundaryBool %}
+          <div class="container">
+            <div class="row mb-3">
+              {% if zfactorGraphs %}
+              <div class="col text-center">
+                <h3>Graph</h3>    
+              </div>
               {% endif %}
+            </div>
+            <div class="row mb-5 d-flex justify-content-center">
+              {% for zfactorGraph in zfactorGraphs %}
+              <div class="col-sm-6 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                  </div>
+                  <img src="data:img/png;base64, {{zfactorGraph|safe}}" class="card-img-bottom">
+                </div>
+              </div>
+              {% endfor %}
             </div>
           </div>
           {% endif %}
-        </div>
-        {% if boundaryBool %}
-        <div class="container">
-          <div class="row mb-3">
-            {% if zfactorGraphs %}
-            <div class="col text-center">
-              <h3>Graph</h3>    
-            </div>
-            {% endif %}
-          </div>
-          <div class="row mb-5 d-flex justify-content-center">
-            {% for zfactorGraph in zfactorGraphs %}
-            <div class="col-sm-6 mb-3">
-              <div class="card">
-                <div class="card-body">
-                </div>
-                <img src="data:img/png;base64, {{zfactorGraph|safe}}" class="card-img-bottom">
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
         {% endif %}
       </div>
 
@@ -367,27 +378,35 @@
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/ft3</span>
                 </div>
               </form>
+              {% if density == "NULL" %}
+                <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                  <strong>Outside range!</strong> The value of z-factor cannot be equal to 0 and temperature cannot be equal to -459.67 &#xb0;F
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endif %}
             </div>
-            {% if correlationDensities %}
-            <div class="col mx-4">
-              <p> The following is the <strong>density value</strong> in <i>lb/ft3 unit</i> based on the z factor value for selected correlation</p>
-              <table class="table table-borderless">
-                <tbody>
-                  {% for density in correlationDensities %}
-                  <tr>
-                    {% for key, value in density.items %}
-                      {% if key == "name" %}
-                      <td>{{ value }}</td>
-                      {% endif %}
-                      {% if key == "density" %}
-                      <td><strong>{{ value }}</strong></td>
-                      {% endif %}
+            {% if density != "NULL" %}
+              {% if correlationDensities %}
+              <div class="col mx-4">
+                <p> The following is the <strong>density value</strong> in <i>lb/ft3 unit</i> based on the z factor value for selected correlation</p>
+                <table class="table table-borderless">
+                  <tbody>
+                    {% for density in correlationDensities %}
+                    <tr>
+                      {% for key, value in density.items %}
+                        {% if key == "name" %}
+                        <td>{{ value }}</td>
+                        {% endif %}
+                        {% if key == "density" %}
+                        <td><strong>{{ value }}</strong></td>
+                        {% endif %}
+                      {% endfor %}
+                    </tr>
                     {% endfor %}
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
+                  </tbody>
+                </table>
+              </div>
+              {% endif %}
             {% endif %}
           </div>
         </div>
@@ -434,27 +453,35 @@
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">ft3/lb</span>
                 </div>
               </form>
+              {% if specificvolume == "NULL" %}
+                <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                  <strong>Outside range!</strong> The value of apparent wolecular weight and pressure cannot be equal to 0
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endif %}
             </div>
-            {% if correlationDensities %}
-            <div class="col mx-4">
-              <p> The following is the <strong>specific volume value</strong> in <i>ft3/lb unit</i> based on the z factor value for selected correlation</p>
-              <table class="table table-borderless">
-                <tbody>
-                  {% for specificvolume in correlationSpecificvolumes %}
-                  <tr>
-                    {% for key, value in specificvolume.items %}
-                      {% if key == "name" %}
-                      <td>{{ value }}</td>
-                      {% endif %}
-                      {% if key == "specificvolume" %}
-                      <td><strong>{{ value }}</strong></td>
-                      {% endif %}
+            {% if specificvolume != "NULL" %}
+              {% if correlationDensities %}
+              <div class="col mx-4">
+                <p> The following is the <strong>specific volume value</strong> in <i>ft3/lb unit</i> based on the z factor value for selected correlation</p>
+                <table class="table table-borderless">
+                  <tbody>
+                    {% for specificvolume in correlationSpecificvolumes %}
+                    <tr>
+                      {% for key, value in specificvolume.items %}
+                        {% if key == "name" %}
+                        <td>{{ value }}</td>
+                        {% endif %}
+                        {% if key == "specificvolume" %}
+                        <td><strong>{{ value }}</strong></td>
+                        {% endif %}
+                      {% endfor %}
+                    </tr>
                     {% endfor %}
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
+                  </tbody>
+                </table>
+              </div>
+              {% endif %}
             {% endif %}
           </div>
         </div>

@@ -88,6 +88,12 @@
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/lb-mol</span>
                 </div>
               </form>
+              {% if molecularWeight == "NULL" %}
+              <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                <strong>Outside range!</strong> The value of gas gravity and molecular air cannot be equal to 0
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -129,6 +135,12 @@
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">lb/ft3</span>
                 </div>
               </form>
+              {% if density == "NULL" %}
+              <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                <strong>Outside range!</strong> The value of temperature cannot be equal to -459.67 &#xb0;F
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -170,6 +182,12 @@
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white">ft3/lb</span>
                 </div>
               </form>
+              {% if specificvolume == "NULL" %}
+              <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                <strong>Outside range!</strong> The value of pressure and molecular weight cannot be equal to 0
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -206,6 +224,12 @@
                   <span class="input-group-text" style="width: 100px; background-color: darkorange; color: white"></span>
                 </div>
               </form>
+              {% if specificgravity == "NULL" %}
+              <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                <strong>Outside range!</strong> The value of molecular air cannot be equal to 0
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endif %}
             </div>
           </div>
         </div>

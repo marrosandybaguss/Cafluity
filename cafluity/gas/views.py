@@ -115,25 +115,29 @@ def realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s):
 
 	temperatureConv = conv.temp_FR(temperature)
 	Tpr, ppr = zfac.pseudo_reduced(temperatureConv, pressure, Tpc, ppc)
+
 	zfactors = []
 	zfactorGraphs = []
 	boundaryBool = 	1
 	boundaries = []
+	outsideValue = 1
 
-	for corr in correlation:
-		name, boundary, zfactor = rgas.z(Tpr, ppr, corr)
-		if zfactor != "NULL":
-			zfactors.append({"corr": corr, "name": name, "zfactor": zfactor})
-			zfactorGraphs.append(rgas.z_graph(Tpr, ppr, corr))
-		else :
-			boundaryBool = 0
-			if boundary["noPpr"] != "NULL":
-				boundaries.append({"name": name, "PprBoundary": boundary["PprBoundary"], "TprBoundary": boundary["TprBoundary"], "noPprBoundary": boundary["noPpr"]})
+	if Tpr != "NULL" and ppr != "NULL" and Yg > 0:
+		for corr in correlation:
+			name, boundary, zfactor = rgas.z(Tpr, ppr, corr)
+			if zfactor != "NULL":
+				zfactors.append({"corr": corr, "name": name, "zfactor": zfactor})
+				zfactorGraphs.append(rgas.z_graph(Tpr, ppr, corr))
 			else :
-				boundaries.append({"name": name, "PprBoundary": boundary["PprBoundary"], "TprBoundary": boundary["TprBoundary"]})
-			
+				boundaryBool = 0
+				if boundary["noPpr"] != "NULL":
+					boundaries.append({"name": name, "PprBoundary": boundary["PprBoundary"], "TprBoundary": boundary["TprBoundary"], "noPprBoundary": boundary["noPpr"]})
+				else :
+					boundaries.append({"name": name, "PprBoundary": boundary["PprBoundary"], "TprBoundary": boundary["TprBoundary"]})
+	else:
+		outsideValue = 0
 
-	return Tpc, ppc, temperatureConv, Tpr, ppr, boundaryBool, zfactors, boundaries, zfactorGraphs
+	return Tpc, ppc, temperatureConv, Tpr, ppr, outsideValue, boundaryBool, zfactors, boundaries, zfactorGraphs
 
 def realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zfactors):
 	temperatureConvDensity = conv.temp_FR(temperatureDensity)
@@ -158,7 +162,7 @@ def realgas_specificvolume(pressureSV, temperatureSV, molarSV, zfactorSV, pressu
 def real_gas(request):
 	realGasProperty, Yg, pressure, temperature, n2, co2, h2s, correlation, pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressureSV, temperatureSV, molarSV, zfactorSV = realgas_var(request)
 
-	Tpc, ppc, temperatureConv, Tpr, ppr, boundaryBool, zfactors, boundaries, zfactorGraphs = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
+	Tpc, ppc, temperatureConv, Tpr, ppr, outsideValue, boundaryBool, zfactors, boundaries, zfactorGraphs = realgas_zfactor(correlation, Yg, pressure, temperature, n2, co2, h2s)
 
 	density, correlationDensities = realgas_density(pressureDensity, temperatureDensity, molarDensity, zfactorDensity, pressure, temperatureConv, Yg, zfactors)
 
@@ -177,6 +181,7 @@ def real_gas(request):
 		'ppc': ppc,
 		'Tpr': Tpr,
 		'ppr': ppr,
+		'outsideValue': outsideValue,
 		'correlation': correlation,
 		'boundaryBool': boundaryBool,
 		'zfactors': zfactors,
@@ -207,15 +212,20 @@ def idealgas_var(request):
 			gasGravityMW = float(request.POST['gasGravityMW'])
 			molecularAirMW = float(request.POST['molecularAirMW'])
 		
-			molarDensity = igas.Ma(gasGravityMW, molecularAirMW)
+			if gasGravityMW == 0 or molecularAirMW == 0:
+				molar = 20.272
+			else:
+				molar = igas.Ma(gasGravityMW, molecularAirMW)
+
+			molarDensity = molar
 			pressureDensity = 50.0
 			temperatureDensity = 20.0
 
-			molarSV = igas.Ma(gasGravityMW, molecularAirMW)
+			molarSV = molar
 			pressureSV = 50.0
 			temperatureSV = 20.0
 
-			molarGravity = igas.Ma(gasGravityMW, molecularAirMW)
+			molarGravity = molar
 			molecularAirSG = 28.96
 
 		elif idealGasProperty == "density":
